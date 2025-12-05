@@ -1,6 +1,6 @@
 # 機能仕様書: ValueScope - 企業価値分析ダッシュボード
 
-**Feature Branch**: `001-ValueScope`  
+**Feature Branch**: `main`  
 **Created**: 2025-12-15  
 **Status**: Production  
 **バージョン**: 1.0.0

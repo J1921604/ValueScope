@@ -1,6 +1,6 @@
 # 実装計画書: ValueScope
 
-**Branch**: `001-ValueScope` | **Date**: 2025-12-15 | **Spec**: [spec.md](https://github.com/J1921604/ValueScope/blob/001-ValueScope/specs/001-ValueScope/spec.md)
+**Branch**: `main` | **Date**: 2025-12-15 | **Spec**: [spec.md](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/spec.md)
 
 ## 概要
 
@@ -109,7 +109,7 @@
 ### ドキュメント（本機能）
 
 ```text
-specs/main/
+specs/001-ValueScope/
 ├── spec.md              # 機能仕様書
 ├── plan.md              # 実装計画書（本ファイル）
 ├── tasks.md             # タスクリスト

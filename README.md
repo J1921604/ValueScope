@@ -45,11 +45,11 @@ npm run dev
 
 ### プロジェクトドキュメント
 
-- **[プロジェクト憲法](https://github.com/J1921604/ValueScope/blob/001-ValueScope/.specify/memory/constitution.md)**: 開発原則とガバナンス（7つのコア原則）
-- **[機能仕様書](https://github.com/J1921604/ValueScope/blob/001-ValueScope/specs/001-ValueScope/spec.md)**: ユーザーストーリー、機能要件、成功基準
-- **[実装計画書](https://github.com/J1921604/ValueScope/blob/001-ValueScope/specs/001-ValueScope/plan.md)**: 技術選定、アーキテクチャ設計、Constitution Check
-- **[タスクリスト](https://github.com/J1921604/ValueScope/blob/001-ValueScope/specs/001-ValueScope/tasks.md)**: 実装タスク一覧、ガントチャート
-- **[完全仕様書](https://github.com/J1921604/ValueScope/blob/001-ValueScope/docs/完全仕様書.md)**: AI再現用実装詳細（計算式、データモデル、テスト仕様）
+- **[プロジェクト憲法](https://github.com/J1921604/ValueScope/blob/main/.specify/memory/constitution.md)**: 開発原則とガバナンス（7つのコア原則）
+- **[機能仕様書](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/spec.md)**: ユーザーストーリー、機能要件、成功基準
+- **[実装計画書](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/plan.md)**: 技術選定、アーキテクチャ設計、Constitution Check
+- **[タスクリスト](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/tasks.md)**: 実装タスク一覧、ガントチャート
+- **[完全仕様書](https://github.com/J1921604/ValueScope/blob/main/docs/完全仕様書.md)**: AI再現用実装詳細（計算式、データモデル、テスト仕様）
 
 ## 📋 主要機能
 

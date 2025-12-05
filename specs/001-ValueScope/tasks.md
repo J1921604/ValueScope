@@ -1,6 +1,6 @@
 # タスクリスト: ValueScope
 
-**入力**: [spec.md](https://github.com/J1921604/ValueScope/blob/001-ValueScope/specs/001-ValueScope/spec.md)、[plan.md](https://github.com/J1921604/ValueScope/blob/001-ValueScope/specs/001-ValueScope/plan.md)  
+**入力**: [spec.md](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/spec.md)、[plan.md](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/plan.md)  
 **作成日**: 2025-12-15  
 **ステータス**: ✅ Production（実装完了）
 
