@@ -1,0 +1,44 @@
+# ESLint ignore patterns
+# Version: 1.0.0
+# Date: 2025-12-15
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+.nuxt/
+
+# Dependencies
+node_modules/
+bower_components/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Temp files
+*.tmp
+.cache/
+
+# Config files
+vite.config.ts
+vitest.config.ts
+vitest.setup.ts
+playwright.config.ts
+tailwind.config.js
+postcss.config.js
+
+# Generated files
+*.min.js
+*.min.css
+
+# Data files
+data/
+public/data/
+
+# Python
+*.py
+
+# Scripts
+scripts/

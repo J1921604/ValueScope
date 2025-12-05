@@ -1,0 +1,53 @@
+{
+  "asOf": "2025-12-03",
+  "companies": {
+    "TEPCO": {
+      "marketCap": 690535.2049,
+      "interestBearingDebt": 3065000.0,
+      "cashAndDeposits": 1242542.0,
+      "netDebt": 1822458.0,
+      "enterpriseValue": 2512993.2049000002,
+      "ebitda": 637063.0,
+      "evEbitdaRatio": 3.944654147078076,
+      "netIncome": 269607.0,
+      "per": 2.5612658606786916,
+      "equity": 3538022.0,
+      "pbr": 0.19517549774987267,
+      "dividendYield": 0,
+      "eps": 0,
+      "bps": 0
+    },
+    "CHUBU": {
+      "marketCap": 1230234.0,
+      "interestBearingDebt": 728039.0,
+      "cashAndDeposits": 390806.0,
+      "netDebt": 337233.0,
+      "enterpriseValue": 1567467.0,
+      "ebitda": 515385.0,
+      "evEbitdaRatio": 3.0413516109316334,
+      "netIncome": 411146.0,
+      "per": 2.992207147825833,
+      "equity": 2695071.0,
+      "pbr": 0.45647554368697524,
+      "dividendYield": 0,
+      "eps": 0,
+      "bps": 0
+    },
+    "JERA": {
+      "marketCap": null,
+      "interestBearingDebt": 564999.0,
+      "cashAndDeposits": 333761.0,
+      "netDebt": 231238.0,
+      "enterpriseValue": null,
+      "ebitda": 192494.0,
+      "evEbitdaRatio": null,
+      "netIncome": 125354.0,
+      "per": null,
+      "equity": 1281766.0,
+      "pbr": null,
+      "dividendYield": 0,
+      "eps": 0,
+      "bps": 0
+    }
+  }
+}

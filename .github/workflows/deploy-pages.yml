@@ -1,0 +1,137 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install Node dependencies
+        run: npm ci
+      
+      - name: Setup Python for stock price fetching
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install Python dependencies for stock prices
+        run: |
+          pip install -r scripts/requirements.txt
+      
+      - name: Fetch stock prices (every deployment)
+        run: |
+          echo "=== Fetching stock prices (Stooq API via pandas_datareader) ==="
+          python scripts/fetch_stock_prices.py --years 10 || echo "Stock price fetch failed, continuing with existing data"
+          
+          echo "=== Rebuilding timeseries with stock prices ==="
+          python scripts/build_timeseries.py || echo "Timeseries build failed, continuing with existing data"
+      
+      - name: Check if EDINET update is needed
+        id: check_date
+        env:
+          HAS_EDINET_SECRET: ${{ secrets.EDINET_API_KEY != '' }}
+        run: |
+          if [ "$HAS_EDINET_SECRET" != "true" ]; then
+            echo "edinet_update=false" >> $GITHUB_OUTPUT
+            echo "EDINET_API_KEY secret is not configured - skipping EDINET data update"
+            exit 0
+          fi
+
+          CURRENT_MONTH=$(date -u +%m)
+          CURRENT_DAY=$(date -u +%d)
+          if [ "$CURRENT_MONTH" = "07" ] && [ "$CURRENT_DAY" = "01" ]; then
+            echo "edinet_update=true" >> $GITHUB_OUTPUT
+            echo "Today is July 1st (UTC) - EDINET data will be updated"
+          else
+            echo "edinet_update=false" >> $GITHUB_OUTPUT
+            echo "Not July 1st (UTC) - skipping EDINET data update"
+          fi
+
+      - name: Fetch EDINET data (only on July 1st)
+        if: steps.check_date.outputs.edinet_update == 'true'
+        env:
+          EDINET_API_KEY: ${{ secrets.EDINET_API_KEY }}
+        run: |
+          echo "=== Fetching EDINET XBRL data (GitHub Secrets API Key) ==="
+          python scripts/fetch_edinet.py --years 10
+          
+          echo "=== Parsing EDINET XBRL ==="
+          python scripts/parse_edinet_xbrl.py
+          
+          echo "=== Extracting XBRL to CSV ==="
+          python scripts/extract_xbrl_to_csv.py
+          
+          echo "=== Building timeseries data ==="
+          python scripts/build_timeseries.py
+          
+          echo "=== Computing scores ==="
+          python scripts/compute_scores.py
+          
+          echo "=== EDINET data update completed ==="
+      
+      - name: Commit updated data (only on July 1st)
+        if: steps.check_date.outputs.edinet_update == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/data/*.json XBRL_output/**/*.csv || true
+          git commit -m "chore: update EDINET data (automated July 1st update)" || echo "No changes to commit"
+          git push || echo "Nothing to push"
+      
+      - name: Verify committed data assets
+        run: |
+          echo "=== Public data files ==="
+          ls -lh public/data/
+          test -f public/data/timeseries.json
+          test -f public/data/valuation.json
+          test -f public/data/scorecards.json
+          test -f public/data/kpi_targets.json
+          echo "All required JSON assets are present"
+      
+      - name: Build
+        run: npm run build
+      
+      - name: Verify build output
+        run: |
+          echo "=== Build dist/data verification ==="
+          ls -lh dist/data/ || echo "No dist/data found"
+          find dist -name "*.json" -type f
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
