@@ -1,24 +1,23 @@
 # タスクリスト: ValueScope
 
-**入力**: [spec.md](https://github.com/J1921604/ValueScope/blob/main/specs/main/spec.md)、[plan.md](https://github.com/J1921604/ValueScope/blob/main/specs/main/plan.md)  
+**入力**: [spec.md](https://github.com/J1921604/ValueScope/blob/001-ValueScope/specs/001-ValueScope/spec.md)、[plan.md](https://github.com/J1921604/ValueScope/blob/001-ValueScope/specs/001-ValueScope/plan.md)  
 **作成日**: 2025-12-15  
 **ステータス**: ✅ Production（実装完了）
 
 ## フォーマット: `[ID] [P?] [Story] Description`
 
 - **[P]**: 並列実行可能（異なるファイル、依存関係なし）
-- **[Story]**: ユーザーストーリー（US1, US2, US3, US4, US5）
+- **[Story]**: ユーザーストーリー（US1, US2, US3, US4）
 - ファイルパスは正確に記載
 
 ## 実装スケジュール（相対日付方式）
 
 **開始日**: 2025-12-25（任意に変更可能）  
-**終了日**: 2026-01-24（実働30日）  
 **休日**: 土日、年末年始（12/27-1/4）を除外
 
 ```mermaid
 gantt
-    title ValueScope 実装スケジュール
+    title 実装スケジュール
     dateFormat YYYY-MM-DD
     axisFormat %m/%d
     excludes weekends 2025-12-27,2025-12-28,2025-12-29,2025-12-30,2025-12-31,2026-01-01,2026-01-02,2026-01-03,2026-01-04
@@ -34,60 +33,55 @@ gantt
     T008 [P] データディレクトリ作成    :done, p1_t008, after p1_t001, 1d
     
     section Phase 2 Foundational
-    T009 型定義作成（types/index.ts）  :done, p2_t009, after p1_t006, 1d
+    T009 型定義作成                    :done, p2_t009, after p1_t006, 1d
     T010 [P] ユーティリティ関数作成    :done, p2_t010, after p2_t009, 1d
     T011 [P] EDINET API連携スクリプト  :done, p2_t011, after p1_t008, 2d
     T012 [P] XBRL解析スクリプト        :done, p2_t012, after p2_t011, 2d
     T013 [P] 株価取得スクリプト        :done, p2_t013, after p2_t011, 1d
     
-    section Phase 3 US1 企業価値指標
-    T014 [P] [US1] 企業価値計算スクリプト :done, p3_t014, after p2_t012, 2d
-    T015 [P] [US1] useValuationフック    :done, p3_t015, after p2_t010, 1d
-    T016 [US1] ValuationTableコンポーネント :done, p3_t016, after p3_t015, 2d
-    T017 [US1] バリデーションロジック    :done, p3_t017, after p3_t016, 1d
-    T018 [US1] E2Eテスト作成             :done, p3_t018, after p3_t017, 1d
+    section Phase 3 US1 企業価値
+    T014 [P] 企業価値計算スクリプト    :done, p3_t014, after p2_t012, 2d
+    T015 [P] useValuationフック        :done, p3_t015, after p2_t010, 1d
+    T016 ValuationTableコンポーネント  :done, p3_t016, after p3_t015, 2d
+    T017 バリデーションロジック        :done, p3_t017, after p3_t016, 1d
+    T018 E2Eテスト作成                 :done, p3_t018, after p3_t017, 1d
     
-    section Phase 4 US2 KPIスコアカード
-    T019 [P] [US2] KPIスコアリングスクリプト :done, p4_t019, after p3_t014, 2d
-    T020 [P] [US2] useScoresフック          :done, p4_t020, after p3_t015, 1d
-    T021 [US2] ScoreCardコンポーネント      :done, p4_t021, after p4_t020, 2d
-    T022 [US2] 信号機評価ロジック           :done, p4_t022, after p4_t021, 1d
-    T023 [US2] KPIGaugeコンポーネント       :done, p4_t023, after p4_t022, 1d
-    T024 [US2] E2Eテスト作成                :done, p4_t024, after p4_t023, 1d
+    section Phase 4 US2 KPI
+    T019 [P] KPIスコアリングスクリプト :done, p4_t019, after p3_t014, 2d
+    T020 [P] useScoresフック           :done, p4_t020, after p3_t015, 1d
+    T021 ScoreCardコンポーネント       :done, p4_t021, after p4_t020, 2d
+    T022 信号機評価ロジック            :done, p4_t022, after p4_t021, 1d
+    T023 KPIGaugeコンポーネント        :done, p4_t023, after p4_t022, 1d
+    T024 E2Eテスト作成                 :done, p4_t024, after p4_t023, 1d
     
     section Phase 5 US3 推移グラフ
-    T025 [P] [US3] 時系列データ生成スクリプト :done, p5_t025, after p4_t019, 2d
-    T026 [P] [US3] useTimeseriesフック        :done, p5_t026, after p4_t020, 1d
-    T027 [US3] TrendChartコンポーネント       :done, p5_t027, after p5_t026, 2d
-    T028 [US3] MultiCompanyTrendChart         :done, p5_t028, after p5_t027, 1d
-    T029 [US3] 年度フィルタ機能               :done, p5_t029, after p5_t028, 1d
-    T030 [US3] E2Eテスト作成                  :done, p5_t030, after p5_t029, 1d
+    T025 [P] 時系列データ生成          :done, p5_t025, after p4_t019, 2d
+    T026 [P] useTimeseriesフック       :done, p5_t026, after p4_t020, 1d
+    T027 TrendChartコンポーネント      :done, p5_t027, after p5_t026, 2d
+    T028 MultiCompanyTrendChart        :done, p5_t028, after p5_t027, 1d
+    T029 年度フィルタ機能              :done, p5_t029, after p5_t028, 1d
+    T030 E2Eテスト作成                 :done, p5_t030, after p5_t029, 1d
     
-    section Phase 6 US4 レーダーチャート
-    T031 [P] [US4] RadarChartコンポーネント   :done, p6_t031, after p5_t026, 2d
-    T032 [US4] 3社比較ロジック                :done, p6_t032, after p6_t031, 1d
-    T033 [US4] 会社選択UI                     :done, p6_t033, after p6_t032, 1d
+    section Phase 6 US4 財務諸表
+    T031 [P] CSV読み込みフック         :done, p6_t031, after p5_t026, 1d
+    T032 [P] ComparisonFinancialTable  :done, p6_t032, after p6_t031, 2d
+    T033 ProfitLossStatement           :done, p6_t033, after p6_t032, 1d
+    T034 BalanceSheet                  :done, p6_t034, after p6_t032, 1d
+    T035 CashFlowStatement             :done, p6_t035, after p6_t032, 1d
+    T036 年度フィルタ統合              :done, p6_t036, after p6_t035, 1d
+    T037 E2Eテスト作成                 :done, p6_t037, after p6_t036, 1d
     
-    section Phase 7 US5 財務諸表
-    T034 [P] [US5] CSV読み込みフック          :done, p7_t034, after p5_t026, 1d
-    T035 [P] [US5] ComparisonFinancialTable   :done, p7_t035, after p7_t034, 2d
-    T036 [US5] ProfitLossStatementコンポーネント :done, p7_t036, after p7_t035, 1d
-    T037 [US5] BalanceSheetコンポーネント     :done, p7_t037, after p7_t035, 1d
-    T038 [US5] CashFlowStatementコンポーネント :done, p7_t038, after p7_t035, 1d
-    T039 [US5] 年度フィルタ統合               :done, p7_t039, after p7_t038, 1d
-    T040 [US5] E2Eテスト作成                  :done, p7_t040, after p7_t039, 1d
-    
-    section Phase 8 Polish
-    T041 [P] App.tsxメインコンポーネント統合  :done, p8_t041, after p5_t029, 2d
-    T042 [P] タイトルグラデーション実装       :done, p8_t042, after p8_t041, 1d
-    T043 [P] ボタンスタイル統一               :done, p8_t043, after p8_t041, 1d
-    T044 [P] ツールチップ追加                 :done, p8_t044, after p8_t041, 1d
-    T045 [P] フッタ実装                       :done, p8_t045, after p8_t041, 1d
-    T046 パフォーマンス最適化                 :done, p8_t046, after p8_t045, 1d
-    T047 Lighthouseスコア確認                :done, p8_t047, after p8_t046, 1d
-    T048 README.md更新                       :done, p8_t048, after p8_t047, 1d
-    T049 完全仕様書.md更新                   :done, p8_t049, after p8_t047, 1d
-    T050 DEPLOY_GUIDE.md更新                 :done, p8_t050, after p8_t047, 1d
+    section Phase 7 Polish
+    T038 [P] App.tsx統合               :done, p7_t038, after p5_t029, 2d
+    T039 [P] タイトルグラデーション    :done, p7_t039, after p7_t038, 1d
+    T040 [P] ボタンスタイル統一        :done, p7_t040, after p7_t038, 1d
+    T041 [P] ツールチップ追加          :done, p7_t041, after p7_t038, 1d
+    T042 [P] フッタ実装                :done, p7_t042, after p7_t038, 1d
+    T043 パフォーマンス最適化          :done, p7_t043, after p7_t042, 1d
+    T044 Lighthouseスコア確認          :done, p7_t044, after p7_t043, 1d
+    T045 README.md更新                 :done, p7_t045, after p7_t044, 1d
+    T046 完全仕様書.md更新             :done, p7_t046, after p7_t044, 1d
+    T047 DEPLOY_GUIDE.md更新           :done, p7_t047, after p7_t044, 1d
 ```
 
 ---
@@ -181,23 +175,7 @@ gantt
 
 ---
 
-## Phase 6: User Story 4 - レーダーチャート (Priority: P3)
-
-**ゴール**: 3社のKPIをレーダーチャートで比較表示
-
-**独立したテスト**: RadarChartコンポーネントを表示し、3社のデータが正しくプロットされることを確認
-
-### 実装
-
-- [x] **T031** [P] [US4] RadarChartコンポーネント（src/components/RadarChart.tsx）
-- [x] **T032** [US4] 3社比較ロジック（ROE、自己資本比率、DSCRの3軸）
-- [x] **T033** [US4] 会社選択UI（チェックボックスでオン/オフ）
-
-**チェックポイント**: すべてのユーザーストーリー（US1～US4）が独立して機能
-
----
-
-## Phase 7: User Story 5 - 財務諸表比較 (Priority: P2)
+## Phase 6: User Story 4 - 財務諸表比較 (Priority: P2)
 
 **ゴール**: PL/BS/CFを3社横並びで比較表示
 
@@ -205,32 +183,32 @@ gantt
 
 ### 実装
 
-- [x] **T034** [P] [US5] CSV読み込みフック（src/hooks/useFinancialCSV.ts）
-- [x] **T035** [P] [US5] ComparisonFinancialTableコンポーネント（src/components/ComparisonFinancialTable.tsx）
-- [x] **T036** [US5] ProfitLossStatementコンポーネント（src/components/ProfitLossStatement.tsx）
-- [x] **T037** [US5] BalanceSheetコンポーネント（src/components/BalanceSheet.tsx）
-- [x] **T038** [US5] CashFlowStatementコンポーネント（src/components/CashFlowStatement.tsx）
-- [x] **T039** [US5] 年度フィルタ統合（FY2015～FY2024）
-- [x] **T040** [US5] E2Eテスト作成（tests/e2e/financial-statements.spec.ts）
+- [x] **T031** [P] [US4] CSV読み込みフック（src/hooks/useFinancialCSV.ts）
+- [x] **T032** [P] [US4] ComparisonFinancialTableコンポーネント（src/components/ComparisonFinancialTable.tsx）
+- [x] **T033** [US4] ProfitLossStatementコンポーネント（src/components/ProfitLossStatement.tsx）
+- [x] **T034** [US4] BalanceSheetコンポーネント（src/components/BalanceSheet.tsx）
+- [x] **T035** [US4] CashFlowStatementコンポーネント（src/components/CashFlowStatement.tsx）
+- [x] **T036** [US4] 年度フィルタ統合（FY2015～FY2024）
+- [x] **T037** [US4] E2Eテスト作成（tests/e2e/financial-statements.spec.ts）
 
-**チェックポイント**: すべてのユーザーストーリー（US1～US5）が独立して機能
+**チェックポイント**: すべてのユーザーストーリー（US1～US4）が独立して機能
 
 ---
 
-## Phase 8: Polish & Cross-Cutting Concerns
+## Phase 7: Polish & Cross-Cutting Concerns
 
 **目的**: UI/UX改善、パフォーマンス最適化、ドキュメント整備
 
-- [x] **T041** [P] App.tsxメインコンポーネント統合（タブ切り替え、状態管理）
-- [x] **T042** [P] タイトルグラデーション実装（グリーン→マゼンタ）
-- [x] **T043** [P] ボタンスタイル統一（EV/KPI: マゼンタ基調、財務諸表: シアン基調）
-- [x] **T044** [P] ツールチップ追加（主要指標比較テーブルに?マークヒント）
-- [x] **T045** [P] フッタ実装（最終更新日時、次回更新予定）
-- [x] **T046** パフォーマンス最適化（バンドルサイズ削減、遅延ロード、チャート最適化）
-- [x] **T047** Lighthouseスコア確認（目標: 90点以上）
-- [x] **T048** README.md更新（最新のプロジェクト構造、実装状況反映）
-- [x] **T049** 完全仕様書.md更新（計算式、データモデル、テスト仕様）
-- [x] **T050** DEPLOY_GUIDE.md更新（デプロイ手順、トラブルシューティング）
+- [x] **T038** [P] App.tsxメインコンポーネント統合（タブ切り替え、状態管理）
+- [x] **T039** [P] タイトルグラデーション実装（グリーン→マゼンタ）
+- [x] **T040** [P] ボタンスタイル統一（EV/KPI: マゼンタ基調、財務諸表: シアン基調）
+- [x] **T041** [P] ツールチップ追加（主要指標比較テーブルに?マークヒント）
+- [x] **T042** [P] フッタ実装（最終更新日時、次回更新予定）
+- [x] **T043** パフォーマンス最適化（バンドルサイズ削減、遅延ロード、チャート最適化）
+- [x] **T044** Lighthouseスコア確認（目標: 90点以上）
+- [x] **T045** README.md更新（最新のプロジェクト構造、実装状況反映）
+- [x] **T046** 完全仕様書.md更新（計算式、データモデル、テスト仕様）
+- [x] **T047** DEPLOY_GUIDE.md更新（デプロイ手順、トラブルシューティング）
 
 **チェックポイント**: 本番リリース準備完了
 
@@ -238,16 +216,15 @@ gantt
 
 ## 実装状況サマリー
 
-### 完了済みタスク: 50/50 (100%)
+### 完了済みタスク: 47/47 (100%)
 
 - ✅ Phase 1: Setup（8タスク）
 - ✅ Phase 2: Foundational（5タスク）
 - ✅ Phase 3: US1 企業価値指標（5タスク）
 - ✅ Phase 4: US2 KPIスコアカード（6タスク）
 - ✅ Phase 5: US3 推移グラフ（6タスク）
-- ✅ Phase 6: US4 レーダーチャート（3タスク）
-- ✅ Phase 7: US5 財務諸表（7タスク）
-- ✅ Phase 8: Polish（10タスク）
+- ✅ Phase 6: US4 財務諸表（7タスク）
+- ✅ Phase 7: Polish（10タスク）
 
 ### パフォーマンス検証結果
 

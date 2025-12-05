@@ -1,6 +1,6 @@
 # 実装計画書: ValueScope
 
-**Branch**: `main` | **Date**: 2025-12-15 | **Spec**: [spec.md](https://github.com/J1921604/ValueScope/blob/main/specs/main/spec.md)
+**Branch**: `001-ValueScope` | **Date**: 2025-12-15 | **Spec**: [spec.md](https://github.com/J1921604/ValueScope/blob/001-ValueScope/specs/001-ValueScope/spec.md)
 
 ## 概要
 
@@ -129,7 +129,6 @@ ValueScope/
 │   │   ├── ValuationTable.tsx         # 企業価値指標テーブル
 │   │   ├── ScoreCard.tsx              # KPIスコアカード
 │   │   ├── TrendChart.tsx             # 推移グラフ
-│   │   ├── RadarChart.tsx             # レーダーチャート
 │   │   ├── KPIGauge.tsx               # KPIゲージ
 │   │   ├── ComparisonTable.tsx        # 3社比較テーブル
 │   │   ├── ComparisonFinancialTable.tsx # 財務諸表比較テーブル

@@ -17,7 +17,7 @@ try {
     Write-Host ""
 
     Write-Host "[2/6] Installing Python dependencies..." -ForegroundColor Yellow
-    pip install -r scripts/requirements.txt
+    py -3.10 -m pip install -r scripts/requirements.txt
     if ($LASTEXITCODE -ne 0) { throw "pip install failed" }
     Write-Host "OK Python dependencies installed" -ForegroundColor Green
     Write-Host ""
@@ -31,7 +31,7 @@ try {
 
     Write-Host "[4/6] Parsing XBRL data..." -ForegroundColor Yellow
     if (Test-Path "XBRL") {
-        py -3 scripts/parse_edinet_xbrl.py
+        py -3.10 scripts/parse_edinet_xbrl.py
         if ($LASTEXITCODE -ne 0) { throw "XBRL parsing failed" }
         Write-Host "OK XBRL parsing completed" -ForegroundColor Green
     } else {
@@ -40,9 +40,9 @@ try {
     Write-Host ""
 
     Write-Host "[5/6] Computing valuation and scores..." -ForegroundColor Yellow
-    py -3 scripts/build_valuation.py
+    py -3.10 scripts/build_valuation.py
     if ($LASTEXITCODE -ne 0) { throw "Valuation calculation failed" }
-    py -3 scripts/compute_scores.py
+    py -3.10 scripts/compute_scores.py
     if ($LASTEXITCODE -ne 0) { throw "Score computation failed" }
     Copy-Item data/*.json public/data/ -Force
     Write-Host "OK Data processing completed" -ForegroundColor Green

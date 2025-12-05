@@ -40,17 +40,16 @@ npm run dev
 - **Phase 3 US1 企業価値指標表示**: ✅ 完了（XBRL解析、ValuationTable、E2Eテスト）
 - **Phase 4 US2 KPIスコアカード**: ✅ 完了（KPI計算、ScoreCard、信号機評価）
 - **Phase 5 US3 推移グラフ**: ✅ 完了（TrendChart実装、10年分時系列データ、E2Eテスト10件）
-- **Phase 6 US4 レーダーチャート**: 🔄 基盤完了（RadarChart実装、2社比較準備）
-- **Phase 7 US5 閾値カスタマイズ**: 📴 スコープ外（v1.0.0では固定閾値のみ運用）
-- **Phase 8 Polish**: 🔄 進行中（README更新、テストカバレッジ向上）
+- **Phase 6 US4 財務諸表比較**: ✅ 完了（PL/BS/CF 3社比較テーブル）
+- **Phase 7 Polish**: ✅ 完了（UI改善、パフォーマンス最適化、ドキュメント整備）
 
 ### プロジェクトドキュメント
 
-- **[プロジェクト憲法](https://github.com/J1921604/ValueScope/blob/main/.specify/memory/constitution.md)**: 開発原則とガバナンス（7つのコア原則）
-- **[機能仕様書](https://github.com/J1921604/ValueScope/blob/main/specs/main/spec.md)**: ユーザーストーリー、機能要件、成功基準
-- **[実装計画書](https://github.com/J1921604/ValueScope/blob/main/specs/main/plan.md)**: 技術選定、アーキテクチャ設計、Constitution Check
-- **[タスクリスト](https://github.com/J1921604/ValueScope/blob/main/specs/main/tasks.md)**: 実装タスク一覧、ガントチャート
-- **[完全仕様書](https://github.com/J1921604/ValueScope/blob/main/docs/完全仕様書.md)**: AI再現用実装詳細（計算式、データモデル、テスト仕様）
+- **[プロジェクト憲法](https://github.com/J1921604/ValueScope/blob/001-ValueScope/.specify/memory/constitution.md)**: 開発原則とガバナンス（7つのコア原則）
+- **[機能仕様書](https://github.com/J1921604/ValueScope/blob/001-ValueScope/specs/001-ValueScope/spec.md)**: ユーザーストーリー、機能要件、成功基準
+- **[実装計画書](https://github.com/J1921604/ValueScope/blob/001-ValueScope/specs/001-ValueScope/plan.md)**: 技術選定、アーキテクチャ設計、Constitution Check
+- **[タスクリスト](https://github.com/J1921604/ValueScope/blob/001-ValueScope/specs/001-ValueScope/tasks.md)**: 実装タスク一覧、ガントチャート
+- **[完全仕様書](https://github.com/J1921604/ValueScope/blob/001-ValueScope/docs/完全仕様書.md)**: AI再現用実装詳細（計算式、データモデル、テスト仕様）
 
 ## 📋 主要機能
 
@@ -92,7 +91,6 @@ npm run dev
 - ✅ **KPI分析タブ**：各社個別のKPI推移グラフ（過去10年）
 - ✅ **3社比較タブ**：企業価値指標3社比較テーブル + 3社重ね合わせ推移グラフ（ROE/自己資本比率/DSCR）
 - ✅ 推移グラフ（時系列）（10年分KPI推移、年ラベル表示、凡例トグル）
-- 🔄 レーダーチャート（多次元比較）（基盤完了、2社データ統合待ち）
 - ✅ KPIゲージチャート（180度=100%の半円ゲージで閾値を可視化）
 
 ### ⏳ 同業他社ベンチマーク（将来実装）
@@ -190,7 +188,6 @@ ValueScope/
 │   │   ├── MultiCompanyEVChart.tsx
 │   │   ├── MultiCompanyTrendChart.tsx
 │   │   ├── ProfitLossStatement.tsx   # 損益計算書ページ
-│   │   ├── RadarChart.tsx
 │   │   ├── ScoreCard.tsx
 │   │   ├── ThresholdEditor.tsx     # 旧閾値UI（v1.0.0では未使用）
 │   │   ├── TrendChart.tsx
@@ -383,10 +380,10 @@ Rechartsを使用してROE、自己資本比率、DSCRのゲージを実装。
 
 ### 作業順序
 
-1. 憲法の確認（[constitution.md](https://github.com/J1921604/ValueScope/blob/main/.specify/memory/constitution.md)）
-2. 仕様書の作成（[spec.md](https://github.com/J1921604/ValueScope/blob/main/specs/main/spec.md)）
-3. 実装計画の策定（[plan.md](https://github.com/J1921604/ValueScope/blob/main/specs/main/plan.md)）
-4. タスクリストの作成（[tasks.md](https://github.com/J1921604/ValueScope/blob/main/specs/main/tasks.md)）
+1. 憲法の確認（[constitution.md](https://github.com/J1921604/ValueScope/blob/001-ValueScope/.specify/memory/constitution.md)）
+2. 仕様書の作成（[spec.md](https://github.com/J1921604/ValueScope/blob/001-ValueScope/specs/001-ValueScope/spec.md)）
+3. 実装計画の策定（[plan.md](https://github.com/J1921604/ValueScope/blob/001-ValueScope/specs/001-ValueScope/plan.md)）
+4. タスクリストの作成（[tasks.md](https://github.com/J1921604/ValueScope/blob/001-ValueScope/specs/001-ValueScope/tasks.md)）
 5. 検証とテストの実施（テストファースト）
 6. 実装とコード作成
 7. レビューとマージ
