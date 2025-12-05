@@ -384,9 +384,9 @@ Rechartsを使用してROE、自己資本比率、DSCRのゲージを実装。
 ### 作業順序
 
 1. 憲法の確認（[constitution.md](https://github.com/J1921604/ValueScope/blob/main/.specify/memory/constitution.md)）
-2. 仕様書の作成（[spec.md](https://github.com/J1921604/ValueScope/blob/main/specs/001-valuescope-kpi-dashboard/spec.md)）
-3. 実装計画の策定（[plan.md](https://github.com/J1921604/ValueScope/blob/main/specs/001-valuescope-kpi-dashboard/plan.md)）
-4. タスクリストの作成（[tasks.md](https://github.com/J1921604/ValueScope/blob/main/specs/001-valuescope-kpi-dashboard/tasks.md)）
+2. 仕様書の作成（[spec.md](https://github.com/J1921604/ValueScope/blob/main/specs/main/spec.md)）
+3. 実装計画の策定（[plan.md](https://github.com/J1921604/ValueScope/blob/main/specs/main/plan.md)）
+4. タスクリストの作成（[tasks.md](https://github.com/J1921604/ValueScope/blob/main/specs/main/tasks.md)）
 5. 検証とテストの実施（テストファースト）
 6. 実装とコード作成
 7. レビューとマージ

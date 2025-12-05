@@ -1,50 +1,313 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# ValueScope プロジェクト憲法
 
-## Core Principles
+<!--
+Sync Impact Report (Version 1.0.0)
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+バージョン変更: 初版作成 → 1.0.0
+変更された原則:
+  - 新規作成: 7つのコア原則を定義
+  - セクション追加: 開発制約、ガバナンス、ブランチ戦略、開発方針
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+テンプレート更新状況:
+  ✅ .specify/templates/spec-template.md - 確認完了
+  ✅ .specify/templates/plan-template.md - 確認完了
+  ✅ .specify/templates/tasks-template.md - 確認完了
+  ✅ README.md - プロジェクト全体ドキュメント
+  ✅ docs/完全仕様書.md - 実装詳細ドキュメント
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+フォローアップTODO: なし
+-->
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+## コア原則
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### 原則I: テスト駆動開発（TDD）を徹底し、仕様に対する検証を必須とする
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+**原則内容**:
+- すべての機能実装の前に、対応するテストを作成しなければならない
+- テストは「Red（失敗）→ Green（成功）→ Refactor（リファクタリング）」のサイクルで実施する
+- ユニットテストカバレッジは80%以上を目標とし、E2Eテストは主要フローを100%カバーする
+- テスト実行時間は30秒以内に収める
+- 実装前にユーザーストーリーごとの受入基準（Acceptance Criteria）を明確化する
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+**根拠**:
+テスト駆動開発により、仕様と実装の乖離を防ぎ、リグレッションを早期発見できる。企業価値分析という重要な財務データを扱うアプリケーションにおいて、計算ロジックの正確性とデータ整合性を保証するため、TDDは非交渉的な要件である。
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+**テスト要件 (TR)**:
+- TR-001: ユニットテストカバレッジ ≥ 80%
+- TR-002: E2E主要フロー 100%
+- TR-003: テスト実行時間 < 30秒
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+---
 
-## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+### 原則II: セキュリティ要件を機能要件より優先する
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+**原則内容**:
+- APIキーおよび機密情報は環境変数（`.env`）またはGitHub Secretsで管理し、コードベースには平文で含めてはならない
+- 外部から取得したデータ（EDINET API、株価API）は必ずバリデーションとサニタイゼーションを実施する
+- 依存関係の脆弱性スキャンをGitHub Dependabotで自動実行し、Critical/High脆弱性は即座に対応する
+- XBRLなどの外部データ解析時は、不正なタグや過大なデータサイズを検出し、処理を中断する機構を設ける
+- CORS設定は不要（完全クライアント側実行のため）
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**根拠**:
+財務データは企業情報として機密性が高く、セキュリティ侵害は法的リスク・信頼性喪失につながる。セキュリティは後付けできない基盤要件であり、すべての機能開発に先立って確保しなければならない。
+
+**セキュリティ要件 (SR)**:
+- SR-001: EDINET APIキーは環境変数管理（.env → GitHub Secrets）
+- SR-002: 外部入力検証（XBRL/CSVバリデーション）
+- SR-003: 依存関係脆弱性スキャン（GitHub Dependabot）
+- SR-004: CORS設定不要（完全クライアント側実行）
+
+---
+
+### 原則III: パフォーマンス閾値を定量化し、受入基準に組み込む
+
+**原則内容**:
+- Largest Contentful Paint (LCP) は2.5秒未満を必須とする
+- Time to Interactive (TTI) は2.0秒未満を必須とする
+- 初期バンドルサイズはgzip圧縮後200KB未満を保つ
+- チャート再描画は200ms以内に完了する
+- Lighthouse スコアは90点以上を維持する
+- XBRL/CSV解析（2社分）は60秒以内、企業価値計算（全指標）は10秒以内、データ検証は5秒以内に完了する
+
+**根拠**:
+企業価値分析ダッシュボードは意思決定者が迅速に財務状況を把握するために使用される。遅延はユーザー体験を著しく損なうため、パフォーマンスは定量化された受入基準として明示し、ビルドおよびデプロイのゲート条件とする。
+
+**パフォーマンス要件 (PR)**:
+- PR-001: LCP（Largest Contentful Paint）< 2.5秒
+- PR-002: TTI（Time to Interactive）< 2.0秒
+- PR-003: 初期バンドルサイズ gzip後 < 200KB
+- PR-004: チャート再描画 < 200ms
+- PR-005: Lighthouseスコア ≥ 90
+
+**データ処理パフォーマンス要件 (DQ)**:
+- DQ-001: XBRL/CSV解析（2社分）< 60秒
+- DQ-002: 企業価値計算（全指標）< 10秒
+- DQ-003: データ検証 < 5秒
+- DQ-004: スキーマ違反時はデプロイ中止
+
+---
+
+### 原則IV: データ品質の保証と実データのみの使用
+
+**原則内容**:
+- すべての財務指標計算は**XBRL実データのみ**を使用し、推定値・補完値・仮定値は一切使用してはならない
+- データ欠損時は`null`または`0`を返し、推定による補完は行わない
+- 分母がゼロの計算はスキップし、結果を`null`とする
+- JSONスキーマ検証を必須とし、不正なデータ構造を検出した場合はデプロイを中止する
+- 異常値検出（外れ値、負の値の妥当性チェック）を実施し、警告ログを出力する
+- データ更新失敗時にはGitHub Issueを自動起票する
+
+**根拠**:
+企業価値分析は投資判断や経営分析に使用されるため、データの正確性と信頼性は最優先事項である。推定値や補完値を含めると、結果の信頼性が損なわれ、誤った意思決定を招く可能性がある。データ品質の保証は、アプリケーションの存在価値そのものである。
+
+**データソース一覧**:
+
+| 指標 | 計算式 | データソース（XBRL項目） | 推定値の有無 |
+|------|--------|-------------------------|--------------|
+| ROE | 当期純利益 / 自己資本 × 100 | PL.csv `ProfitLossAttributableToOwnersOfParent` ÷ BS.csv `Equity` | ❌ なし |
+| 自己資本比率 | 自己資本 / 総資産 × 100 | BS.csv `Equity` ÷ BS.csv `TotalAssets` | ❌ なし |
+| DSCR | 営業CF / (1年内返済予定の固定負債 + 支払利息) | CF.csv `NetCashProvidedByUsedInOperatingActivities` ÷ (BS.csv `CurrentPortionOfNoncurrentLiabilities` + PL.csv `InterestExpensesNOE`) | ❌ なし |
+| 時価総額 | 決算日株価 × 発行済株式数 | `data/prices/{証券コード}.csv` × BS.csv `TotalNumberOfIssuedSharesSummaryOfBusinessResults` | ❌ なし |
+| 純有利子負債 | 有利子負債 - 現金及び預金 | (BS.csv `BondsPayable` + `LongTermLoansPayable` + `ShortTermLoansPayable`) - BS.csv `CashAndDeposits` | ❌ なし |
+| 企業価値（EV） | 時価総額 + 純有利子負債 | 時価総額 + 純有利子負債 | ❌ なし |
+| EV/EBITDA | 企業価値 / EBITDA | EV ÷ EBITDA | ❌ なし |
+| PER | 時価総額 / 当期純利益 | 時価総額 ÷ PL.csv `ProfitLoss` | ❌ なし |
+| PBR | 時価総額 / 自己資本 | 時価総額 ÷ BS.csv `Equity` | ❌ なし |
+
+---
+
+### 原則V: API/ライブラリ仕様の遵守とレート制限の厳守
+
+**原則内容**:
+- EDINET API v2の仕様を厳格に遵守し、書類種別コード（120: 有価証券報告書）およびコード130（訂正報告書）の除外ロジックを実装する
+- GitHub Actionsによる自動データ取得は、毎年7月1日のみ実行し、それ以外の日はスキップする
+- 株価データ取得はStooq API（pandas_datareader経由）を使用し、Yahoo Finance APIは使用しない
+- レート制限を遵守し、短時間での大量リクエストを避ける（バッチ処理間隔を設ける）
+- APIエラー時のリトライロジックを実装し、指数バックオフを適用する
+
+**根拠**:
+外部APIの仕様違反やレート制限超過は、サービス停止やAPI利用停止のリスクを招く。EDINET APIは金融庁の公式APIであり、適切な使用方法を守ることは法的・倫理的義務である。また、頻繁なデータ更新は不要であり、リソース効率の観点からも制限を設ける。
+
+---
+
+### 原則VI: バージョン固定とメンテナンス性の確保
+
+**原則内容**:
+- すべての依存関係（npm、pip）はメジャーバージョンおよびマイナーバージョンを固定する（パッチバージョンのみ更新を許可）
+- `package.json` および `requirements.txt` でバージョンを明示的に指定する
+- 依存関係の更新は `CHANGELOG.md` に記録し、破壊的変更がないことを確認する
+- 四半期ごとに依存関係のメジャーバージョン更新を検討し、セキュリティパッチは即座に適用する
+- Python実行環境はPython 3.10.11を標準とし、`py -3.10`で実行する
+
+**根拠**:
+依存関係のバージョン不整合は、予期しないビルドエラーや動作不良を引き起こす。特に長期運用を前提とするアプリケーションでは、再現性の確保が重要である。バージョン固定により、チーム全体で一貫した開発環境を維持できる。
+
+---
+
+### 原則VII: 仕様と実装の分離によるレビュープロセスの確立
+
+**原則内容**:
+- 開発作業は「憲法 → 仕様 → 計画 → タスク → 検証 → 実装 → レビュー」の順序で実施する
+- 仕様ブランチ（`001-<topic>`）と実装ブランチ（`feature/impl-001-<topic>`）を明確に分離する
+- 重大変更（破壊的API変更、データモデル変更、セキュリティ関連）にはレビュー承認を必須とする
+- Pull Requestには「Constitution Check」セクションを含め、各原則への準拠を確認する
+- レビュー承認なしでのmainブランチへの直接プッシュは禁止する
+
+**根拠**:
+仕様と実装を分離することで、「何を作るか」と「どう作るか」の混同を防ぎ、レビューの質を向上させる。重大変更のレビュー必須化により、設計の一貫性と品質を維持できる。
+
+---
+
+## 開発制約
+
+### データ保存とセキュリティ
+
+**制約内容**:
+- 機密データ（APIキー、個人情報）の平文保存を禁止する
+- 暗号化またはハッシュ化を必須とする（GitHub Secretsまたは環境変数経由）
+- `.env` ファイルは `.gitignore` に含め、リポジトリにコミットしない
+- 本番環境のAPIキーとローカル開発環境のAPIキーを分離する
+
+### 依存関係管理
+
+**制約内容**:
+- 外部依存はバージョン固定により再現性を確保する
+- `package.json` の依存関係は `^` や `~` を使用せず、明示的なバージョン番号を指定する
+- `requirements.txt` も同様に明示的なバージョン指定を行う
+- セキュリティパッチは即座に適用するが、メジャーバージョン更新は影響範囲を評価してから実施する
+
+### コードレビュー
+
+**制約内容**:
+- 仕様と実装の乖離をレビューで検知・是正する
+- Pull Requestには以下を含める:
+  - 変更内容の概要（何を、なぜ）
+  - Constitution Checkセクション（各原則への準拠確認）
+  - テスト結果（カバレッジ、E2E実行結果）
+  - パフォーマンス影響（該当する場合）
+- レビュワーは最低1名、重大変更は2名以上の承認を必須とする
+
+---
+
+## ガバナンス
+
+### 作業順序
+
+開発作業は以下の順序で実施しなければならない:
+
+1. **憲法確認**: `.specify/memory/constitution.md` の原則を確認
+2. **仕様策定**: ユーザーストーリー、受入基準、機能要件を定義
+3. **計画作成**: 技術選定、アーキテクチャ設計、Constitution Checkを実施
+4. **タスク分解**: 実装タスクをユーザーストーリー単位で分解
+5. **検証**: テスト作成（TDD: Red段階）
+6. **実装**: コード実装（TDD: Green段階）
+7. **レビュー**: Pull Request作成、Constitution Check、承認取得
+
+### ブランチ戦略
+
+**仕様ブランチ（mainブランチから派生）**:
+```bash
+git checkout main
+git checkout -b <番号>-<短い名前>
+# 例: 001-ValueScope
+```
+
+**実装ブランチ（仕様ブランチから派生）**:
+```bash
+git checkout 001-<topic>
+git checkout -b feature/impl-<番号>-<短い名前>
+# 例: feature/impl-001-ValueScope
+```
+
+**マージ戦略**:
+- 実装ブランチ → 仕様ブランチ: Pull Request + レビュー承認
+- 仕様ブランチ → mainブランチ: Pull Request + レビュー承認 + CI通過
+
+### 重大変更の定義
+
+以下の変更は「重大変更」とみなし、レビュー承認を必須とする:
+
+- データモデルの破壊的変更（フィールド削除、型変更）
+- 公開APIの破壊的変更（エンドポイント削除、パラメータ変更）
+- セキュリティ関連の変更（認証・認可、暗号化方式）
+- パフォーマンス要件に影響を与える変更（アルゴリズム変更、大量データ処理）
+- 依存関係のメジャーバージョン更新
+
+### コンプライアンス
+
+- すべてのPull Requestは「Constitution Check」セクションで各原則への準拠を確認する
+- 複雑性（複数プロジェクト、複雑な設計パターン）は正当な理由がない限り避ける
+- 正当な理由がある場合は、`plan.md` の「Complexity Tracking」セクションで文書化する
+
+---
+
+## 開発方針
+
+### フロントエンドとバックエンドの同時起動
+
+**方針**:
+- ローカル開発時は `start.ps1` スクリプトにより、フロントエンド（Vite）とバックエンド（該当する場合）を同時起動する
+- スクリプトは依存関係のインストール、データ生成、サーバー起動を自動化する
+
+### エラー修正と検証の繰り返し
+
+**方針**:
+- 正常に動作するまで繰り返し検証し、エラー修正を完了する
+- ビルドエラー、型エラー、テスト失敗は即座に修正し、「後で直す」は禁止する
+- GitHub Pagesデプロイ前に、ローカルでビルドとプレビューを検証し、E2Eテストを100%正常に動作させる
+
+### Mermaid図の挿入（v11準拠）
+
+**方針**:
+- ドキュメントにはMermaid v11準拠のフローチャート、シーケンス図、状態遷移図を積極的に挿入する
+- **ベストプラクティス**:
+  - **gitGraph使用時の注意**: 日本語を避けるか、flowchart/graph形式を使用。`tag:`構文は非推奨、代わりにノードで表現。`${{}}`などの特殊文字をノードラベルに使用しない。
+  - **日本語対応**: flowchart、graph、sequenceDiagramは日本語完全対応。ノードラベル、エッジラベル、Noteで日本語使用可能。gitGraph構文は日本語コミットメッセージに対応していない。
+  - **推奨構文**:
+    - ブランチ戦略: `flowchart TB` + `subgraph`
+    - プロセスフロー: `flowchart TD/LR`
+    - 時系列: `sequenceDiagram`
+    - 状態遷移: `stateDiagram-v2`
+
+### ローカル実装とテスト
+
+**方針**:
+- GitHub Pagesデプロイ前にローカルでビルドとプレビューを検証する
+- E2Eテストを100%正常に動作させる
+- Python実行環境はPython 3.10.11を標準とし、`python`ではなく`py -3.10`で実行する
+
+### 品質保証
+
+**方針**:
+- ワークスペース内の全ファイルを末尾まで解析する（必要に応じて）
+- トークン制限まで中断せず全タスクを実行する
+- トークン制限で中断する場合も、簡略化など品質を低下させない
+- 生成したドキュメントは繰り返しブラッシュアップする
+- 文字化け対策としてUTF-8エンコーディングを使用する
+- テンプレートから生成したドキュメントの英語の部分を確実に削除する
+
+---
+
+## バージョン管理
+
+**バージョン**: 1.0.0  
+**批准日**: 2025-12-15  
+**最終改訂日**: 2025-12-15
+
+### バージョニングルール
+
+- **MAJOR**: 後方互換性のないガバナンス変更、原則の削除または再定義
+- **MINOR**: 新しい原則/セクションの追加、または既存セクションの大幅な拡張
+- **PATCH**: 明確化、言い回しの変更、誤字修正、非意味的な改善
+
+### 改訂手順
+
+1. 改訂提案をGitHub Issueで起票
+2. レビュワー2名以上の承認を取得
+3. バージョン番号を更新（上記ルールに従う）
+4. 改訂履歴をこのセクションに追記
+5. 関連ドキュメント（README.md、spec.md、plan.md、tasks.md）の整合性を確認
+
+### 改訂履歴
+
+- **1.0.0** (2025-12-15): 初版作成。7つのコア原則、開発制約、ガバナンス、ブランチ戦略、開発方針を定義。

@@ -53,11 +53,23 @@ try {
     Write-Host "=====================================" -ForegroundColor Cyan
     Write-Host "   Server running at:" -ForegroundColor Cyan
     Write-Host "   http://localhost:5173/ValueScope/" -ForegroundColor Green
-    Write-Host "   Press Ctrl+C to stop" -ForegroundColor Yellow
+    Write-Host "   Opening browser..." -ForegroundColor Yellow
     Write-Host "=====================================" -ForegroundColor Cyan
     Write-Host ""
     
-    npm run dev
+    # バックグラウンドで開発サーバーを起動
+    Start-Process powershell -ArgumentList "-NoExit", "-Command", "npm run dev" -WindowStyle Normal
+    
+    # サーバーの起動を待機（5秒）
+    Start-Sleep -Seconds 5
+    
+    # ブラウザを開く
+    Start-Process "http://localhost:5173/ValueScope/"
+    
+    Write-Host ""
+    Write-Host "OK Browser opened. Development server is running in a separate window." -ForegroundColor Green
+    Write-Host "This window will close in 3 seconds..." -ForegroundColor Yellow
+    Start-Sleep -Seconds 3
 }
 catch {
     Write-Host ""
