@@ -213,3 +213,35 @@ export interface RadarChartData {
   /** 最大値（正規化用） */
   fullMark: number;
 }
+
+/** 従業員情報データ */
+export interface EmployeeData {
+  /** 年度 */
+  year: number;
+  /** 日付（YYYY-MM-DD） */
+  date: string;
+  /** 平均年間給与（円） */
+  averageAnnualSalary: number;
+  /** 平均勤続年数（年） */
+  averageLengthOfServiceYears: number;
+  /** 平均勤続年数（月） */
+  averageLengthOfServiceMonths: number | null;
+  /** 平均年齢（歳） */
+  averageAgeYears: number;
+  /** 平均年齢（月） */
+  averageAgeMonths: number | null;
+  /** 従業員数（人） */
+  numberOfEmployees: number;
+}
+
+/** 従業員情報レスポンス */
+export interface EmployeeDataResponse {
+  /** データ基準日 */
+  asOf: string;
+  /** 東京電力HD従業員情報 */
+  TEPCO: EmployeeData[];
+  /** 中部電力従業員情報 */
+  CHUBU: EmployeeData[];
+  /** JERA従業員情報 */
+  JERA: EmployeeData[];
+}

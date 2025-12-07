@@ -2,13 +2,16 @@ import { useEffect, useMemo, useState } from 'react'
 import type { CompanyName, ScoreColor } from './types'
 import type { TimeSeriesDataPoint } from './hooks/useTimeseries'
 import { useTimeseries } from './hooks/useTimeseries'
+import { useEmployeeData } from './hooks/useEmployeeData'
 import { ComparisonTable } from './components/ComparisonTable'
 import { KPIGauge } from './components/KPIGauge'
 import { MultiCompanyTrendChart } from './components/MultiCompanyTrendChart'
 import { MultiCompanyEVChart } from './components/MultiCompanyEVChart'
 import { ComparisonFinancialTable } from './components/ComparisonFinancialTable'
+import { EmployeeTable } from './components/EmployeeTable'
+import { EmployeeTrendChart } from './components/EmployeeTrendChart'
 
-type TabView = 'ev' | 'kpi' | 'pl' | 'bs' | 'cf'
+type TabView = 'ev' | 'kpi' | 'employee' | 'pl' | 'bs' | 'cf'
 
 interface ThresholdValues {
   green: number;
@@ -45,8 +48,8 @@ const DEFAULT_KPI_THRESHOLDS: AllThresholds = {
 
 const KPI_GAUGE_LIMITS: Record<KPIKey, { min: number; max: number }> = {
   roe: { min: -20, max: 20 },
-  equityRatio: { min: 0, max: 60 },
-  dscr: { min: 0, max: 5 },
+  equityRatio: { min: 0, max: 100 },  // 自己資本比率は0-100%の範囲
+  dscr: { min: 0, max: 20 },          // DSCRの上限を20倍に拡大
 }
 
 const formatFiscalYearLabel = (year: number | null) => {
@@ -61,6 +64,7 @@ function App() {
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
 
   const { data: timeseriesData, loading: timeseriesLoading, error: timeseriesError } = useTimeseries()
+  const { data: employeeData, loading: employeeLoading, error: employeeError } = useEmployeeData()
 
   const availableYears = useMemo(() => {
     if (!timeseriesData) {
@@ -97,6 +101,18 @@ function App() {
       return acc
     }, {} as Partial<Record<CompanyName, TimeSeriesDataPoint | null>>)
   }, [timeseriesData, selectedYear])
+
+  const perCompanyEmployeeData = useMemo(() => {
+    if (!employeeData || selectedYear === null) {
+      return {}
+    }
+
+    return COMPANY_ORDER.reduce((acc, company) => {
+      const companyEmployees = employeeData[company] ?? []
+      acc[company] = companyEmployees.find((item) => item.year === selectedYear) ?? null
+      return acc
+    }, {} as Partial<Record<CompanyName, (typeof employeeData.TEPCO)[0] | null>>)
+  }, [employeeData, selectedYear])
 
   const determineScore = (value: number | undefined, kpi: KPIKey): ScoreColor => {
     const thresholds = DEFAULT_KPI_THRESHOLDS[kpi]
@@ -166,6 +182,13 @@ function App() {
               style={{ opacity: activeTab === 'kpi' ? 1 : 0.7 }}
             >
               KPI分析
+            </button>
+            <button
+              onClick={() => setActiveTab('employee')}
+              className={`btn btn-magenta ${activeTab === 'employee' ? 'active' : ''}`}
+              style={{ opacity: activeTab === 'employee' ? 1 : 0.7 }}
+            >
+              従業員情報
             </button>
             <button
               onClick={() => setActiveTab('pl')}
@@ -359,7 +382,54 @@ function App() {
                 <MultiCompanyTrendChart data={timeseriesData} kpiName="dscr" title="DSCR推移" unit="倍" />
               </section>
             )}
+
+            {activeTab === 'employee' && employeeData && (
+              <section className="space-y-10">
+                <EmployeeTable data={perCompanyEmployeeData} />
+
+                <div className="space-y-8">
+                  <EmployeeTrendChart
+                    data={employeeData}
+                    metricKey="averageAnnualSalary"
+                    title="平均年間給与推移"
+                    unit="円"
+                  />
+                  <EmployeeTrendChart
+                    data={employeeData}
+                    metricKey="averageLengthOfServiceYears"
+                    title="平均勤続年数推移"
+                    unit="年"
+                  />
+                  <EmployeeTrendChart
+                    data={employeeData}
+                    metricKey="averageAgeYears"
+                    title="平均年齢推移"
+                    unit="歳"
+                  />
+                  <EmployeeTrendChart
+                    data={employeeData}
+                    metricKey="numberOfEmployees"
+                    title="従業員数推移"
+                    unit="人"
+                  />
+                </div>
+              </section>
+            )}
           </>
+        )}
+
+        {/* 従業員情報ローディング・エラー */}
+        {activeTab === 'employee' && employeeLoading && (
+          <div className="loading">
+            <p>従業員情報を読み込んでいます...</p>
+          </div>
+        )}
+
+        {activeTab === 'employee' && employeeError && (
+          <div className="warning-container is-warning p-6 text-center">
+            <h3 className="warning-title">従業員情報読み込みエラー</h3>
+            <p className="warning-text">{employeeError.message}</p>
+          </div>
         )}
 
         {/* 財務諸表ページ */}

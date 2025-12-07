@@ -1,0 +1,99 @@
+{
+  "asOf": "2025-12-08",
+  "TEPCO": [
+    {
+      "year": 2024,
+      "date": "2024-03-31",
+      "averageAnnualSalary": 8054933,
+      "averageLengthOfServiceYears": 19.6,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 44.2,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 38234
+    },
+    {
+      "year": 2023,
+      "date": "2023-03-31",
+      "averageAnnualSalary": 7980312,
+      "averageLengthOfServiceYears": 19.4,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 43.9,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 37856
+    },
+    {
+      "year": 2022,
+      "date": "2022-03-31",
+      "averageAnnualSalary": 7850000,
+      "averageLengthOfServiceYears": 19.2,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 43.5,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 37421
+    }
+  ],
+  "CHUBU": [
+    {
+      "year": 2024,
+      "date": "2024-03-31",
+      "averageAnnualSalary": 7920000,
+      "averageLengthOfServiceYears": 20.1,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 43.8,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 16234
+    },
+    {
+      "year": 2023,
+      "date": "2023-03-31",
+      "averageAnnualSalary": 7850000,
+      "averageLengthOfServiceYears": 19.9,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 43.5,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 16012
+    },
+    {
+      "year": 2022,
+      "date": "2022-03-31",
+      "averageAnnualSalary": 7720000,
+      "averageLengthOfServiceYears": 19.7,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 43.2,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 15834
+    }
+  ],
+  "JERA": [
+    {
+      "year": 2024,
+      "date": "2024-03-31",
+      "averageAnnualSalary": 8500000,
+      "averageLengthOfServiceYears": 15.3,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 41.5,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 3456
+    },
+    {
+      "year": 2023,
+      "date": "2023-03-31",
+      "averageAnnualSalary": 8350000,
+      "averageLengthOfServiceYears": 14.8,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 41.2,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 3321
+    },
+    {
+      "year": 2022,
+      "date": "2022-03-31",
+      "averageAnnualSalary": 8200000,
+      "averageLengthOfServiceYears": 14.5,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 40.9,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 3198
+    }
+  ]
+}

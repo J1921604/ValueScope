@@ -62,15 +62,19 @@ jobs:
 
           CURRENT_MONTH=$(date -u +%m)
           CURRENT_DAY=$(date -u +%d)
-          if [ "$CURRENT_MONTH" = "07" ] && [ "$CURRENT_DAY" = "01" ]; then
+          # EDINET update period: June 20 to July 1
+          if [ "$CURRENT_MONTH" = "06" ] && [ "$CURRENT_DAY" -ge "20" ]; then
+            echo "edinet_update=true" >> $GITHUB_OUTPUT
+            echo "Date is in EDINET update period (June 20 - July 1) - EDINET data will be updated"
+          elif [ "$CURRENT_MONTH" = "07" ] && [ "$CURRENT_DAY" = "01" ]; then
             echo "edinet_update=true" >> $GITHUB_OUTPUT
             echo "Today is July 1st (UTC) - EDINET data will be updated"
           else
             echo "edinet_update=false" >> $GITHUB_OUTPUT
-            echo "Not July 1st (UTC) - skipping EDINET data update"
+            echo "Not in EDINET update period (June 20 - July 1) - skipping EDINET data update"
           fi
 
-      - name: Fetch EDINET data (only on July 1st)
+      - name: Fetch EDINET data (only June 20 - July 1)
         if: steps.check_date.outputs.edinet_update == 'true'
         env:
           EDINET_API_KEY: ${{ secrets.EDINET_API_KEY }}
@@ -92,13 +96,13 @@ jobs:
           
           echo "=== EDINET data update completed ==="
       
-      - name: Commit updated data (only on July 1st)
+      - name: Commit updated data (only June 20 - July 1)
         if: steps.check_date.outputs.edinet_update == 'true'
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add public/data/*.json XBRL_output/**/*.csv || true
-          git commit -m "chore: update EDINET data (automated July 1st update)" || echo "No changes to commit"
+          git commit -m "chore: update EDINET data (automated June 20 - July 1 update)" || echo "No changes to commit"
           git push || echo "Nothing to push"
       
       - name: Verify committed data assets
