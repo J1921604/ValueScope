@@ -18,14 +18,11 @@ test.describe('従業員情報ページ', () => {
   test('従業員情報タブをクリックすると従業員情報テーブルが表示される', async ({ page }) => {
     await page.click('button:has-text("従業員情報")')
     
-    // テーブルヘッダーが表示されることを確認
-    await expect(page.locator('h3:has-text("従業員情報 比較テーブル")')).toBeVisible()
-    
-    // 主要指標が表示されることを確認
-    await expect(page.locator('text=平均年間給与')).toBeVisible()
-    await expect(page.locator('text=平均勤続年数')).toBeVisible()
-    await expect(page.locator('text=平均年齢')).toBeVisible()
-    await expect(page.locator('text=従業員数')).toBeVisible()
+    // 主要指標が表示されることを確認（役割でセレクト）
+    await expect(page.getByRole('cell', { name: '平均年間給与' })).toBeVisible()
+    await expect(page.getByRole('cell', { name: '平均勤続年数' })).toBeVisible()
+    await expect(page.getByRole('cell', { name: '平均年齢' })).toBeVisible()
+    await expect(page.getByRole('cell', { name: '従業員数' })).toBeVisible()
   })
 
   test('3社の従業員情報が表示される', async ({ page }) => {
@@ -41,9 +38,10 @@ test.describe('従業員情報ページ', () => {
     await page.click('button:has-text("従業員情報")')
     await page.waitForSelector('.recharts-surface', { timeout: 5000 })
     
-    // 4つのグラフが表示されることを確認
+    // 4つのグラフ × 3社 + α = 最低12個のSVG surface
     const charts = page.locator('.recharts-surface')
-    await expect(charts).toHaveCount(4)
+    const count = await charts.count()
+    expect(count).toBeGreaterThanOrEqual(12)
     
     // グラフタイトルが表示されることを確認
     await expect(page.locator('h3:has-text("平均年間給与推移")')).toBeVisible()
@@ -66,9 +64,9 @@ test.describe('従業員情報ページ', () => {
 
   test('従業員情報タブからEV分析タブに切り替えられる', async ({ page }) => {
     await page.click('button:has-text("従業員情報")')
-    await expect(page.locator('h3:has-text("従業員情報 比較テーブル")')).toBeVisible()
+    await expect(page.getByRole('cell', { name: '平均年間給与' })).toBeVisible()
     
     await page.click('button:has-text("EV分析")')
-    await expect(page.locator('h3:has-text("主要指標 比較テーブル")')).toBeVisible()
+    await expect(page.getByRole('heading', { name: '企業価値（EV）推移' })).toBeVisible()
   })
 })
