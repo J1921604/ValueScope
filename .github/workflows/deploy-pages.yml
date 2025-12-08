@@ -45,9 +45,6 @@ jobs:
         run: |
           echo "=== Fetching stock prices (Stooq API via pandas_datareader) ==="
           python scripts/fetch_stock_prices.py --years 10 || echo "Stock price fetch failed, continuing with existing data"
-          
-          echo "=== Rebuilding timeseries with stock prices ==="
-          python scripts/build_timeseries.py || echo "Timeseries build failed, continuing with existing data"
       
       - name: Check if EDINET update is needed
         id: check_date
@@ -88,13 +85,18 @@ jobs:
           echo "=== Extracting XBRL to CSV ==="
           python scripts/extract_xbrl_to_csv.py
           
+          echo "=== EDINET data update completed ==="
+      
+      - name: Rebuild all data and scores (every deployment)
+        run: |
           echo "=== Building timeseries data ==="
           python scripts/build_timeseries.py
           
+          echo "=== Building valuation data ==="
+          python scripts/build_valuation.py
+
           echo "=== Computing scores ==="
           python scripts/compute_scores.py
-          
-          echo "=== EDINET data update completed ==="
       
       - name: Commit updated data (only June 20 - July 1)
         if: steps.check_date.outputs.edinet_update == 'true'
@@ -123,6 +125,10 @@ jobs:
           echo "=== Build dist/data verification ==="
           ls -lh dist/data/ || echo "No dist/data found"
           find dist -name "*.json" -type f
+          echo "=== Build dist/XBRL_output verification ==="
+          ls -lh dist/XBRL_output/TEPCO/ || echo "No dist/XBRL_output/TEPCO found"
+          ls -lh dist/XBRL_output/CHUBU/ || echo "No dist/XBRL_output/CHUBU found"
+          ls -lh dist/XBRL_output/JERA/ || echo "No dist/XBRL_output/JERA found"
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

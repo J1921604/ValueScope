@@ -82,6 +82,15 @@ gantt
     T045 README.md更新                 :done, p7_t045, after p7_t044, 1d
     T046 完全仕様書.md更新             :done, p7_t046, after p7_t044, 1d
     T047 DEPLOY_GUIDE.md更新           :done, p7_t047, after p7_t044, 1d
+    
+    section Phase 8 従業員情報
+    T048 employees.jsonデータ作成      :done, p8_t048, after p7_t047, 1d
+    T049 EmployeeData型定義            :done, p8_t049, after p8_t048, 1d
+    T050 useEmployeeDataフック         :done, p8_t050, after p8_t049, 1d
+    T051 EmployeeTableコンポーネント   :done, p8_t051, after p8_t050, 1d
+    T052 EmployeeTrendChartコンポーネント :done, p8_t052, after p8_t050, 1d
+    T053 従業員情報タブ統合            :done, p8_t053, after p8_t052, 1d
+    T054 E2Eテスト作成                 :done, p8_t054, after p8_t053, 1d
 ```
 
 ---

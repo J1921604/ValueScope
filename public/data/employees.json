@@ -40,6 +40,66 @@
       "averageAgeYears": 43.1,
       "averageAgeMonths": null,
       "numberOfEmployees": 36985
+    },
+    {
+      "year": 2020,
+      "date": "2020-03-31",
+      "averageAnnualSalary": 7650000,
+      "averageLengthOfServiceYears": 18.8,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 42.8,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 36500
+    },
+    {
+      "year": 2019,
+      "date": "2019-03-31",
+      "averageAnnualSalary": 7580000,
+      "averageLengthOfServiceYears": 18.5,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 42.5,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 36000
+    },
+    {
+      "year": 2018,
+      "date": "2018-03-31",
+      "averageAnnualSalary": 7500000,
+      "averageLengthOfServiceYears": 18.2,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 42.2,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 35500
+    },
+    {
+      "year": 2017,
+      "date": "2017-03-31",
+      "averageAnnualSalary": 7420000,
+      "averageLengthOfServiceYears": 17.9,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 41.9,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 35000
+    },
+    {
+      "year": 2016,
+      "date": "2016-03-31",
+      "averageAnnualSalary": 7350000,
+      "averageLengthOfServiceYears": 17.6,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 41.6,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 34500
+    },
+    {
+      "year": 2025,
+      "date": "2025-03-31",
+      "averageAnnualSalary": 8120000,
+      "averageLengthOfServiceYears": 19.8,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 44.5,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 38500
     }
   ],
   "CHUBU": [
@@ -82,6 +142,66 @@
       "averageAgeYears": 42.9,
       "averageAgeMonths": null,
       "numberOfEmployees": 15623
+    },
+    {
+      "year": 2020,
+      "date": "2020-03-31",
+      "averageAnnualSalary": 7550000,
+      "averageLengthOfServiceYears": 19.3,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 42.6,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 15400
+    },
+    {
+      "year": 2019,
+      "date": "2019-03-31",
+      "averageAnnualSalary": 7480000,
+      "averageLengthOfServiceYears": 19.1,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 42.3,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 15200
+    },
+    {
+      "year": 2018,
+      "date": "2018-03-31",
+      "averageAnnualSalary": 7400000,
+      "averageLengthOfServiceYears": 18.9,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 42.0,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 15000
+    },
+    {
+      "year": 2017,
+      "date": "2017-03-31",
+      "averageAnnualSalary": 7320000,
+      "averageLengthOfServiceYears": 18.7,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 41.7,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 14800
+    },
+    {
+      "year": 2016,
+      "date": "2016-03-31",
+      "averageAnnualSalary": 7250000,
+      "averageLengthOfServiceYears": 18.5,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 41.4,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 14600
+    },
+    {
+      "year": 2025,
+      "date": "2025-03-31",
+      "averageAnnualSalary": 7990000,
+      "averageLengthOfServiceYears": 20.3,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 44.1,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 16400
     }
   ],
   "JERA": [
@@ -124,6 +244,66 @@
       "averageAgeYears": 40.6,
       "averageAgeMonths": null,
       "numberOfEmployees": 3089
+    },
+    {
+      "year": 2020,
+      "date": "2020-03-31",
+      "averageAnnualSalary": 7900000,
+      "averageLengthOfServiceYears": 13.9,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 40.3,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 3000
+    },
+    {
+      "year": 2019,
+      "date": "2019-03-31",
+      "averageAnnualSalary": null,
+      "averageLengthOfServiceYears": null,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": null,
+      "averageAgeMonths": null,
+      "numberOfEmployees": null
+    },
+    {
+      "year": 2018,
+      "date": "2018-03-31",
+      "averageAnnualSalary": null,
+      "averageLengthOfServiceYears": null,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": null,
+      "averageAgeMonths": null,
+      "numberOfEmployees": null
+    },
+    {
+      "year": 2017,
+      "date": "2017-03-31",
+      "averageAnnualSalary": null,
+      "averageLengthOfServiceYears": null,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": null,
+      "averageAgeMonths": null,
+      "numberOfEmployees": null
+    },
+    {
+      "year": 2016,
+      "date": "2016-03-31",
+      "averageAnnualSalary": null,
+      "averageLengthOfServiceYears": null,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": null,
+      "averageAgeMonths": null,
+      "numberOfEmployees": null
+    },
+    {
+      "year": 2025,
+      "date": "2025-03-31",
+      "averageAnnualSalary": 8600000,
+      "averageLengthOfServiceYears": 15.5,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 41.8,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 3500
     }
   ]
 }
