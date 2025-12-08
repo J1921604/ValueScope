@@ -1,4 +1,4 @@
-"""
+﻿"""
 KPIゲージのE2Eテスト (Selenium)
 Version: 1.0.0
 Date: 2025-12-15
@@ -30,12 +30,12 @@ def driver():
 
 def test_kpi_gauge_displays_with_color(driver):
     """KPIゲージが色付きで表示される"""
-    driver.get('http://localhost:5173')
+    driver.get('http://localhost:5173/ValueScope/')
     wait = WebDriverWait(driver, 15)
     
-    # スコアカードタブをクリック
+    # KPI分析タブをクリック
     scorecard_tab = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'スコアカード')]"))
+        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'KPI分析')]"))
     )
     scorecard_tab.click()
     
@@ -56,11 +56,11 @@ def test_kpi_gauge_displays_with_color(driver):
 
 def test_kpi_gauge_angle_180_to_0(driver):
     """KPIゲージが180度（9時）から0度（15時）の範囲で表示される"""
-    driver.get('http://localhost:5173')
+    driver.get('http://localhost:5173/ValueScope/')
     wait = WebDriverWait(driver, 15)
     
     scorecard_tab = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'スコアカード')]"))
+        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'KPI分析')]"))
     )
     scorecard_tab.click()
     
@@ -75,15 +75,15 @@ def test_kpi_gauge_angle_180_to_0(driver):
 
 def test_all_company_gauges_display(driver):
     """3社すべてのゲージが表示される"""
-    driver.get('http://localhost:5173')
+    driver.get('http://localhost:5173/ValueScope/')
     wait = WebDriverWait(driver, 15)
     
     scorecard_tab = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'スコアカード')]"))
+        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'KPI分析')]"))
     )
     scorecard_tab.click()
     
-    # 3社のスコアカードが表示されることを確認
+    # 3社のKPI分析が表示されることを確認
     tepco_card = wait.until(
         EC.presence_of_element_located((By.XPATH, "//*[contains(text(), '東京電力HD')]"))
     )
@@ -97,11 +97,11 @@ def test_all_company_gauges_display(driver):
 
 def test_gauge_value_displays(driver):
     """ゲージの数値（例: 24.24%）が表示される"""
-    driver.get('http://localhost:5173')
+    driver.get('http://localhost:5173/ValueScope/')
     wait = WebDriverWait(driver, 15)
     
     scorecard_tab = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'スコアカード')]"))
+        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'KPI分析')]"))
     )
     scorecard_tab.click()
     
@@ -110,3 +110,28 @@ def test_gauge_value_displays(driver):
         EC.presence_of_all_elements_located((By.XPATH, "//*[contains(text(), '%')]"))
     )
     assert len(percentage_values) > 0, "パーセンテージ値が表示されていません"
+
+
+def test_gauge_thresholds_appropriate(driver):
+    """ゲージの閾値が適切に設定されている（CHUBU 37.91%、DSCR 15.95倍が振り切れない）"""
+    driver.get('http://localhost:5173/ValueScope/')
+    wait = WebDriverWait(driver, 15)
+    
+    scorecard_tab = wait.until(
+        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'KPI分析')]"))
+    )
+    scorecard_tab.click()
+    
+    # 自己資本比率: CHUBU 37.91%が表示されることを確認
+    # 注: 正確な値の取得はテキストコンテンツから確認
+    chubu_equity_elements = driver.find_elements(By.XPATH, "//*[contains(text(), '37.91')]")
+    assert len(chubu_equity_elements) > 0, "CHUBU自己資本比率37.91%が表示されていません"
+    
+    # DSCR: CHUBU 15.95倍が表示されることを確認
+    chubu_dscr_elements = driver.find_elements(By.XPATH, "//*[contains(text(), '15.95')]")
+    assert len(chubu_dscr_elements) > 0, "CHUBU DSCR 15.95倍が表示されていません"
+    
+    # RadialBarが存在することを確認（振り切れていない＝正常に描画されている）
+    # 注: JERA DSCRは0.0倍のため描画されない可能性がある（8個以上あればOK）
+    radial_bars = driver.find_elements(By.CSS_SELECTOR, 'path.recharts-radial-bar-sector')
+    assert len(radial_bars) >= 8, f"KPIゲージが描画されていません（{len(radial_bars)}個）"

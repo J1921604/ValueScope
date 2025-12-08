@@ -20,7 +20,7 @@ gantt
     title 実装スケジュール
     dateFormat YYYY-MM-DD
     axisFormat %m/%d
-    excludes weekends 2025-12-27,2025-12-28,2025-12-29,2025-12-30,2025-12-31,2026-01-01,2026-01-02,2026-01-03,2026-01-04
+    excludes weekends
     
     section Phase 1 Setup
     T001 プロジェクト構造作成           :done, p1_t001, 2025-12-25, 1d

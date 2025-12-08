@@ -7,6 +7,8 @@
       "displayName": "ROE（自己資本利益率）",
       "greenThreshold": 10.0,
       "yellowThreshold": 5.0,
+      "min": 0.0,
+      "max": 20.0,
       "unit": "%",
       "description": "当期純利益 ÷ 自己資本 × 100。10%以上で青（優良）、5-10%で黄（普通）、5%未満で赤（要改善）"
     },
@@ -15,6 +17,8 @@
       "displayName": "自己資本比率",
       "greenThreshold": 30.0,
       "yellowThreshold": 20.0,
+      "min": 0.0,
+      "max": 50.0,
       "unit": "%",
       "description": "自己資本 ÷ 総資産 × 100。30%以上で青（優良）、20-30%で黄（普通）、20%未満で赤（要改善）"
     },
@@ -23,6 +27,8 @@
       "displayName": "DSCR（デット・サービス・カバレッジ・レシオ）",
       "greenThreshold": 1.5,
       "yellowThreshold": 1.0,
+      "min": 0.0,
+      "max": 20.0,
       "unit": "倍",
       "description": "営業CF ÷ 有利子負債返済額。1.5倍以上で青（優良）、1.0-1.5倍で黄（普通）、1.0倍未満で赤（要改善）"
     }

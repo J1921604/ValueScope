@@ -1,4 +1,4 @@
-"""
+﻿"""
 財務3表ページのE2Eテスト (Selenium)
 Version: 1.0.0
 Date: 2025-12-15
@@ -32,16 +32,10 @@ def driver():
 
 def test_balance_sheet_loads_tepco(driver):
     """貸借対照表ページが正しく読み込まれる（TEPCO）"""
-    driver.get('http://localhost:5173')
+    driver.get('http://localhost:5173/ValueScope/')
     wait = WebDriverWait(driver, 15)
     
-    # ナビゲーションから財務3表タブをクリック
-    financial_tab = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), '財務3表')]"))
-    )
-    financial_tab.click()
-    
-    # 貸借対照表タブをクリック
+    # 貸借対照表タブをクリック（トップレベル）
     bs_tab = wait.until(
         EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), '貸借対照表')]"))
     )
@@ -66,13 +60,8 @@ def test_balance_sheet_loads_tepco(driver):
 
 def test_balance_sheet_loads_chubu(driver):
     """貸借対照表ページが正しく読み込まれる（CHUBU）"""
-    driver.get('http://localhost:5173')
+    driver.get('http://localhost:5173/ValueScope/')
     wait = WebDriverWait(driver, 15)
-    
-    financial_tab = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), '財務3表')]"))
-    )
-    financial_tab.click()
     
     bs_tab = wait.until(
         EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), '貸借対照表')]"))
@@ -95,13 +84,8 @@ def test_balance_sheet_loads_chubu(driver):
 
 def test_balance_sheet_loads_jera(driver):
     """貸借対照表ページが正しく読み込まれる（JERA）"""
-    driver.get('http://localhost:5173')
+    driver.get('http://localhost:5173/ValueScope/')
     wait = WebDriverWait(driver, 15)
-    
-    financial_tab = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), '財務3表')]"))
-    )
-    financial_tab.click()
     
     bs_tab = wait.until(
         EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), '貸借対照表')]"))
@@ -124,13 +108,8 @@ def test_balance_sheet_loads_jera(driver):
 
 def test_profit_loss_statement_loads(driver):
     """損益計算書ページが正しく読み込まれる"""
-    driver.get('http://localhost:5173')
+    driver.get('http://localhost:5173/ValueScope/')
     wait = WebDriverWait(driver, 15)
-    
-    financial_tab = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), '財務3表')]"))
-    )
-    financial_tab.click()
     
     pl_tab = wait.until(
         EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), '損益計算書')]"))
@@ -145,16 +124,11 @@ def test_profit_loss_statement_loads(driver):
 
 def test_cash_flow_statement_loads(driver):
     """キャッシュフロー計算書ページが正しく読み込まれる"""
-    driver.get('http://localhost:5173')
+    driver.get('http://localhost:5173/ValueScope/')
     wait = WebDriverWait(driver, 15)
     
-    financial_tab = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), '財務3表')]"))
-    )
-    financial_tab.click()
-    
     cf_tab = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'キャッシュフロー')]"))
+        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'CF計算書')]"))
     )
     cf_tab.click()
     

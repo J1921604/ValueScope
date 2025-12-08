@@ -1,4 +1,4 @@
-"""
+﻿"""
 従業員情報ページのE2Eテスト (Selenium)
 Version: 1.0.0
 Date: 2025-12-15
@@ -30,7 +30,7 @@ def driver():
 
 def test_employee_table_displays(driver):
     """従業員情報テーブルが表示される"""
-    driver.get('http://localhost:5173')
+    driver.get('http://localhost:5173/ValueScope/')
     wait = WebDriverWait(driver, 15)
     
     # 従業員情報タブをクリック
@@ -45,10 +45,10 @@ def test_employee_table_displays(driver):
     )
     assert table is not None
     
-    # 3社のデータが表示されていることを確認
-    tepco_data = driver.find_elements(By.XPATH, "//td[contains(text(), '東京電力HD')]")
-    chubu_data = driver.find_elements(By.XPATH, "//td[contains(text(), '中部電力')]")
-    jera_data = driver.find_elements(By.XPATH, "//td[contains(text(), 'JERA')]")
+    # 3社のデータが表示されていることを確認（thヘッダーで確認）
+    tepco_data = driver.find_elements(By.XPATH, "//th[contains(text(), '東京電力HD')]")
+    chubu_data = driver.find_elements(By.XPATH, "//th[contains(text(), '中部電力')]")
+    jera_data = driver.find_elements(By.XPATH, "//th[contains(text(), 'JERA')]")
     
     assert len(tepco_data) > 0, "東京電力HDのデータが見つかりません"
     assert len(chubu_data) > 0, "中部電力のデータが見つかりません"
@@ -57,7 +57,7 @@ def test_employee_table_displays(driver):
 
 def test_employee_trend_chart_displays(driver):
     """従業員トレンドチャートが表示される"""
-    driver.get('http://localhost:5173')
+    driver.get('http://localhost:5173/ValueScope/')
     wait = WebDriverWait(driver, 15)
     
     # 従業員情報タブをクリック
@@ -75,7 +75,7 @@ def test_employee_trend_chart_displays(driver):
 
 def test_employee_data_range_2016_to_2025(driver):
     """従業員データが2016-2025年の範囲である"""
-    driver.get('http://localhost:5173')
+    driver.get('http://localhost:5173/ValueScope/')
     wait = WebDriverWait(driver, 15)
     
     employee_tab = wait.until(
@@ -93,7 +93,7 @@ def test_employee_data_range_2016_to_2025(driver):
 
 def test_jera_no_data_before_2019(driver):
     """JERAの2019年以前のデータが表示されない"""
-    driver.get('http://localhost:5173')
+    driver.get('http://localhost:5173/ValueScope/')
     wait = WebDriverWait(driver, 15)
     
     employee_tab = wait.until(
@@ -117,7 +117,7 @@ def test_jera_no_data_before_2019(driver):
 
 def test_switch_to_ev_analysis_tab(driver):
     """従業員情報タブからEV分析タブに切り替えられる"""
-    driver.get('http://localhost:5173')
+    driver.get('http://localhost:5173/ValueScope/')
     wait = WebDriverWait(driver, 15)
     
     # 従業員情報タブをクリック
