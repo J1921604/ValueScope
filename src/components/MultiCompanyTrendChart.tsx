@@ -24,7 +24,7 @@ interface MultiCompanyTrendChartProps {
   /** 3社の時系列データ */
   data: CompanyTimeseries;
   /** KPI名 */
-  kpiName: 'roe' | 'equityRatio' | 'dscr';
+  kpiName: 'roic' | 'wacc' | 'ebitdaMargin' | 'fcfMargin';
   /** グラフタイトル */
   title: string;
   /** Y軸の単位 */

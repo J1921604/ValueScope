@@ -1,7 +1,7 @@
 ﻿"""
-KPIゲージのE2Eテスト (Selenium)
-Version: 1.0.0
-Date: 2025-12-15
+KPIゲージのE2Eテスト (Selenium) - 電力業界特化4指標版
+Version: 2.0.0 (ROIC/WACC/EBITDAマージン/FCFマージン対応)
+Date: 2025-12-25
 """
 
 import pytest
@@ -29,7 +29,7 @@ def driver():
 
 
 def test_kpi_gauge_displays_with_color(driver):
-    """KPIゲージが色付きで表示される"""
+    """KPIゲージが色付きで表示される（ROIC/WACC/EBITDAマージン/FCFマージン）"""
     driver.get('http://localhost:5173/ValueScope/')
     wait = WebDriverWait(driver, 15)
     
@@ -39,11 +39,20 @@ def test_kpi_gauge_displays_with_color(driver):
     )
     scorecard_tab.click()
     
-    # 自己資本比率ゲージを探す
-    equity_ratio_gauge = wait.until(
-        EC.presence_of_element_located((By.XPATH, "//*[contains(text(), '自己資本比率')]"))
+    # ROIC/WACC/EBITDAマージン/FCFマージンゲージを探す
+    roic_gauge = wait.until(
+        EC.presence_of_element_located((By.XPATH, "//*[contains(text(), 'ROIC')]"))
     )
-    assert equity_ratio_gauge is not None
+    assert roic_gauge is not None
+    
+    wacc_gauge = driver.find_elements(By.XPATH, "//*[contains(text(), 'WACC')]")
+    assert len(wacc_gauge) > 0
+    
+    ebitda_gauge = driver.find_elements(By.XPATH, "//*[contains(text(), 'EBITDAマージン')]")
+    assert len(ebitda_gauge) > 0
+    
+    fcf_gauge = driver.find_elements(By.XPATH, "//*[contains(text(), 'FCFマージン')]")
+    assert len(fcf_gauge) > 0
     
     # RadialBarChartのsvg要素を確認
     radial_bars = driver.find_elements(By.CSS_SELECTOR, 'svg.recharts-surface')
@@ -96,7 +105,7 @@ def test_all_company_gauges_display(driver):
 
 
 def test_gauge_value_displays(driver):
-    """ゲージの数値（例: 24.24%）が表示される"""
+    """ゲージの数値（例: 4.64%、4.72%等）が表示される（電力業界特化4指標）"""
     driver.get('http://localhost:5173/ValueScope/')
     wait = WebDriverWait(driver, 15)
     

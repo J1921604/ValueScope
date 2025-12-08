@@ -1,38 +1,64 @@
-# KPIスコアリングスクリプト
+# KPIスコアリングスクリプト（電力業界特化版）
 # Version: 1.0.0
 # Date: 2025-12-15
 
 import json
 import argparse
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any
 from datetime import datetime
 
-def calculate_roe(bs_data: Dict[str, Any], pl_data: Dict[str, Any]) -> float:
-    """ROE（自己資本利益率）を計算"""
-    net_income = pl_data.get('netIncome', 0)
+def calculate_roic(bs_data: Dict[str, Any], pl_data: Dict[str, Any]) -> float:
+    """ROIC（投下資本利益率）を計算
+    ROIC = EBIT / 投下資本 × 100
+    投下資本 = 自己資本 + 有利子負債
+    """
+    operating_income = pl_data.get('operatingIncome', 0)  # EBIT ≈ Operating Income
     equity = bs_data.get('equity', 0)
-    return (net_income / equity * 100) if equity > 0 else 0.0
+    interest_bearing_debt = bs_data.get('interestBearingDebt', 0)
+    invested_capital = equity + interest_bearing_debt
+    return (operating_income / invested_capital * 100) if invested_capital > 0 else 0.0
 
-def calculate_equity_ratio(bs_data: Dict[str, Any]) -> float:
-    """自己資本比率を計算"""
+def calculate_wacc(bs_data: Dict[str, Any], pl_data: Dict[str, Any]) -> float:
+    """WACC（加重平均資本コスト）を計算
+    WACC = (E/V × Re) + (D/V × Rd × (1-T))
+    Re: 株主資本コスト（日本電力業界6%と仮定）
+    Rd: 負債コスト = 支払利息 / 有利子負債
+    T: 実効税率（30%と仮定）
+    """
     equity = bs_data.get('equity', 0)
-    total_assets = bs_data.get('totalAssets', 0)
-    return (equity / total_assets * 100) if total_assets > 0 else 0.0
-
-def calculate_dscr(pl_data: Dict[str, Any], bs_data: Dict[str, Any]) -> float:
-    """DSCR（債務返済能力）を計算"""
-    # 営業CF
-    operating_cf = pl_data.get('operatingCashFlow', 0)
-        
-    # 年間返済額 = 1年内返済予定の固定負債 + 支払利息
-    # 推定値（有利子負債の10%など）は使用しない
-    current_portion_debt = bs_data.get('currentPortionOfNoncurrentLiabilities', 0)
+    interest_bearing_debt = bs_data.get('interestBearingDebt', 0)
     interest_expenses = pl_data.get('interestExpenses', 0)
     
-    debt_service = current_portion_debt + interest_expenses
+    v = equity + interest_bearing_debt
+    if v == 0:
+        return 0.0
     
-    return (operating_cf / debt_service) if debt_service > 0 else 0.0
+    e_ratio = equity / v
+    d_ratio = interest_bearing_debt / v
+    
+    re = 6.0  # 株主資本コスト（日本電力業界の標準値）
+    rd = (interest_expenses / interest_bearing_debt * 100) if interest_bearing_debt > 0 else 0.0
+    tax_rate = 0.3  # 実効税率30%
+    
+    wacc = (e_ratio * re) + (d_ratio * rd * (1 - tax_rate))
+    return wacc
+
+def calculate_ebitda_margin(pl_data: Dict[str, Any]) -> float:
+    """EBITDAマージンを計算
+    EBITDAマージン = EBITDA / 売上高 × 100
+    """
+    ebitda = pl_data.get('ebitda', 0)
+    revenue = pl_data.get('revenue', 0)
+    return (ebitda / revenue * 100) if revenue > 0 else 0.0
+
+def calculate_fcf_margin(pl_data: Dict[str, Any]) -> float:
+    """FCFマージンを計算（営業CFマージンで代用）
+    FCFマージン = 営業CF / 売上高 × 100
+    """
+    operating_cf = pl_data.get('operatingCashFlow', 0)
+    revenue = pl_data.get('revenue', 0)
+    return (operating_cf / revenue * 100) if revenue > 0 else 0.0
 
 def evaluate_score(value: float, thresholds: Dict[str, float]) -> str:
     """閾値に基づいてスコア評価"""
@@ -139,22 +165,26 @@ def main():
             pl_data = item['pl']
             date_str = item['date']
             
-            # KPI計算
-            roe = calculate_roe(bs_data, pl_data)
-            equity_ratio = calculate_equity_ratio(bs_data)
-            dscr = calculate_dscr(pl_data, bs_data)
+            # KPI計算（電力業界特化版）
+            roic = calculate_roic(bs_data, pl_data)
+            wacc = calculate_wacc(bs_data, pl_data)
+            ebitda_margin = calculate_ebitda_margin(pl_data)
+            fcf_margin = calculate_fcf_margin(pl_data)
             
             # スコア評価
-            roe_score = evaluate_score(roe, targets['roe'])
-            equity_ratio_score = evaluate_score(equity_ratio, targets['equityRatio'])
-            dscr_score = evaluate_score(dscr, targets['dscr'])
+            roic_score = evaluate_score(roic, targets['roic'])
+            # WACCは低いほど良い（逆評価）
+            wacc_score = 'green' if wacc < 4.0 else 'yellow' if wacc < 5.0 else 'red'
+            ebitda_margin_score = evaluate_score(ebitda_margin, targets['ebitdaMargin'])
+            fcf_margin_score = evaluate_score(fcf_margin, targets['fcfMargin'])
             
             score_entry = {
                 'date': date_str,
                 'companyCode': bs_data.get('companyCode', ''),
-                'roe': {'value': round(roe, 2), 'score': roe_score, 'change': 0},
-                'equityRatio': {'value': round(equity_ratio, 2), 'score': equity_ratio_score, 'change': 0},
-                'dscr': {'value': round(dscr, 2), 'score': dscr_score, 'change': 0},
+                'roic': {'value': round(roic, 2), 'score': roic_score, 'change': 0},
+                'wacc': {'value': round(wacc, 2), 'score': wacc_score, 'change': 0},
+                'ebitdaMargin': {'value': round(ebitda_margin, 2), 'score': ebitda_margin_score, 'change': 0},
+                'fcfMargin': {'value': round(fcf_margin, 2), 'score': fcf_margin_score, 'change': 0},
             }
             
             # 期間判定（簡易ロジック）
@@ -192,9 +222,10 @@ def main():
         latest = company_scores.get('latest')
         if latest:
             print(f"  ✓ 最新データ ({latest['date']}):")
-            print(f"    ROE: {latest['roe']['value']}%")
-            print(f"    自己資本比率: {latest['equityRatio']['value']}%")
-            print(f"    DSCR: {latest['dscr']['value']}x")
+            print(f"    ROIC: {latest['roic']['value']}%")
+            print(f"    WACC: {latest['wacc']['value']}%")
+            print(f"    EBITDAマージン: {latest['ebitdaMargin']['value']}%")
+            print(f"    FCFマージン: {latest['fcfMargin']['value']}%")
     
     # JSON保存
     with open(output_file, 'w', encoding='utf-8') as f:

@@ -48,7 +48,7 @@ export interface ValuationData {
   changeFromPrior?: number;
 }
 
-/** KPIデータ */
+/** KPIデータ（電力業界特化版） */
 export interface KPIData {
   /** データID */
   id: string;
@@ -58,21 +58,24 @@ export interface KPIData {
   companyCode: CompanyCode;
   /** 企業名 */
   companyName: CompanyName;
-  /** ROE（自己資本利益率、%） */
-  roe: number;
-  /** 自己資本比率（%） */
-  equityRatio: number;
-  /** DSCR（デット・サービス・カバレッジ・レシオ、倍） */
-  dscr: number;
+  /** ROIC（投下資本利益率、%） */
+  roic: number;
+  /** WACC（加重平均資本コスト、%） */
+  wacc: number;
+  /** EBITDAマージン（%） */
+  ebitdaMargin: number;
+  /** FCFマージン（%） */
+  fcfMargin: number;
   /** 前期比変動 */
   changeFromPrior?: {
-    roe: number;
-    equityRatio: number;
-    dscr: number;
+    roic: number;
+    wacc: number;
+    ebitdaMargin: number;
+    fcfMargin: number;
   };
 }
 
-/** スコアカードデータ */
+/** スコアカードデータ（電力業界特化版） */
 export interface ScoreCardData {
   /** データID */
   id: string;
@@ -82,36 +85,45 @@ export interface ScoreCardData {
   companyCode: CompanyCode;
   /** 企業名 */
   companyName: CompanyName;
-  /** ROEスコア */
-  roeScore: ScoreColor;
-  /** ROE値（%） */
-  roeValue: number;
-  /** 自己資本比率スコア */
-  equityRatioScore: ScoreColor;
-  /** 自己資本比率値（%） */
-  equityRatioValue: number;
-  /** DSCRスコア */
-  dscrScore: ScoreColor;
-  /** DSCR値（倍） */
-  dscrValue: number;
+  /** ROICスコア */
+  roicScore: ScoreColor;
+  /** ROIC値（%） */
+  roicValue: number;
+  /** WACCスコア */
+  waccScore: ScoreColor;
+  /** WACC値（%） */
+  waccValue: number;
+  /** EBITDAマージンスコア */
+  ebitdaMarginScore: ScoreColor;
+  /** EBITDAマージン値（%） */
+  ebitdaMarginValue: number;
+  /** FCFマージンスコア */
+  fcfMarginScore: ScoreColor;
+  /** FCFマージン値（%） */
+  fcfMarginValue: number;
   /** 前期比変動 */
   changeFromPrior?: {
-    roe: number;
-    equityRatio: number;
-    dscr: number;
+    roic: number;
+    wacc: number;
+    ebitdaMargin: number;
+    fcfMargin: number;
   };
 }
 
 /** 閾値定義 */
 export interface ThresholdData {
   /** KPI名 */
-  kpiName: 'roe' | 'equityRatio' | 'dscr';
+  kpiName: 'roic' | 'wacc' | 'ebitdaMargin' | 'fcfMargin';
   /** KPI表示名 */
   displayName: string;
   /** 青色閾値（優良）- この値以上で青 */
   greenThreshold: number;
   /** 黄色閾値（普通）- この値以上で黄、未満で赤 */
   yellowThreshold: number;
+  /** 最小値（ゲージ表示用） */
+  min?: number;
+  /** 最大値（ゲージ表示用） */
+  max?: number;
   /** 単位 */
   unit: '%' | '倍';
   /** 説明 */
@@ -192,12 +204,14 @@ export interface EDINETResponse {
 export interface TimeSeriesData {
   /** 日付（YYYY-MM-DD） */
   date: string;
-  /** ROE（%） */
-  roe?: number;
-  /** 自己資本比率（%） */
-  equityRatio?: number;
-  /** DSCR（倍） */
-  dscr?: number;
+  /** ROIC（%） */
+  roic?: number;
+  /** WACC（%） */
+  wacc?: number;
+  /** EBITDAマージン（%） */
+  ebitdaMargin?: number;
+  /** FCFマージン（%） */
+  fcfMargin?: number;
   /** EV/EBITDA倍率 */
   evEbitdaRatio?: number;
 }

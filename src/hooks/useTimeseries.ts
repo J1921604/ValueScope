@@ -12,9 +12,10 @@ import type { CompanyName } from '../types';
 export interface TimeSeriesDataPoint {
   date: string;
   year: number;
-  roe?: number;
-  equityRatio?: number;
-  dscr?: number;
+  roic?: number;
+  wacc?: number;
+  ebitdaMargin?: number;
+  fcfMargin?: number;
   enterpriseValue?: number;
   marketCap?: number;
   interestBearingDebt?: number;

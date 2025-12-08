@@ -19,9 +19,10 @@ interface ThresholdValues {
 }
 
 interface AllThresholds {
-  roe: ThresholdValues;
-  equityRatio: ThresholdValues;
-  dscr: ThresholdValues;
+  roic: ThresholdValues;
+  wacc: ThresholdValues;
+  ebitdaMargin: ThresholdValues;
+  fcfMargin: ThresholdValues;
 }
 
 type KPIKey = keyof AllThresholds;
@@ -41,15 +42,17 @@ const COMPANY_COLORS: Record<CompanyName, string> = {
 }
 
 const DEFAULT_KPI_THRESHOLDS: AllThresholds = {
-  roe: { green: 10, yellow: 5 },
-  equityRatio: { green: 30, yellow: 20 },
-  dscr: { green: 1.5, yellow: 1.0 },
+  roic: { green: 5, yellow: 3 },               // ROIC: 5%以上で優良、3%以上で普通（電力業界特化）
+  wacc: { green: 4, yellow: 5 },               // WACC: 4%未満で優良、5%未満で普通（低いほど良い）
+  ebitdaMargin: { green: 15, yellow: 10 },     // EBITDAマージン: 15%以上で優良、10%以上で普通
+  fcfMargin: { green: 5, yellow: 0 },          // FCFマージン: 5%以上で優良、0%以上で普通
 }
 
 const KPI_GAUGE_LIMITS: Record<KPIKey, { min: number; max: number }> = {
-  roe: { min: 0, max: 32 },           // ROEは0-32%の範囲（CHUBU 15.26%が半分以下の47.7%に収まる）
-  equityRatio: { min: 0, max: 80 },   // 自己資本比率は0-80%の範囲（CHUBU 37.91%が47.4%に収まる）
-  dscr: { min: 0, max: 32 },          // DSCRは0-32倍の範囲（CHUBU 15.95倍が49.8%に収まる）
+  roic: { min: 0, max: 15 },               // ROIC: 0-15%の範囲（実績最大値13.84%対応）
+  wacc: { min: 0, max: 6 },                // WACC: 0-6%の範囲（電力業界max値）
+  ebitdaMargin: { min: 0, max: 30 },       // EBITDAマージン: 0-30%の範囲（電力業界max値）
+  fcfMargin: { min: -5, max: 25 },         // FCFマージン: -5-25%の範囲（実績最大値21.88%対応）
 }
 
 const formatFiscalYearLabel = (year: number | null) => {
@@ -119,6 +122,19 @@ function App() {
     if (value === undefined || value === null) {
       return 'red'
     }
+
+    // WACCは低いほど良い（逆転判定）
+    if (kpi === 'wacc') {
+      if (value < thresholds.green) {
+        return 'green'
+      }
+      if (value < thresholds.yellow) {
+        return 'yellow'
+      }
+      return 'red'
+    }
+
+    // 他のKPIは高いほど良い（通常判定）
     if (value >= thresholds.green) {
       return 'green'
     }
@@ -276,31 +292,31 @@ function App() {
                   </div>
                 </div>
 
-                {/* ROEゲージ */}
+                {/* ROICゲージ */}
                 <div className="chart-container">
                   <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between mb-4">
                     <div>
-                      <h3 className="text-2xl font-semibold text-cyber-blue">ROE</h3>
+                      <h3 className="text-2xl font-semibold text-cyber-blue">ROIC</h3>
                       <p className="text-sm text-gray-400">
-                        自己資本に対する純利益の割合。10%以上で投資効率が高い水準
+                        投下資本利益率。投下資本に対する営業利益の割合。5%以上で効率的な資本運用
                       </p>
                     </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {COMPANY_ORDER.map((company) => {
-                      const value = perCompanyYearData[company]?.roe
-                      const score = determineScore(value, 'roe')
+                      const value = perCompanyYearData[company]?.roic
+                      const score = determineScore(value, 'roic')
                       return (
                         <div key={company} className="space-y-2 text-center">
                           <p className="text-sm font-semibold tracking-wide" style={{ color: COMPANY_COLORS[company] }}>
                             {COMPANY_LABELS[company]}
                           </p>
                           <KPIGauge
-                            title="ROE"
+                            title="ROIC"
                             value={value ?? 0}
                             unit="%"
                             score={score}
-                            thresholds={buildGaugeThresholds('roe')}
+                            thresholds={buildGaugeThresholds('roic')}
                           />
                         </div>
                       )
@@ -308,34 +324,34 @@ function App() {
                   </div>
                 </div>
 
-                {/* ROEグラフ */}
-                <MultiCompanyTrendChart data={timeseriesData} kpiName="roe" title="ROE推移" unit="%" />
+                {/* ROICグラフ */}
+                <MultiCompanyTrendChart data={timeseriesData} kpiName="roic" title="ROIC推移" unit="%" />
 
-                {/* 自己資本比率ゲージ */}
+                {/* WACCゲージ */}
                 <div className="chart-container">
                   <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between mb-4">
                     <div>
-                      <h3 className="text-2xl font-semibold text-cyber-blue">自己資本比率</h3>
+                      <h3 className="text-2xl font-semibold text-cyber-blue">WACC</h3>
                       <p className="text-sm text-gray-400">
-                        総資産に占める自己資本の割合。30%以上で財務体質が安定
+                        加重平均資本コスト。企業の資金調達コスト。4%未満で低コスト経営（低いほど良い）
                       </p>
                     </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {COMPANY_ORDER.map((company) => {
-                      const value = perCompanyYearData[company]?.equityRatio
-                      const score = determineScore(value, 'equityRatio')
+                      const value = perCompanyYearData[company]?.wacc
+                      const score = determineScore(value, 'wacc')
                       return (
                         <div key={company} className="space-y-2 text-center">
                           <p className="text-sm font-semibold tracking-wide" style={{ color: COMPANY_COLORS[company] }}>
                             {COMPANY_LABELS[company]}
                           </p>
                           <KPIGauge
-                            title="自己資本比率"
+                            title="WACC"
                             value={value ?? 0}
                             unit="%"
                             score={score}
-                            thresholds={buildGaugeThresholds('equityRatio')}
+                            thresholds={buildGaugeThresholds('wacc')}
                           />
                         </div>
                       )
@@ -343,34 +359,34 @@ function App() {
                   </div>
                 </div>
 
-                {/* 自己資本比率グラフ */}
-                <MultiCompanyTrendChart data={timeseriesData} kpiName="equityRatio" title="自己資本比率推移" unit="%" />
+                {/* WACCグラフ */}
+                <MultiCompanyTrendChart data={timeseriesData} kpiName="wacc" title="WACC推移" unit="%" />
 
-                {/* DSCRゲージ */}
+                {/* EBITDAマージンゲージ */}
                 <div className="chart-container">
                   <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between mb-4">
                     <div>
-                      <h3 className="text-2xl font-semibold text-cyber-blue">DSCR</h3>
+                      <h3 className="text-2xl font-semibold text-cyber-blue">EBITDAマージン</h3>
                       <p className="text-sm text-gray-400">
-                        営業CFで利息・元本返済をどれだけ賄えるか。1.5倍以上が安全圏
+                        売上高EBITDA率。営業キャッシュ創出力。15%以上で高収益体質
                       </p>
                     </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {COMPANY_ORDER.map((company) => {
-                      const value = perCompanyYearData[company]?.dscr
-                      const score = determineScore(value, 'dscr')
+                      const value = perCompanyYearData[company]?.ebitdaMargin
+                      const score = determineScore(value, 'ebitdaMargin')
                       return (
                         <div key={company} className="space-y-2 text-center">
                           <p className="text-sm font-semibold tracking-wide" style={{ color: COMPANY_COLORS[company] }}>
                             {COMPANY_LABELS[company]}
                           </p>
                           <KPIGauge
-                            title="DSCR"
+                            title="EBITDAマージン"
                             value={value ?? 0}
-                            unit="倍"
+                            unit="%"
                             score={score}
-                            thresholds={buildGaugeThresholds('dscr')}
+                            thresholds={buildGaugeThresholds('ebitdaMargin')}
                           />
                         </div>
                       )
@@ -378,8 +394,43 @@ function App() {
                   </div>
                 </div>
 
-                {/* DSCRグラフ */}
-                <MultiCompanyTrendChart data={timeseriesData} kpiName="dscr" title="DSCR推移" unit="倍" />
+                {/* EBITDAマージングラフ */}
+                <MultiCompanyTrendChart data={timeseriesData} kpiName="ebitdaMargin" title="EBITDAマージン推移" unit="%" />
+
+                {/* FCFマージンゲージ */}
+                <div className="chart-container">
+                  <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between mb-4">
+                    <div>
+                      <h3 className="text-2xl font-semibold text-cyber-blue">FCFマージン</h3>
+                      <p className="text-sm text-gray-400">
+                        フリーキャッシュフローマージン。営業CFの売上高比率。5%以上でキャッシュ創出力が高い
+                      </p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {COMPANY_ORDER.map((company) => {
+                      const value = perCompanyYearData[company]?.fcfMargin
+                      const score = determineScore(value, 'fcfMargin')
+                      return (
+                        <div key={company} className="space-y-2 text-center">
+                          <p className="text-sm font-semibold tracking-wide" style={{ color: COMPANY_COLORS[company] }}>
+                            {COMPANY_LABELS[company]}
+                          </p>
+                          <KPIGauge
+                            title="FCFマージン"
+                            value={value ?? 0}
+                            unit="%"
+                            score={score}
+                            thresholds={buildGaugeThresholds('fcfMargin')}
+                          />
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* FCFマージングラフ */}
+                <MultiCompanyTrendChart data={timeseriesData} kpiName="fcfMargin" title="FCFマージン推移" unit="%" />
               </section>
             )}
 

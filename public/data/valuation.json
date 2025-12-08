@@ -2,7 +2,6 @@
   "asOf": "2025-12-08",
   "companies": {
     "TEPCO": {
-      "date": "2025-03-31",
       "marketCap": 690535.2049,
       "interestBearingDebt": 3065000.0,
       "cashAndDeposits": 1242542.0,
@@ -13,10 +12,12 @@
       "netIncome": 269607.0,
       "per": 2.5612658606786916,
       "equity": 3538022.0,
-      "pbr": 0.19517549774987267
+      "pbr": 0.19517549774987267,
+      "dividendYield": 0,
+      "eps": 0,
+      "bps": 0
     },
     "CHUBU": {
-      "date": "2025-03-31",
       "marketCap": 1230234.0,
       "interestBearingDebt": 728039.0,
       "cashAndDeposits": 390806.0,
@@ -27,10 +28,12 @@
       "netIncome": 411146.0,
       "per": 2.992207147825833,
       "equity": 2695071.0,
-      "pbr": 0.45647554368697524
+      "pbr": 0.45647554368697524,
+      "dividendYield": 0,
+      "eps": 0,
+      "bps": 0
     },
     "JERA": {
-      "date": "2025-03-31",
       "marketCap": null,
       "interestBearingDebt": 564999.0,
       "cashAndDeposits": 333761.0,
@@ -41,7 +44,10 @@
       "netIncome": 125354.0,
       "per": null,
       "equity": 1281766.0,
-      "pbr": null
+      "pbr": null,
+      "dividendYield": 0,
+      "eps": 0,
+      "bps": 0
     }
   }
 }

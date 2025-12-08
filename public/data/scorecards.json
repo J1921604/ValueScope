@@ -5,18 +5,23 @@
       "Annual": {
         "date": "2025-03-31",
         "companyCode": "E04498",
-        "roe": {
-          "value": 7.62,
+        "roic": {
+          "value": 4.22,
           "score": "yellow",
           "change": 0
         },
-        "equityRatio": {
-          "value": 24.24,
+        "wacc": {
+          "value": 3.83,
+          "score": "green",
+          "change": 0
+        },
+        "ebitdaMargin": {
+          "value": 10.06,
           "score": "yellow",
           "change": 0
         },
-        "dscr": {
-          "value": 11.61,
+        "fcfMargin": {
+          "value": 10.63,
           "score": "green",
           "change": 0
         }
@@ -24,18 +29,23 @@
       "latest": {
         "date": "2025-03-31",
         "companyCode": "E04498",
-        "roe": {
-          "value": 7.62,
+        "roic": {
+          "value": 4.22,
           "score": "yellow",
           "change": 0
         },
-        "equityRatio": {
-          "value": 24.24,
+        "wacc": {
+          "value": 3.83,
+          "score": "green",
+          "change": 0
+        },
+        "ebitdaMargin": {
+          "value": 10.06,
           "score": "yellow",
           "change": 0
         },
-        "dscr": {
-          "value": 11.61,
+        "fcfMargin": {
+          "value": 10.63,
           "score": "green",
           "change": 0
         }
@@ -45,18 +55,23 @@
       "Annual": {
         "date": "2025-03-31",
         "companyCode": "E04502",
-        "roe": {
-          "value": 15.26,
+        "roic": {
+          "value": 10.03,
           "score": "green",
           "change": 0
         },
-        "equityRatio": {
-          "value": 37.91,
+        "wacc": {
+          "value": 5.17,
+          "score": "red",
+          "change": 0
+        },
+        "ebitdaMargin": {
+          "value": 17.4,
           "score": "green",
           "change": 0
         },
-        "dscr": {
-          "value": 15.95,
+        "fcfMargin": {
+          "value": 11.62,
           "score": "green",
           "change": 0
         }
@@ -64,18 +79,23 @@
       "latest": {
         "date": "2025-03-31",
         "companyCode": "E04502",
-        "roe": {
-          "value": 15.26,
+        "roic": {
+          "value": 10.03,
           "score": "green",
           "change": 0
         },
-        "equityRatio": {
-          "value": 37.91,
+        "wacc": {
+          "value": 5.17,
+          "score": "red",
+          "change": 0
+        },
+        "ebitdaMargin": {
+          "value": 17.4,
           "score": "green",
           "change": 0
         },
-        "dscr": {
-          "value": 15.95,
+        "fcfMargin": {
+          "value": 11.62,
           "score": "green",
           "change": 0
         }
@@ -85,38 +105,48 @@
       "Annual": {
         "date": "2025-03-31",
         "companyCode": "E34837",
-        "roe": {
-          "value": 9.78,
-          "score": "yellow",
-          "change": 0
-        },
-        "equityRatio": {
-          "value": 30.76,
+        "roic": {
+          "value": 10.42,
           "score": "green",
           "change": 0
         },
-        "dscr": {
-          "value": 0.0,
+        "wacc": {
+          "value": 5.25,
           "score": "red",
+          "change": 0
+        },
+        "ebitdaMargin": {
+          "value": 4.84,
+          "score": "red",
+          "change": 0
+        },
+        "fcfMargin": {
+          "value": 0.0,
+          "score": "yellow",
           "change": 0
         }
       },
       "latest": {
         "date": "2025-03-31",
         "companyCode": "E34837",
-        "roe": {
-          "value": 9.78,
-          "score": "yellow",
-          "change": 0
-        },
-        "equityRatio": {
-          "value": 30.76,
+        "roic": {
+          "value": 10.42,
           "score": "green",
           "change": 0
         },
-        "dscr": {
-          "value": 0.0,
+        "wacc": {
+          "value": 5.25,
           "score": "red",
+          "change": 0
+        },
+        "ebitdaMargin": {
+          "value": 4.84,
+          "score": "red",
+          "change": 0
+        },
+        "fcfMargin": {
+          "value": 0.0,
+          "score": "yellow",
           "change": 0
         }
       }

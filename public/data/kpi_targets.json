@@ -3,34 +3,46 @@
   "lastUpdated": "2025-12-15",
   "thresholds": [
     {
-      "kpiName": "roe",
-      "displayName": "ROE（自己資本利益率）",
-      "greenThreshold": 10.0,
-      "yellowThreshold": 5.0,
+      "kpiName": "roic",
+      "displayName": "ROIC（投下資本利益率）",
+      "greenThreshold": 5.0,
+      "yellowThreshold": 3.0,
       "min": 0.0,
-      "max": 32.0,
+      "max": 15.0,
       "unit": "%",
-      "description": "当期純利益 ÷ 自己資本 × 100。10%以上で青（優良）、5-10%で黄（普通）、5%未満で赤（要改善）"
+      "description": "EBIT ÷ (自己資本 + 有利子負債) × 100。電力業界は設備投資が大きくROICは低め。5%以上で青（良好）、3-5%で黄（普通）、3%未満で赤（要改善）。実績最大値13.84%（JERA 2022年）を考慮しmax 15%に設定。"
     },
     {
-      "kpiName": "equityRatio",
-      "displayName": "自己資本比率",
-      "greenThreshold": 30.0,
-      "yellowThreshold": 20.0,
+      "kpiName": "wacc",
+      "displayName": "WACC（加重平均資本コスト）",
+      "greenThreshold": 0.0,
+      "yellowThreshold": 4.0,
       "min": 0.0,
-      "max": 80.0,
+      "max": 6.0,
       "unit": "%",
-      "description": "自己資本 ÷ 総資産 × 100。30%以上で青（優良）、20-30%で黄（普通）、20%未満で赤（要改善）"
+      "description": "(自己資本/総資本 × 株主資本コスト) + (負債/総資本 × 負債コスト × (1-税率))。日本の電力会社は低金利＋安定事業のため2-4%が理想。4%未満で青（低コスト）、4-5%で黄（普通）、5%以上で赤（高コスト）。低いほど良い。"
     },
     {
-      "kpiName": "dscr",
-      "displayName": "DSCR（デット・サービス・カバレッジ・レシオ）",
-      "greenThreshold": 1.5,
-      "yellowThreshold": 1.0,
+      "kpiName": "ebitdaMargin",
+      "displayName": "EBITDAマージン",
+      "greenThreshold": 15.0,
+      "yellowThreshold": 10.0,
       "min": 0.0,
-      "max": 32.0,
-      "unit": "倍",
-      "description": "営業CF ÷ 有利子負債返済額。1.5倍以上で青（優良）、1.0-1.5倍で黄（普通）、1.0倍未満で赤（要改善）"
+      "max": 30.0,
+      "unit": "%",
+      "description": "EBITDA ÷ 売上高 × 100。電力は安定収益だが燃料コスト変動あり。15%以上で青（良好）、10-15%で黄（普通）、10%未満で赤（要改善）。25%以上なら非常に良好。"
+    },
+    {
+      "kpiName": "fcfMargin",
+      "displayName": "FCFマージン",
+      "greenThreshold": 5.0,
+      "yellowThreshold": 0.0,
+      "min": -5.0,
+      "max": 25.0,
+      "unit": "%",
+      "description": "営業CF ÷ 売上高 × 100。設備投資が重いので高FCFは難しい。5%以上で青（良好）、0-5%で黄（普通）、0%未満で赤（マイナスFCF）。実績最大値21.88%（中部電力 2017年）を考慮しmax 25%に設定。"
     }
-  ]
+  ],
+  "updateFrequency": "毎日07:00",
+  "dataSource": "EDINET API v2 + Stooq株価データ"
 }

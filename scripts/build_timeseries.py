@@ -84,23 +84,42 @@ def get_stock_price(df: pd.DataFrame, date_str: str) -> Optional[float]:
         return None
 
 def calculate_kpi(record: Dict[str, Any], stock_df: Optional[pd.DataFrame]) -> Dict[str, Any]:
-    """KPI計算"""
+    """KPI計算（電力業界特化版）"""
     bs = record['bs']
     pl = record['pl']
     date_str = record['date']
     
-    # ROE計算
-    roe = (pl['netIncome'] / bs['equity'] * 100) if bs['equity'] > 0 else 0.0
+    # ROIC計算（投下資本利益率）
+    # ROIC = EBIT / (自己資本 + 有利子負債) × 100
+    ebit = pl.get('operatingIncome', 0.0)  # 営業利益 ≈ EBIT
+    invested_capital = bs['equity'] + bs['interestBearingDebt']
+    roic = (ebit / invested_capital * 100) if invested_capital > 0 else 0.0
     
-    # 自己資本比率計算
-    equity_ratio = (bs['equity'] / bs['totalAssets'] * 100) if bs['totalAssets'] > 0 else 0.0
+    # WACC計算（加重平均資本コスト）
+    # WACC = (E/V × Re) + (D/V × Rd × (1-T))
+    # E: 自己資本, D: 有利子負債, V: E+D, Re: 株主資本コスト（仮定6%）, Rd: 負債コスト, T: 税率（仮定30%）
+    total_capital = bs['equity'] + bs['interestBearingDebt']
+    if total_capital > 0:
+        equity_ratio_wacc = bs['equity'] / total_capital
+        debt_ratio_wacc = bs['interestBearingDebt'] / total_capital
+        cost_of_equity = 6.0  # 株主資本コスト（仮定6%）
+        interest_expenses = pl.get('interestExpenses', 0.0)
+        cost_of_debt = (interest_expenses / bs['interestBearingDebt'] * 100) if bs['interestBearingDebt'] > 0 else 0.0
+        tax_rate = 0.30  # 法人実効税率（仮定30%）
+        wacc = (equity_ratio_wacc * cost_of_equity) + (debt_ratio_wacc * cost_of_debt * (1 - tax_rate))
+    else:
+        wacc = 0.0
     
-    # DSCR計算（営業CF / (1年内返済予定の固定負債 + 支払利息)）
+    # EBITDAマージン計算
+    # EBITDAマージン = EBITDA / 売上高 × 100
+    ebitda = pl.get('ebitda', 0.0)
+    revenue = pl.get('revenue', 0.0)
+    ebitda_margin = (ebitda / revenue * 100) if revenue > 0 else 0.0
+    
+    # FCFマージン計算
+    # FCFマージン = 営業CF / 売上高 × 100
     operating_cf = pl.get('operatingCashFlow', 0.0)
-    current_portion_debt = bs.get('currentPortionOfNoncurrentLiabilities', 0.0)
-    interest_expenses = pl.get('interestExpenses', 0.0)
-    debt_service = current_portion_debt + interest_expenses
-    dscr = (operating_cf / debt_service) if debt_service > 0 else 0.0
+    fcf_margin = (operating_cf / revenue * 100) if revenue > 0 else 0.0
     
     # 営業CF（実データ優先）
     operating_cash_flow = operating_cf
@@ -139,9 +158,10 @@ def calculate_kpi(record: Dict[str, Any], stock_df: Optional[pd.DataFrame]) -> D
     # 出力用辞書作成（Noneはnullとして出力される）
     result = {
         'date': record['date'],
-        'roe': round(roe, 2),
-        'equityRatio': round(equity_ratio, 2),
-        'dscr': round(dscr, 2),
+        'roic': round(roic, 2),
+        'wacc': round(wacc, 2),
+        'ebitdaMargin': round(ebitda_margin, 2),
+        'fcfMargin': round(fcf_margin, 2),
         'interestBearingDebt': round(bs['interestBearingDebt'] / 100, 0), # 億円単位
         'cashAndDeposits': round(bs['cashAndDeposits'] / 100, 0), # 億円単位
         'netDebt': round(net_debt / 100, 0), # 億円単位
