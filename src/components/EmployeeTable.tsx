@@ -67,13 +67,13 @@ export function EmployeeTable({ data }: EmployeeTableProps) {
         <table className="w-full border-collapse">
           <thead>
             <tr className="border-b-2 border-cyber-blue/30">
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-300 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left font-semibold text-white uppercase tracking-wider">
                 指標
               </th>
               {COMPANY_ORDER.map((company) => (
                 <th
                   key={company}
-                  className="px-4 py-3 text-right text-sm font-semibold uppercase tracking-wider"
+                  className="px-4 py-3 text-right font-semibold uppercase tracking-wider"
                   style={{ color: COMPANY_COLORS[company] }}
                 >
                   {COMPANY_LABELS[company]}
@@ -89,7 +89,7 @@ export function EmployeeTable({ data }: EmployeeTableProps) {
                   idx % 2 === 0 ? 'bg-gray-900/20' : ''
                 }`}
               >
-                <td className="px-4 py-3 text-sm font-medium text-gray-300">
+                <td className="px-4 py-3 font-medium text-white">
                   {metric.label}
                 </td>
                 {COMPANY_ORDER.map((company) => {
@@ -99,8 +99,7 @@ export function EmployeeTable({ data }: EmployeeTableProps) {
                   return (
                     <td
                       key={company}
-                      className="px-4 py-3 text-right text-sm font-semibold"
-                      style={{ color: COMPANY_COLORS[company] }}
+                      className="px-4 py-3 text-right font-semibold text-white"
                     >
                       {value !== undefined && value !== null
                         ? `${metric.formatter(value as number)}${metric.unit}`

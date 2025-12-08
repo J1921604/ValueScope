@@ -6,6 +6,32 @@
 
 **注意**: このタスクリストは既存実装の品質向上とドキュメント統一に焦点を当てています。
 
+---
+
+## 実装スケジュール
+
+```mermaid
+gantt
+    title 実装スケジュール
+    dateFormat YYYY-MM-DD
+    axisFormat %m/%d
+    excludes weekends 2025-12-27 2025-12-28 2025-12-29 2025-12-30 2025-12-31 2026-01-01 2026-01-02 2026-01-03 2026-01-04
+    
+    section Phase 1 Setup
+    T001-T006 Setup Tasks           :active, p1, 2025-12-25, 2d
+    
+    section Phase 2 Foundational
+    T007-T016 Foundational Tasks    :active, p2, after p1, 3d
+    
+    section Phase 3 Testing
+    T017-T027 Testing Tasks         :active, p3, after p2, 3d
+    
+    section Phase 4 Deploy
+    T028-T041 Deploy Tasks          :active, p4, after p3, 2d
+```
+
+---
+
 ## フォーマット: `[ID] [P?] [Phase] 説明`
 
 - **[P]**: 並列実行可能（異なるファイル、依存関係なし）
