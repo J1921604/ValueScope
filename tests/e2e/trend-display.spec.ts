@@ -17,24 +17,27 @@ test.describe('KPI分析タブ表示', () => {
     // KPI信号チャートタイトル
     await expect(page.locator('h3:has-text("KPI信号チャート")')).toBeVisible();
     
-    // 3つのグラフタイトルが表示される（"（過去10年）"は削除済み）
-    await expect(page.locator('h3:has-text("ROE推移")')).toBeVisible();
-    await expect(page.locator('h3:has-text("自己資本比率推移")')).toBeVisible();
-    await expect(page.locator('h3:has-text("DSCR推移")')).toBeVisible();
+    // 4つのグラフタイトルが表示される
+    await expect(page.locator('h3:has-text("ROIC推移")')).toBeVisible();
+    await expect(page.locator('h3:has-text("WACC推移")')).toBeVisible();
+    await expect(page.locator('h3:has-text("EBITDAマージン推移")')).toBeVisible();
+    await expect(page.locator('h3:has-text("FCFマージン推移")')).toBeVisible();
   });
 
   test('中部電力のKPI分析と推移グラフが表示される', async ({ page }) => {
-    // 3つのグラフタイトルが表示される（"（過去10年）"は削除済み）
-    await expect(page.locator('h3:has-text("ROE推移")')).toBeVisible();
-    await expect(page.locator('h3:has-text("自己資本比率推移")')).toBeVisible();
-    await expect(page.locator('h3:has-text("DSCR推移")')).toBeVisible();
+    // 4つのグラフタイトルが表示される
+    await expect(page.locator('h3:has-text("ROIC推移")')).toBeVisible();
+    await expect(page.locator('h3:has-text("WACC推移")')).toBeVisible();
+    await expect(page.locator('h3:has-text("EBITDAマージン推移")')).toBeVisible();
+    await expect(page.locator('h3:has-text("FCFマージン推移")')).toBeVisible();
   });
 
   test('JERAのKPI分析と推移グラフが表示される', async ({ page }) => {
-    // 3つのグラフタイトルが表示される（"（過去10年）"は削除済み）
-    await expect(page.locator('h3:has-text("ROE推移")')).toBeVisible();
-    await expect(page.locator('h3:has-text("自己資本比率推移")')).toBeVisible();
-    await expect(page.locator('h3:has-text("DSCR推移")')).toBeVisible();
+    // 4つのグラフタイトルが表示される
+    await expect(page.locator('h3:has-text("ROIC推移")')).toBeVisible();
+    await expect(page.locator('h3:has-text("WACC推移")')).toBeVisible();
+    await expect(page.locator('h3:has-text("EBITDAマージン推移")')).toBeVisible();
+    await expect(page.locator('h3:has-text("FCFマージン推移")')).toBeVisible();
   });
 
   test('グラフにX軸（年度）とY軸（単位）が表示される', async ({ page }) => {
@@ -54,10 +57,15 @@ test.describe('KPI分析タブ表示', () => {
 
   test('企業切り替え時にグラフが更新される', async ({ page }) => {
     // KPI分析タブではグラフが常に3社重ね合わせで表示される
-    await expect(page.locator('h3:has-text("ROE推移")')).toBeVisible();
+    await expect(page.locator('h3:has-text("ROIC推移")')).toBeVisible();
     
     // KPI信号チャートセクションが存在
     await expect(page.locator('h3:has-text("KPI信号チャート")')).toBeVisible();
+    
+    // 企業名が表示されていることを確認（最初の出現のみ）
+    await expect(page.getByText('東京電力HD').first()).toBeVisible();
+    await expect(page.getByText('中部電力').first()).toBeVisible();
+    await expect(page.getByText('JERA').first()).toBeVisible();
   });
 
   test('KPI分析タブとEV分析タブを切り替えられる', async ({ page }) => {
@@ -73,17 +81,18 @@ test.describe('KPI分析タブ表示', () => {
     const evTab = page.locator('button:has-text("EV分析")');
     await expect(evTab).toHaveClass(/active/);
 
-    // 企業価値指標テーブルが表示される
-    await expect(page.locator('h3:has-text("主要指標比較")')).toBeVisible();
+    // 企業価値推移グラフが表示される
+    await expect(page.getByRole('heading', { name: '企業価値（EV）推移' })).toBeVisible();
   });
 
   test('推移グラフに折れ線が描画されている', async ({ page }) => {
-    // Rechartsのpath要素（折れ線）が存在することを確認
-    const lineElements = page.locator('path.recharts-line-curve');
+    // Rechartsの折れ線要素が存在することを確認（LineChartはpathではなくpointで構成される場合もある）
+    await page.waitForSelector('.recharts-line', { timeout: 5000 });
+    const lineElements = page.locator('.recharts-line');
     const lineCount = await lineElements.count();
     
-    // 3つのグラフ × 1本ずつ = 最低3本の折れ線が存在
-    expect(lineCount).toBeGreaterThanOrEqual(3);
+    // 4つのグラフ × 3社 = 最低12本の折れ線が存在
+    expect(lineCount).toBeGreaterThanOrEqual(12);
   });
 });
 
