@@ -44,11 +44,15 @@ export function KPIGauge({ title, value = 0, unit, score, thresholds, descriptio
   // 値を閾値の範囲内にクランプ（表示用）
   const clampedValue = Math.min(Math.max(value, thresholds.min), thresholds.max)
   
+  // minが負の場合に対応: 値をmin基準で相対化（0から始まるように変換）
+  const relativeValue = clampedValue - thresholds.min
+  const relativeMax = thresholds.max - thresholds.min
+  
   const chartData = [
     {
       name: title,
-      value: clampedValue,
-      full: thresholds.max,
+      value: relativeValue,  // min基準の相対値
+      full: relativeMax,     // 相対的な最大値
     },
   ]
 
@@ -79,7 +83,7 @@ export function KPIGauge({ title, value = 0, unit, score, thresholds, descriptio
           >
             <PolarAngleAxis
               type="number"
-              domain={[thresholds.min, thresholds.max]}
+              domain={[0, relativeMax]}  // 0から相対最大値の範囲で正規化
               tick={false}
             />
             <RadialBar

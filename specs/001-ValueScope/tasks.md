@@ -148,18 +148,18 @@ gantt
 
 ## Phase 4: User Story 2 - KPIスコアカード (Priority: P1)
 
-**ゴール**: ROE、自己資本比率、DSCRを信号機方式（緑/黄/赤）で評価
+**ゴール**: 電力業界特化KPI（ROIC、WACC、EBITDAマージン、FCFマージン）を信号機方式（緑/黄/赤）で評価
 
 **独立したテスト**: ScoreCardコンポーネントを表示し、3社のKPIと信号機評価が正しく表示されることを確認
 
 ### 実装
 
-- [x] **T019** [P] [US2] KPIスコアリングスクリプト（scripts/compute_scores.py）
-- [x] **T020** [P] [US2] useScoresフック（src/hooks/useScores.ts）
-- [x] **T021** [US2] ScoreCardコンポーネント（src/components/ScoreCard.tsx）
-- [x] **T022** [US2] 信号機評価ロジック（ROE: 緑≥10%, 黄≥5%; 自己資本比率: 緑≥30%, 黄≥20%; DSCR: 緑≥1.5, 黄≥1.0）
-- [x] **T023** [US2] KPIGaugeコンポーネント（src/components/KPIGauge.tsx）
-- [x] **T024** [US2] E2Eテスト作成（tests/e2e/scorecard-display.spec.ts）
+- [x] **T019** [P] [US2] KPIスコアリングスクリプト（scripts/compute_scores.py、電力業界特化版）
+- [x] **T020** [P] [US2] useScoresフック（src/hooks/useScores.ts、4指標対応）
+- [x] **T021** [US2] ScoreCardコンポーネント（src/components/ScoreCard.tsx、4指標対応）
+- [x] **T022** [US2] 信号機評価ロジック（ROIC: 緑≥5%, 黄≥3%; WACC: 緑<4%, 黄<5%(逆転); EBITDAマージン: 緑≥15%, 黄≥10%; FCFマージン: 緑≥5%, 黄≥0%）
+- [x] **T023** [US2] KPIGaugeコンポーネント（src/components/KPIGauge.tsx、半円ゲージ180-0度）
+- [x] **T024** [US2] E2Eテスト作成（tests/e2e_selenium/test_kpi_gauge_validation.py、4指標対応）
 
 **チェックポイント**: User Story 1とUser Story 2が独立して動作
 
@@ -167,18 +167,18 @@ gantt
 
 ## Phase 5: User Story 3 - 推移グラフ (Priority: P2)
 
-**ゴール**: 過去10年間のKPI推移を折れ線グラフで表示
+**ゴール**: 過去10年間の電力業界特化KPI（ROIC、WACC、EBITDAマージン、FCFマージン）推移を折れ線グラフで表示
 
 **独立したテスト**: TrendChartコンポーネントを表示し、過去10年間の推移が正しく描画されることを確認
 
 ### 実装
 
-- [x] **T025** [P] [US3] 時系列データ生成スクリプト（scripts/build_timeseries.py）
-- [x] **T026** [P] [US3] useTimeseriesフック（src/hooks/useTimeseries.ts）
-- [x] **T027** [US3] TrendChartコンポーネント（src/components/TrendChart.tsx）
-- [x] **T028** [US3] MultiCompanyTrendChart（src/components/MultiCompanyTrendChart.tsx）
+- [x] **T025** [P] [US3] 時系列データ生成スクリプト（scripts/build_timeseries.py、電力業界特化版）
+- [x] **T026** [P] [US3] useTimeseriesフック（src/hooks/useTimeseries.ts、4指標対応）
+- [x] **T027** [US3] TrendChartコンポーネント（src/components/TrendChart.tsx、4指標対応）
+- [x] **T028** [US3] MultiCompanyTrendChart（src/components/MultiCompanyTrendChart.tsx、4指標対応）
 - [x] **T029** [US3] 年度フィルタ機能（FY2015～FY2024）
-- [x] **T030** [US3] E2Eテスト作成（tests/e2e/trend-display.spec.ts）
+- [x] **T030** [US3] E2Eテスト作成（tests/e2e/trend-display.spec.ts、4指標検証）
 
 **チェックポイント**: User Story 1、2、3がすべて独立して機能
 
