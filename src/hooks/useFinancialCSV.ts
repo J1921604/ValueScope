@@ -25,9 +25,14 @@ export function useFinancialCSV(company: string, statementType: 'PL' | 'BS' | 'C
         setLoading(true);
         setError(null);
         
-        // base pathを考慮したパス生成
+        // GitHub Pages対応: BASE_URLを正しく適用
         const basePath = import.meta.env.BASE_URL || '/';
-        const csvPath = `${basePath}XBRL_output/${company}/${statementType}.csv`.replace(/\/\//g, '/');
+        // 末尾のスラッシュを正規化
+        const normalizedBase = basePath.endsWith('/') ? basePath : basePath + '/';
+        const csvPath = `${normalizedBase}XBRL_output/${company}/${statementType}.csv`;
+        
+        console.log(`[useFinancialCSV] Fetching: ${csvPath}`);
+        
         const response = await fetch(csvPath);
         
         if (!response.ok) {

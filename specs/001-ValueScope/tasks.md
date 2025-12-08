@@ -25,46 +25,46 @@ gantt
     section Phase 1 Setup
     T001 プロジェクト構造作成           :done, p1_t001, 2025-12-25, 1d
     T002 依存関係インストール           :done, p1_t002, after p1_t001, 1d
-    T003 [P] Linting/Formatting設定    :done, p1_t003, after p1_t001, 1d
+    T003 Linting設定                   :done, p1_t003, after p1_t001, 1d
     T004 TypeScript設定                :done, p1_t004, after p1_t002, 1d
     T005 Vite設定                      :done, p1_t005, after p1_t004, 1d
     T006 Tailwind CSS設定              :done, p1_t006, after p1_t005, 1d
-    T007 [P] GitHub Actions設定        :done, p1_t007, after p1_t001, 1d
-    T008 [P] データディレクトリ作成    :done, p1_t008, after p1_t001, 1d
+    T007 GitHub Actions設定            :done, p1_t007, after p1_t001, 1d
+    T008 データディレクトリ作成        :done, p1_t008, after p1_t001, 1d
     
     section Phase 2 Foundational
     T009 型定義作成                    :done, p2_t009, after p1_t006, 1d
-    T010 [P] ユーティリティ関数作成    :done, p2_t010, after p2_t009, 1d
-    T011 [P] EDINET API連携スクリプト  :done, p2_t011, after p1_t008, 2d
-    T012 [P] XBRL解析スクリプト        :done, p2_t012, after p2_t011, 2d
-    T013 [P] 株価取得スクリプト        :done, p2_t013, after p2_t011, 1d
+    T010 ユーティリティ関数作成        :done, p2_t010, after p2_t009, 1d
+    T011 EDINET API連携                :done, p2_t011, after p1_t008, 2d
+    T012 XBRL解析スクリプト            :done, p2_t012, after p2_t011, 2d
+    T013 株価取得スクリプト            :done, p2_t013, after p2_t011, 1d
     
     section Phase 3 US1 企業価値
-    T014 [P] 企業価値計算スクリプト    :done, p3_t014, after p2_t012, 2d
-    T015 [P] useValuationフック        :done, p3_t015, after p2_t010, 1d
+    T014 企業価値計算スクリプト        :done, p3_t014, after p2_t012, 2d
+    T015 useValuationフック            :done, p3_t015, after p2_t010, 1d
     T016 ValuationTableコンポーネント  :done, p3_t016, after p3_t015, 2d
     T017 バリデーションロジック        :done, p3_t017, after p3_t016, 1d
     T018 E2Eテスト作成                 :done, p3_t018, after p3_t017, 1d
     
     section Phase 4 US2 KPI
-    T019 [P] KPIスコアリングスクリプト :done, p4_t019, after p3_t014, 2d
-    T020 [P] useScoresフック           :done, p4_t020, after p3_t015, 1d
+    T019 KPIスコアリングスクリプト     :done, p4_t019, after p3_t014, 2d
+    T020 useScoresフック               :done, p4_t020, after p3_t015, 1d
     T021 ScoreCardコンポーネント       :done, p4_t021, after p4_t020, 2d
     T022 信号機評価ロジック            :done, p4_t022, after p4_t021, 1d
     T023 KPIGaugeコンポーネント        :done, p4_t023, after p4_t022, 1d
     T024 E2Eテスト作成                 :done, p4_t024, after p4_t023, 1d
     
     section Phase 5 US3 推移グラフ
-    T025 [P] 時系列データ生成          :done, p5_t025, after p4_t019, 2d
-    T026 [P] useTimeseriesフック       :done, p5_t026, after p4_t020, 1d
+    T025 時系列データ生成              :done, p5_t025, after p4_t019, 2d
+    T026 useTimeseriesフック           :done, p5_t026, after p4_t020, 1d
     T027 TrendChartコンポーネント      :done, p5_t027, after p5_t026, 2d
     T028 MultiCompanyTrendChart        :done, p5_t028, after p5_t027, 1d
     T029 年度フィルタ機能              :done, p5_t029, after p5_t028, 1d
     T030 E2Eテスト作成                 :done, p5_t030, after p5_t029, 1d
     
     section Phase 6 US4 財務諸表
-    T031 [P] CSV読み込みフック         :done, p6_t031, after p5_t026, 1d
-    T032 [P] ComparisonFinancialTable  :done, p6_t032, after p6_t031, 2d
+    T031 CSV読み込みフック             :done, p6_t031, after p5_t026, 1d
+    T032 ComparisonFinancialTable      :done, p6_t032, after p6_t031, 2d
     T033 ProfitLossStatement           :done, p6_t033, after p6_t032, 1d
     T034 BalanceSheet                  :done, p6_t034, after p6_t032, 1d
     T035 CashFlowStatement             :done, p6_t035, after p6_t032, 1d
@@ -72,11 +72,11 @@ gantt
     T037 E2Eテスト作成                 :done, p6_t037, after p6_t036, 1d
     
     section Phase 7 Polish
-    T038 [P] App.tsx統合               :done, p7_t038, after p5_t029, 2d
-    T039 [P] タイトルグラデーション    :done, p7_t039, after p7_t038, 1d
-    T040 [P] ボタンスタイル統一        :done, p7_t040, after p7_t038, 1d
-    T041 [P] ツールチップ追加          :done, p7_t041, after p7_t038, 1d
-    T042 [P] フッタ実装                :done, p7_t042, after p7_t038, 1d
+    T038 App.tsx統合                   :done, p7_t038, after p6_t037, 2d
+    T039 タイトルグラデーション        :done, p7_t039, after p7_t038, 1d
+    T040 ボタンスタイル統一            :done, p7_t040, after p7_t038, 1d
+    T041 ツールチップ追加              :done, p7_t041, after p7_t038, 1d
+    T042 フッタ実装                    :done, p7_t042, after p7_t038, 1d
     T043 パフォーマンス最適化          :done, p7_t043, after p7_t042, 1d
     T044 Lighthouseスコア確認          :done, p7_t044, after p7_t043, 1d
     T045 README.md更新                 :done, p7_t045, after p7_t044, 1d
@@ -88,7 +88,7 @@ gantt
     T049 EmployeeData型定義            :done, p8_t049, after p8_t048, 1d
     T050 useEmployeeDataフック         :done, p8_t050, after p8_t049, 1d
     T051 EmployeeTableコンポーネント   :done, p8_t051, after p8_t050, 1d
-    T052 EmployeeTrendChartコンポーネント :done, p8_t052, after p8_t050, 1d
+    T052 EmployeeTrendChart            :done, p8_t052, after p8_t050, 1d
     T053 従業員情報タブ統合            :done, p8_t053, after p8_t052, 1d
     T054 E2Eテスト作成                 :done, p8_t054, after p8_t053, 1d
 ```

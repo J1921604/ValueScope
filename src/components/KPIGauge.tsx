@@ -74,8 +74,8 @@ export function KPIGauge({ title, value = 0, unit, score, thresholds, descriptio
             cy="100%"         // 縦方向下端に配置
             innerRadius="60%"
             outerRadius="90%"
-            startAngle={270}  // 9時位置（左）から開始
-            endAngle={90}     // 3時位置（右）で終了
+            startAngle={180}  // 9時位置（左）から開始
+            endAngle={0}      // 15時位置（右）で終了
           >
             <PolarAngleAxis
               type="number"

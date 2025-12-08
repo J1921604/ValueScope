@@ -12,7 +12,7 @@
 npm install
 pip install -r scripts/requirements.txt
 py -3.10 scripts/fetch_edinet.py --years 10
-py -3.10 scripts/fetch_stock_prices.py
+py -3.10 scripts/fetch_stock_prices.py --years 10
 py -3.10 scripts/parse_edinet_xbrl.py
 py -3.10 scripts/extract_xbrl_to_csv.py  # XBRL全解析 - PL/BS/CF CSV出力
 py -3.10 scripts/build_timeseries.py
@@ -21,7 +21,7 @@ npm run dev
 ```
 
 > ⚠️ **データ取得について**  
-> - **EDINET APIデータ**: GitHub Actionsで毎年7月1日のみ自動取得（GitHub Secrets登録のAPIキー使用）
+> - **EDINET APIデータ**: GitHub Actionsで毎年6月20日-7月1日のみ自動取得（GitHub Secrets登録のAPIキー使用）
 > - **株価データ**: GitHub Actionsで毎回デプロイ時に自動取得（Stooq API経由、pandas_datareader使用）
 > - ローカル開発時は `py -3.10 scripts/fetch_edinet.py` → `py -3.10 scripts/fetch_stock_prices.py` → `py -3.10 scripts/parse_edinet_xbrl.py` → `py -3.10 scripts/build_timeseries.py` → `py -3.10 scripts/compute_scores.py` を実行
 
@@ -45,11 +45,11 @@ npm run dev
 
 ### プロジェクトドキュメント
 
-- **[プロジェクト憲法](https://github.com/J1921604/ValueScope/blob/main/.specify/memory/constitution.md)**: 開発原則とガバナンス（7つのコア原則）
 - **[機能仕様書](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/spec.md)**: ユーザーストーリー、機能要件、成功基準
-- **[実装計画書](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/plan.md)**: 技術選定、アーキテクチャ設計、Constitution Check
+- **[実装計画書](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/plan.md)**: 技術選定、アーキテクチャ設計
 - **[タスクリスト](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/tasks.md)**: 実装タスク一覧、ガントチャート
 - **[完全仕様書](https://github.com/J1921604/ValueScope/blob/main/docs/完全仕様書.md)**: AI再現用実装詳細（計算式、データモデル、テスト仕様）
+- **[デプロイガイド](https://github.com/J1921604/ValueScope/blob/main/docs/DEPLOY_GUIDE.md)**: GitHub Pagesデプロイ手順
 
 ## 📋 主要機能
 
