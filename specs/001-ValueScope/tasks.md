@@ -33,22 +33,22 @@
 
 ### ドキュメント作成
 
-- [ ] T007 [Doc] README.mdを作成し、プロジェクト概要、主要機能、環境構築手順、使用方法、デプロイ手順を含める（specs/001-valuescope-enhancement/README.md）
-- [ ] T008 [P] [Doc] quickstart.mdを作成し、5分でローカル起動できる手順を記載（specs/001-valuescope-enhancement/quickstart.md）
+- [x] T007 [Doc] README.mdを作成し、プロジェクト概要、主要機能、環境構築手順、使用方法、デプロイ手順を含める（specs/001-valuescope-enhancement/README.md）
+- [x] T008 [P] [Doc] quickstart.mdを作成し、5分でローカル起動できる手順を記載（specs/001-valuescope-enhancement/quickstart.md）
 
 ### ドキュメント更新
 
-- [ ] T009 [P] [Doc] constitution.mdを確認し、バージョン1.0.0、日付2025-12-15に統一（.specify/memory/constitution.md）
-- [ ] T010 [P] [Doc] 完全仕様書.mdを確認し、バージョン1.0.0、日付2025-12-15、リンクをGitHub URLに統一（docs/完全仕様書.md）
-- [ ] T011 [P] [Doc] DEPLOY_GUIDE.mdを確認し、バージョン1.0.0、日付2025-12-15、リンクをGitHub URLに統一（docs/DEPLOY_GUIDE.md）
-- [ ] T012 [Doc] spec.mdのリンクをGitHub URLに統一（specs/001-valuescope-enhancement/spec.md）
-- [ ] T013 [Doc] plan.mdのリンクをGitHub URLに統一（specs/001-valuescope-enhancement/plan.md）
+- [x] T009 [P] [Doc] constitution.mdを確認し、バージョン1.0.0、日付2025-12-15に統一（.specify/memory/constitution.md）
+- [x] T010 [P] [Doc] 完全仕様書.mdを確認し、バージョン1.0.0、日付2025-12-15、リンクをGitHub URLに統一（docs/完全仕様書.md）
+- [x] T011 [P] [Doc] DEPLOY_GUIDE.mdを確認し、バージョン1.0.0、日付2025-12-15、リンクをGitHub URLに統一（docs/DEPLOY_GUIDE.md）
+- [x] T012 [Doc] spec.mdのリンクをGitHub URLに統一（specs/001-valuescope-enhancement/spec.md）
+- [x] T013 [Doc] plan.mdのリンクをGitHub URLに統一（specs/001-valuescope-enhancement/plan.md）
 
 ### ドキュメント検証
 
-- [ ] T014 [P] [Doc] 全ドキュメントでバージョン番号1.0.0が統一されていることを確認（grep -r "version" docs/ specs/）
-- [ ] T015 [P] [Doc] 全ドキュメントで日付2025-12-15が統一されていることを確認（grep -r "2025-12-15" docs/ specs/）
-- [ ] T016 [Doc] 全ドキュメント内リンクがGitHub URL（https://github.com/J1921604/ValueScope/blob/main/...）に統一されていることを確認
+- [x] T014 [P] [Doc] 全ドキュメントでバージョン番号1.0.0が統一されていることを確認（grep -r "version" docs/ specs/）
+- [x] T015 [P] [Doc] 全ドキュメントで日付2025-12-15が統一されていることを確認（grep -r "2025-12-15" docs/ specs/）
+- [x] T016 [Doc] 全ドキュメント内リンクがGitHub URL（https://github.com/J1921604/ValueScope/blob/main/...）に統一されていることを確認
 
 **チェックポイント**: ドキュメント整備完了 - テスト実行開始可能
 
@@ -60,23 +60,23 @@
 
 ### ビルド検証
 
-- [ ] T017 [Test] npm installを実行し、依存関係がエラーなくインストールされることを確認
-- [ ] T018 [Test] pip install -r scripts/requirements.txtを実行し、Python依存関係がインストールされることを確認
-- [ ] T019 [Test] npm run buildを実行し、dist/が正常に生成されることを確認
-- [ ] T020 [Test] npm run previewを実行し、http://localhost:4173/ValueScope/でアプリが正常に表示されることを確認
+- [x] T017 [Test] npm installを実行し、依存関係がエラーなくインストールされることを確認
+- [x] T018 [Test] pip install -r scripts/requirements.txtを実行し、Python依存関係がインストールされることを確認
+- [x] T019 [Test] npm run buildを実行し、dist/が正常に生成されることを確認
+- [x] T020 [Test] npm run previewを実行し、http://localhost:4173/ValueScope/でアプリが正常に表示されることを確認
 
 ### E2Eテスト実行
 
-- [ ] T021 [P] [Test] E2Eテスト（tests/e2e/valuation-display.spec.ts）を実行し、企業価値指標表示が正常に動作することを確認
-- [ ] T022 [P] [Test] E2Eテスト（tests/e2e/scorecard-display.spec.ts）を実行し、KPIスコアカード表示が正常に動作することを確認
-- [ ] T023 [P] [Test] E2Eテスト（tests/e2e/trend-display.spec.ts）を実行し、推移グラフ表示が正常に動作することを確認
-- [ ] T024 [P] [Test] E2Eテスト（tests/e2e/employee-info.spec.ts）を実行し、従業員情報表示が正常に動作することを確認
-- [ ] T025 [P] [Test] E2Eテスト（tests/e2e/financial-statements.spec.ts）を実行し、財務諸表表示が正常に動作することを確認
+- [x] T021 [P] [Test] E2Eテスト（tests/e2e/valuation-display.spec.ts）を実行し、企業価値指標表示が正常に動作することを確認
+- [x] T022 [P] [Test] E2Eテスト（tests/e2e/scorecard-display.spec.ts）を実行し、KPIスコアカード表示が正常に動作することを確認
+- [x] T023 [P] [Test] E2Eテスト（tests/e2e/trend-display.spec.ts）を実行し、推移グラフ表示が正常に動作することを確認
+- [x] T024 [P] [Test] E2Eテスト（tests/e2e/employee-info.spec.ts）を実行し、従業員情報表示が正常に動作することを確認
+- [x] T025 [P] [Test] E2Eテスト（tests/e2e/financial-statements.spec.ts）を実行し、財務諸表表示が正常に動作することを確認
 
 ### E2Eテスト結果検証
 
-- [ ] T026 [Test] 全E2Eテストが100%正常に動作することを確認（npm run test:e2e）
-- [ ] T027 [Test] E2Eテスト失敗時は該当箇所を修正し、再度全テストを実行（繰り返し）
+- [x] T026 [Test] 全E2Eテストが100%正常に動作することを確認（npm run test:e2e）
+- [x] T027 [Test] E2Eテスト失敗時は該当箇所を修正し、再度全テストを実行（繰り返し）
 
 **チェックポイント**: ローカル実装検証完了 - GitHub Pagesデプロイ準備完了
 
@@ -88,9 +88,9 @@
 
 ### ワークフロー修正
 
-- [ ] T028 [Deploy] .github/workflows/deploy-pages.ymlを確認し、EDINET更新6/20-7/1のみ実行ロジックが正しいことを検証
-- [ ] T029 [Deploy] .github/workflows/deploy-pages.ymlを確認し、株価データ毎回取得ロジックが正しいことを検証
-- [ ] T030 [Deploy] GitHub Secretsに EDINET_API_KEY が登録されていることを確認
+- [x] T028 [Deploy] .github/workflows/deploy-pages.ymlを確認し、EDINET更新6/20-7/1のみ実行ロジックが正しいことを検証
+- [x] T029 [Deploy] .github/workflows/deploy-pages.ymlを確認し、株価データ毎回取得ロジックが正しいことを検証
+- [x] T030 [Deploy] GitHub Secretsに EDINET_API_KEY が登録されていることを確認
 
 ### ブランチマージとデプロイ
 
@@ -140,73 +140,6 @@
 
 ---
 
-## ガントチャート（2025-12-25開始、土日・年末年始休日考慮、相対日付方式）
-
-```mermaid
-gantt
-    title ValueScope実装スケジュール
-    dateFormat YYYY-MM-DD
-    axisFormat %m/%d
-    excludes weekends
-    
-    section Phase 1 Setup
-    T001 プロジェクト構造確認           :done, t001, 2025-12-25, 1d
-    T002 package.json検証              :done, t002, after t001, 1d
-    T003 Python依存関係検証            :done, t003, after t001, 1d
-    T004 TypeScript設定検証            :done, t004, after t002, 1d
-    T005 Vite設定検証                  :done, t005, after t002, 1d
-    T006 GitHub Actions検証            :done, t006, after t003, 1d
-    
-    section Phase 2 Doc
-    T007 README.md作成                 :active, t007, 2025-12-26, 1d
-    T008 quickstart.md作成             :t008, after t007, 1d
-    T009 constitution.md更新           :t009, after t007, 1d
-    T010 完全仕様書.md更新             :t010, after t009, 1d
-    T011 DEPLOY_GUIDE.md更新           :t011, after t009, 1d
-    T012 spec.mdリンク統一             :t012, after t010, 0.5d
-    T013 plan.mdリンク統一             :t013, after t010, 0.5d
-    T014 バージョン番号統一確認        :t014, after t013, 0.5d
-    T015 日付統一確認                  :t015, after t013, 0.5d
-    T016 GitHub URLリンク確認          :t016, after t015, 1d
-    
-    section Phase 3 Test
-    T017 npm install実行               :t017, 2026-01-05, 0.5d
-    T018 pip install実行               :t018, after t017, 0.5d
-    T019 npm run build実行             :t019, after t018, 0.5d
-    T020 npm run preview実行           :t020, after t019, 0.5d
-    T021 valuation E2E実行             :t021, after t020, 0.5d
-    T022 scorecard E2E実行             :t022, after t020, 0.5d
-    T023 trend E2E実行                 :t023, after t020, 0.5d
-    T024 employee E2E実行              :t024, after t023, 0.5d
-    T025 financial E2E実行             :t025, after t023, 0.5d
-    T026 全E2Eテスト確認               :t026, after t025, 1d
-    T027 E2E失敗時修正                 :t027, after t026, 1d
-    
-    section Phase 4 Deploy
-    T028 deploy-pages.yml検証          :t028, after t027, 0.5d
-    T029 株価取得ロジック検証          :t029, after t028, 0.5d
-    T030 GitHub Secrets確認            :t030, after t028, 0.5d
-    T031 リモートプル                  :t031, after t030, 0.5d
-    T032 実装→仕様ブランチマージ      :t032, after t031, 0.5d
-    T033 仕様→mainマージ               :t033, after t032, 0.5d
-    T034 ローカルブランチ削除          :t034, after t033, 0.5d
-    T035 リモートブランチ削除          :t035, after t034, 0.5d
-    T036 コミットメッセージ作成        :t036, after t035, 0.5d
-    T037 git commit実行                :t037, after t036, 0.5d
-    T038 git push実行                  :t038, after t037, 0.5d
-    T039 GitHub Actions確認            :t039, after t038, 1d
-    T040 GitHub Pages確認              :t040, after t039, 0.5d
-    T041 Lighthouseスコア確認          :t041, after t040, 0.5d
-```
-
-**注意**: 
-- 土日は自動的に除外されます（excludes weekends）
-- 年末年始休暇（12/27-1/4）はスケジュールには入りません
-- スケジュールは相対日付方式（after）で定義されており、開始日を変更すると自動的に調整されます
-- Phase 1は2025-12-25開始、Phase 2は12/26開始、Phase 3は年末年始明け1/5開始、Phase 4は1/7開始予定
-
----
-
 ## 実装戦略
 
 ### MVP優先（既存実装の検証）
@@ -240,8 +173,8 @@ gantt
 ## タスク完了状況
 
 **Phase 1（セットアップ）**: 6/6 完了 ✅  
-**Phase 2（ドキュメント）**: 0/10 未着手  
-**Phase 3（テスト）**: 0/11 未着手  
-**Phase 4（デプロイ）**: 0/14 未着手  
+**Phase 2（ドキュメント）**: 10/10 完了 ✅  
+**Phase 3（テスト）**: 11/11 完了 ✅  
+**Phase 4（デプロイ）**: 3/14 未着手  
 
-**全体進捗**: 6/41 タスク完了（14.6%）
+**全体進捗**: 30/41 タスク完了（73.2%）
