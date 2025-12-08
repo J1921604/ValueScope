@@ -47,9 +47,9 @@ const DEFAULT_KPI_THRESHOLDS: AllThresholds = {
 }
 
 const KPI_GAUGE_LIMITS: Record<KPIKey, { min: number; max: number }> = {
-  roe: { min: -20, max: 20 },         // ROEは-20%~20%の範囲
-  equityRatio: { min: 0, max: 50 },   // 自己資本比率は0-50%の範囲(CHUBU 37.91%が適切に表示されるよう)
-  dscr: { min: 0, max: 20 },          // DSCRは0-20倍の範囲(CHUBU 15.95倍が適切に表示されるよう)
+  roe: { min: 0, max: 32 },           // ROEは0-32%の範囲（CHUBU 15.26%が半分以下の47.7%に収まる）
+  equityRatio: { min: 0, max: 80 },   // 自己資本比率は0-80%の範囲（CHUBU 37.91%が47.4%に収まる）
+  dscr: { min: 0, max: 32 },          // DSCRは0-32倍の範囲（CHUBU 15.95倍が49.8%に収まる）
 }
 
 const formatFiscalYearLabel = (year: number | null) => {

@@ -66,7 +66,7 @@ def determine_period(date_str: str) -> str:
 def main():
     parser = argparse.ArgumentParser(description='KPIスコアリングスクリプト')
     parser.add_argument('--input', default='data/edinet_parsed', help='入力ディレクトリ（デフォルト: data/edinet_parsed）')
-    parser.add_argument('--targets', default='data/kpi_targets.json', help='閾値定義ファイル（デフォルト: data/kpi_targets.json）')
+    parser.add_argument('--targets', default='public/data/kpi_targets.json', help='閾値定義ファイル（デフォルト: public/data/kpi_targets.json）')
     parser.add_argument('--output', default='data/scorecards.json', help='出力ファイル（デフォルト: data/scorecards.json）')
     args = parser.parse_args()
     
@@ -75,7 +75,14 @@ def main():
     output_file = Path(args.output)
     output_file.parent.mkdir(parents=True, exist_ok=True)
     
-    # 閾値定義を読み込み
+    # 閾値定義を読み込み（複数の場所を試行）
+    if not targets_file.exists():
+        # フォールバック: public/data/kpi_targets.json
+        targets_file = Path('public/data/kpi_targets.json')
+    if not targets_file.exists():
+        # フォールバック2: data/kpi_targets.json
+        targets_file = Path('data/kpi_targets.json')
+    
     with open(targets_file, 'r', encoding='utf-8') as f:
         targets_config = json.load(f)
     
