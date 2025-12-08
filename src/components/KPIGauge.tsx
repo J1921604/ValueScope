@@ -1,4 +1,4 @@
-import { ResponsiveContainer, RadialBarChart, RadialBar, PolarAngleAxis } from 'recharts'
+import { ResponsiveContainer, RadialBarChart, RadialBar, PolarAngleAxis, Cell } from 'recharts'
 import type { ScoreColor } from '../types'
 
 interface GaugeThresholds {
@@ -85,9 +85,10 @@ export function KPIGauge({ title, value = 0, unit, score, thresholds, descriptio
             <RadialBar
               dataKey="value"
               cornerRadius={10}
-              fill={scoreColors[score]}
               background={{ fill: '#4B5563' }}
-            />
+            >
+              <Cell fill={scoreColors[score]} />
+            </RadialBar>
             <text
               x="50%"
               y="50%"
