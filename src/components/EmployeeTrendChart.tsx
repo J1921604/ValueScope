@@ -52,7 +52,6 @@ export function EmployeeTrendChart({ data, metricKey, title, unit }: EmployeeTre
     <div className="chart-container">
       <div className="text-center mb-4">
         <h3 className="text-2xl font-semibold text-cyber-blue">{title}</h3>
-        <p className="text-sm text-gray-400 mt-1">過去3年間の推移</p>
       </div>
 
       <ResponsiveContainer width="100%" height={400}>

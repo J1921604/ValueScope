@@ -72,8 +72,8 @@ export function KPIGauge({ title, value = 0, unit, score, thresholds, descriptio
             data={chartData}
             cx="50%"          // 中心を横方向中央
             cy="100%"         // 縦方向下端に配置
-            innerRadius="50%"
-            outerRadius="100%"
+            innerRadius="60%"
+            outerRadius="90%"
             startAngle={270}  // 9時位置（左）から開始
             endAngle={90}     // 3時位置（右）で終了
           >
@@ -83,15 +83,10 @@ export function KPIGauge({ title, value = 0, unit, score, thresholds, descriptio
               tick={false}
             />
             <RadialBar
-              dataKey="full"
-              cornerRadius={20}
-              fill="#4B5563"
-              opacity={0.5}
-            />
-            <RadialBar
               dataKey="value"
-              cornerRadius={20}
+              cornerRadius={10}
               fill={scoreColors[score]}
+              background={{ fill: '#4B5563' }}
             />
             <text
               x="50%"

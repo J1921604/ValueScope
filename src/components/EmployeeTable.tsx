@@ -59,11 +59,8 @@ const METRICS: EmployeeMetric[] = [
 export function EmployeeTable({ data }: EmployeeTableProps) {
   return (
     <div className="neumorphic-card p-6 bold-border">
-      <div className="text-center mb-6 space-y-1">
-        <h3 className="section-heading">従業員情報 比較テーブル</h3>
-        <p className="text-sm text-gray-400">
-          各社の従業員に関する主要指標を一覧表示
-        </p>
+      <div className="text-center mb-6">
+        <h3 className="section-heading">従業員情報</h3>
       </div>
 
       <div className="overflow-x-auto">

@@ -214,9 +214,25 @@ gantt
 
 ---
 
+## Phase 8: 従業員情報ページ
+
+**目的**: 従業員情報（平均年間給与、勤続年数、年齢、従業員数）の可視化
+
+- [x] **T048** employees.jsonデータ作成（public/data/employees.json、全年度データ）
+- [x] **T049** EmployeeData型定義（src/types/index.ts）
+- [x] **T050** useEmployeeDataフック（src/hooks/useEmployeeData.ts）
+- [x] **T051** EmployeeTableコンポーネント（src/components/EmployeeTable.tsx）
+- [x] **T052** EmployeeTrendChartコンポーネント（src/components/EmployeeTrendChart.tsx）
+- [x] **T053** 従業員情報タブ統合（App.tsx、マゼンタ基調）
+- [x] **T054** E2Eテスト作成（tests/e2e/employee-info.spec.ts）
+
+**チェックポイント**: 従業員情報ページが完全に機能
+
+---
+
 ## 実装状況サマリー
 
-### 完了済みタスク: 47/47 (100%)
+### 完了済みタスク: 54/54 (100%)
 
 - ✅ Phase 1: Setup（8タスク）
 - ✅ Phase 2: Foundational（5タスク）
@@ -225,6 +241,7 @@ gantt
 - ✅ Phase 5: US3 推移グラフ（6タスク）
 - ✅ Phase 6: US4 財務諸表（7タスク）
 - ✅ Phase 7: Polish（10タスク）
+- ✅ Phase 8: 従業員情報（7タスク）
 
 ### パフォーマンス検証結果
 

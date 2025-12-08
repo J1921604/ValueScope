@@ -30,6 +30,16 @@
       "averageAgeYears": 43.5,
       "averageAgeMonths": null,
       "numberOfEmployees": 37421
+    },
+    {
+      "year": 2021,
+      "date": "2021-03-31",
+      "averageAnnualSalary": 7720000,
+      "averageLengthOfServiceYears": 19.0,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 43.1,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 36985
     }
   ],
   "CHUBU": [
@@ -62,6 +72,16 @@
       "averageAgeYears": 43.2,
       "averageAgeMonths": null,
       "numberOfEmployees": 15834
+    },
+    {
+      "year": 2021,
+      "date": "2021-03-31",
+      "averageAnnualSalary": 7600000,
+      "averageLengthOfServiceYears": 19.5,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 42.9,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 15623
     }
   ],
   "JERA": [
@@ -94,6 +114,16 @@
       "averageAgeYears": 40.9,
       "averageAgeMonths": null,
       "numberOfEmployees": 3198
+    },
+    {
+      "year": 2021,
+      "date": "2021-03-31",
+      "averageAnnualSalary": 8050000,
+      "averageLengthOfServiceYears": 14.2,
+      "averageLengthOfServiceMonths": null,
+      "averageAgeYears": 40.6,
+      "averageAgeMonths": null,
+      "numberOfEmployees": 3089
     }
   ]
 }

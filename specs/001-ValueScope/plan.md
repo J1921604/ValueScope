@@ -135,6 +135,8 @@ ValueScope/
 │   │   ├── ProfitLossStatement.tsx    # 損益計算書
 │   │   ├── BalanceSheet.tsx           # 貸借対照表
 │   │   ├── CashFlowStatement.tsx      # キャッシュフロー計算書
+│   │   ├── EmployeeTable.tsx          # 従業員情報比較テーブル
+│   │   ├── EmployeeTrendChart.tsx     # 従業員情報推移グラフ
 │   │   ├── MultiCompanyTrendChart.tsx # 3社重ね合わせ推移グラフ
 │   │   └── MultiCompanyEVChart.tsx    # 3社重ね合わせEVチャート
 │   ├── hooks/
@@ -171,7 +173,8 @@ ValueScope/
 │       ├── kpi_targets.json
 │       ├── scorecards.json
 │       ├── timeseries.json
-│       └── valuation.json
+│       ├── valuation.json
+│       └── employees.json             # 従業員情報データ
 ├── XBRL/                              # EDINET XBRLファイル格納
 │   ├── E04498/                        # 東京電力HD
 │   ├── E04502/                        # 中部電力
