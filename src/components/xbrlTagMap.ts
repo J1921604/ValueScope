@@ -488,5 +488,4 @@ export const xbrlTagMap: Record<string, string> = {
   'ValuationDifferenceOnAvailableForSaleSecuritiesNetOfTaxOCI': 'jpcrp_cor:ValuationDifferenceOnAvailableForSaleSecuritiesNetOfTaxOCI',
   'VariousExpensesSGA': 'jpcrp_cor:VariousExpensesSGA',
   'WorkInProcess': 'jpcrp_cor:WorkInProcess',
-  '﻿fiscal_year': 'jpcrp_cor:﻿fiscal_year',
 };

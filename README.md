@@ -1,6 +1,6 @@
 # ValueScope - 企業価値分析ダッシュボード
 
-**バージョン**: v1.0.0  
+**バージョン**: 1.0.0  
 **リリース日**: 2025-12-15  
 **公開URL**: https://j1921604.github.io/ValueScope/  
 **GitHubリポジトリ**: https://github.com/J1921604/ValueScope  
@@ -32,17 +32,11 @@ ValueScopeは、東京電力HD・中部電力・JERAの企業価値指標（EV�
 
 EDINET XBRL実データのみを使用し、推定値・補完値を一切使用しない高品質な財務分析を提供します。
 
-### 🎯 v1.0.0 新機能
-
-- **全488項目XBRL tooltips対応**: 損益計算書256項目、貸借対照表233項目、キャッシュフロー計算書70項目の全項目に「?」マーク付きXBRLツールチップを実装
-- **Stooq API統合**: Yahoo Financeから移行し、安定した株価データ取得を実現
-- **自動データ更新**: GitHub Actionsで株価を毎デプロイ時、EDINET財務データを年1回（6/20-7/1）自動取得
-
 ---
 
 ## 主要機能
 
-### ✅ 企業価値指標の可視化（14項目 + XBRL tooltips 488項目）
+### ✅ 企業価値指標の可視化
 
 **損益計算書（PL）項目**:
 - **売上高（営業収益）**: jpcrp_cor:OperatingRevenue
@@ -226,10 +220,7 @@ py -3.10 scripts/parse_edinet_xbrl.py
 py -3.10 scripts/extract_xbrl_to_csv.py
 ```
 
-### 株価データ更新（毎デプロイ時: Stooq API）
-
-**v1.0.0変更**: Yahoo Finance API → Stooq API（pandas_datareader経由）に移行  
-GitHub Actionsで毎回デプロイ時に自動取得されます。
+### 株価データ更新（毎回デプロイ時）
 
 **対象銘柄**:
 - 9501.T: 東京電力HD
