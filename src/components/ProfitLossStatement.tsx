@@ -60,7 +60,7 @@ const ProfitLossStatement: React.FC = () => {
         {/* ヘッダー */}
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold neon-glow mb-2">損益計算書 (PL)</h1>
-          <p className="text-cyan-400">Profit & Loss Statement</p>
+          <p className="text-cyan-400">Profit & Loss Statement（単位：億円）</p>
         </div>
 
         {/* 企業選択 */}
@@ -145,7 +145,7 @@ const ProfitLossStatement: React.FC = () => {
                       className="px-4 py-3 text-[var(--fg)]"
                     >
                       {typeof row[col] === 'number'
-                        ? row[col].toLocaleString('ja-JP', {
+                        ? (row[col] / 100).toLocaleString('ja-JP', {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 2,
                           })

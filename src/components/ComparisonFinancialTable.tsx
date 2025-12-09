@@ -864,12 +864,16 @@ const formatCellValue = (value: string | number | undefined | null) => {
   }
 
   if (typeof value === 'number') {
-    return formatNumber(value);
+    // 百万円 → 億円に変換（100で割る）
+    const okuyen = value / 100;
+    return formatNumber(okuyen, 2);
   }
 
   const numeric = Number(value);
   if (Number.isFinite(numeric)) {
-    return formatNumber(numeric);
+    // 百万円 → 億円に変換（100で割る）
+    const okuyen = numeric / 100;
+    return formatNumber(okuyen, 2);
   }
 
   return value;
@@ -960,7 +964,7 @@ export function ComparisonFinancialTable({ type, title, selectedYear }: Comparis
       <div className="text-center space-y-2 mb-6">
         <h3 className="section-heading">
           {title}
-          <span className="text-sm text-gray-400 ml-4 font-normal">（単位：百万円）</span>
+          <span className="text-sm text-gray-400 ml-4 font-normal">（単位：億円）</span>
         </h3>
       </div>
 

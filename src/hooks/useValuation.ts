@@ -16,6 +16,8 @@ export interface ValuationDataItem {
   pbr: number;
   netDebt: number;
   ebitda: number;
+  netIncome: number; // 連結当期利益（親会社株主帰属当期純利益）
+  equity: number; // 純資産（自己資本）
 }
 
 export function useValuation(companyName: CompanyName) {

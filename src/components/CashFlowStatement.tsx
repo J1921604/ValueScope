@@ -56,7 +56,7 @@ const CashFlowStatement: React.FC = () => {
         {/* ヘッダー */}
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold neon-glow mb-2">キャッシュフロー計算書 (CF)</h1>
-          <p className="text-cyan-400">Cash Flow Statement</p>
+          <p className="text-cyan-400">Cash Flow Statement（単位：億円）</p>
         </div>
 
         {/* 企業選択 */}
@@ -141,7 +141,7 @@ const CashFlowStatement: React.FC = () => {
                       className="px-4 py-3 text-[var(--fg)]"
                     >
                       {typeof row[col] === 'number'
-                        ? row[col].toLocaleString('ja-JP', {
+                        ? (row[col] / 100).toLocaleString('ja-JP', {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 2,
                           })

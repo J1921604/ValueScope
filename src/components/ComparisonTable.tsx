@@ -156,8 +156,10 @@ export function ComparisonTable({ data }: ComparisonTableProps) {
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b" style={{ borderColor: 'rgba(0, 255, 255, 0.2)' }}>
-              <th className="p-4 text-gray-400 font-semibold">指標</th>
+            <tr className="border-b-2 border-cyber-blue/30">
+              <th className="px-4 py-3 text-left font-semibold text-white uppercase tracking-wider">
+                指標
+              </th>
               {companies.map((company) => (
                 <th
                   key={company.key}

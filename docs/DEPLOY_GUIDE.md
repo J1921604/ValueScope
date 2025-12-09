@@ -184,20 +184,103 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write  # 株価・EDINETデータコミット用
   pages: write
   id-token: write
 
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install Node dependencies
+        run: npm ci
+      
+      - name: Setup Python for data processing
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install Python dependencies
+        run: |
+          pip install -r scripts/requirements.txt
+      
+      - name: Fetch stock prices (every deployment)
+        run: |
+          echo "=== Fetching stock prices (Stooq API via pandas_datareader) ==="
+          python scripts/fetch_stock_prices.py --years 10 || echo "Stock price fetch failed, continuing"
+      
+      - name: Check if EDINET update is needed
+        id: check_date
+        env:
+          HAS_EDINET_SECRET: ${{ secrets.EDINET_API_KEY != '' }}
+        run: |
+          # 6月20日〜7月1日のみEDINETデータを更新
+          CURRENT_MONTH=$(date -u +%m)
+          CURRENT_DAY=$(date -u +%d)
+          if [ "$HAS_EDINET_SECRET" = "true" ] && 
+             ([ "$CURRENT_MONTH" = "06" ] && [ "$CURRENT_DAY" -ge "20" ]) || 
+             ([ "$CURRENT_MONTH" = "07" ] && [ "$CURRENT_DAY" = "01" ]); then
+            echo "edinet_update=true" >> $GITHUB_OUTPUT
+          else
+            echo "edinet_update=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Fetch EDINET data (only June 20 - July 1)
+        if: steps.check_date.outputs.edinet_update == 'true'
+        env:
+          EDINET_API_KEY: ${{ secrets.EDINET_API_KEY }}
+        run: |
+          python scripts/fetch_edinet.py --years 10
+          python scripts/parse_edinet_xbrl.py
+          python scripts/extract_xbrl_to_csv.py
+      
+      - name: Rebuild all data and scores
+        run: |
+          python scripts/build_timeseries.py
+          python scripts/build_valuation.py
+          python scripts/compute_scores.py
+      
+      - name: Commit updated data (if EDINET updated)
+        if: steps.check_date.outputs.edinet_update == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/data/*.json XBRL_output/**/*.csv data/prices/*.csv || true
+          git commit -m "chore: update EDINET data and stock prices" || echo "No changes"
+          git push || echo "Nothing to push"
+      
+      - name: Verify committed data assets
+        run: |
+          test -f public/data/timeseries.json
+          test -f public/data/valuation.json
+          test -f public/data/scorecards.json
+          test -f public/data/kpi_targets.json
+      
+      - name: Build project
+        run: npm run build
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+```
       - name: Checkout
         uses: actions/checkout@v4
       
