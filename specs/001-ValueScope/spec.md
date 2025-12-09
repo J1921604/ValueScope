@@ -2,28 +2,61 @@
 
 **Feature Branch**: `main`  
 **Created**: 2025-12-15  
+**Updated**: 2025-12-15  
 **Status**: Production  
 **バージョン**: 1.0.0
 
 ## ユーザーシナリオとテスト
 
-### ユーザーストーリー 1 - 企業価値指標の可視化 (優先度: P1)
+### ユーザーストーリー 1 - 企業価値指標の可視化（14項目拡張版） (優先度: P1)
 
 **概要**: 
-投資家や経営分析者が、東京電力HD・中部電力・JERAの企業価値指標（EV、EV/EBITDA、PER、PBR）を一目で把握できるダッシュボードを提供する。
+投資家や経営分析者が、東京電力HD・中部電力・JERAの企業価値指標を包括的に把握できるダッシュボードを提供する。従来の6指標に加え、PL/BS/CFの主要項目とROICを含む14項目を表示する。
 
 **優先度の理由**: 
 企業価値分析の核心機能であり、MVPとして最も重要。投資判断の基礎となる指標を正確に表示することで、アプリケーションの価値を提供する。
 
+**14項目の内訳**:
+
+**損益計算書（PL）項目**（5項目）:
+1. 売上高（営業収益）: jpcrp_cor:OperatingRevenue
+2. 営業利益: jpcrp_cor:OperatingIncome
+3. 経常利益: jpcrp_cor:OrdinaryIncome
+4. 当期純利益: jpcrp_cor:ProfitLoss
+5. 親会社株主に帰属する当期純利益: jpcrp_cor:ProfitLossAttributableToOwnersOfParent
+
+**貸借対照表（BS）項目**（4項目）:
+6. 総資産: jpcrp_cor:Assets
+7. 純資産: jpcrp_cor:NetAssets
+8. 自己資本: jpcrp_cor:Equity
+9. 有利子負債: jpcrp_cor:InterestBearingDebt
+
+**キャッシュフロー計算書（CF）項目**（3項目）:
+10. 営業活動によるキャッシュフロー: jpcrp_cor:CashFlowsFromOperatingActivities
+11. 投資活動によるキャッシュフロー: jpcrp_cor:CashFlowsFromInvestingActivities
+12. 財務活動によるキャッシュフロー: jpcrp_cor:CashFlowsFromFinancingActivities
+
+**計算指標**（2項目）:
+13. EBITDA: 営業利益 + 減価償却費
+14. ROIC: NOPAT ÷ 投下資本 × 100
+
+**ツールチップ機能**:
+- 各指標名の隣に「?」マーク（○で囲む）を配置
+- マウスオーバーで指標の説明とXBRLタグを表示
+- 計算指標の場合は計算式を表示
+
 **独立したテスト**: 
-企業価値指標テーブルを表示し、3社（TEPCO/CHUBU/JERA）の時価総額、純有利子負債、企業価値、EV/EBITDA、PER、PBRが正しく計算・表示されることを確認できる。
+企業価値指標テーブルを表示し、3社（TEPCO/CHUBU/JERA）の14項目とEV関連指標が正しく計算・表示されることを確認できる。
 
 **受入基準**:
 
-1. **Given** ダッシュボードを開いた時、**When** 企業価値指標テーブルを表示する、**Then** 3社の時価総額、純有利子負債、企業価値、EV/EBITDA、PER、PBRが表示される
-2. **Given** 時価総額データが取得できない場合（JERAなど非上場企業）、**When** 指標を計算する、**Then** 時価総額およびそれに依存する指標（EV、PER、PBR、EV/EBITDA）は`null`として表示される
-3. **Given** 最新年度のデータを選択した時、**When** 企業価値指標を計算する、**Then** XBRL実データのみを使用し、推定値・補完値は一切含まれない
-4. **Given** 分母がゼロの計算が発生した場合、**When** 指標を計算する、**Then** 結果を`null`として返し、エラーを発生させない
+1. **Given** ダッシュボードを開いた時、**When** 企業価値指標テーブルを表示する、**Then** 3社のPL 5項目、BS 4項目、CF 3項目、計算指標2項目、EV関連指標が表示される
+2. **Given** データが存在する項目、**When** テーブルを描画する、**Then** 実際の値が億円単位で表示される
+3. **Given** データが存在しない項目、**When** テーブルを描画する、**Then** その行は非表示または「N/A」と表示される
+4. **Given** 指標名の「?」マークにマウスオーバーした時、**When** ツールチップを表示する、**Then** 指標の説明とXBRLタグまたは計算式が表示される
+5. **Given** 時価総額データが取得できない場合（JERAなど非上場企業）、**When** 指標を計算する、**Then** 時価総額およびそれに依存する指標（EV、PER、PBR、EV/EBITDA）は`null`として表示される
+6. **Given** 最新年度のデータを選択した時、**When** 企業価値指標を計算する、**Then** XBRL実データのみを使用し、推定値・補完値は一切含まれない
+7. **Given** 分母がゼロの計算が発生した場合、**When** 指標を計算する、**Then** 結果を`null`として返し、エラーを発生させない
 
 ---
 

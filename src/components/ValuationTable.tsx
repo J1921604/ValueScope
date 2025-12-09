@@ -5,6 +5,7 @@
  */
 
 import type { ValuationDataItem } from '../hooks/useValuation';
+import { MetricTooltip } from './MetricTooltip';
 
 interface ValuationTableProps {
   data: ValuationDataItem;
@@ -21,21 +22,6 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
     if (value === null || value === undefined) return 'N/A';
     return `${value.toFixed(2)}倍`;
   };
-
-  // ツールチップ付き指標名コンポーネント
-  const MetricName = ({ name, tooltip }: { name: string; tooltip: string }) => (
-    <div className="flex items-center gap-2">
-      <span className="font-medium">{name}</span>
-      <div className="relative group">
-        <span className="inline-flex items-center justify-center w-5 h-5 text-xs rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 cursor-help">
-          ?
-        </span>
-        <div className="absolute left-0 top-full mt-2 w-64 p-3 bg-gray-900 border border-cyan-500 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 text-sm">
-          {tooltip}
-        </div>
-      </div>
-    </div>
-  );
 
   return (
     <div className="neumorphic-card">
@@ -57,7 +43,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             {data.revenue !== undefined && data.revenue !== null && (
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="売上高（営業収益）" 
                   tooltip="企業の本業による売上。XBRLタグ: jpcrp_cor:OperatingRevenue" 
                 />
@@ -69,7 +55,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             {data.operatingIncome !== undefined && data.operatingIncome !== null && (
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="営業利益" 
                   tooltip="本業の稼ぐ力を示す利益。XBRLタグ: jpcrp_cor:OperatingIncome" 
                 />
@@ -81,7 +67,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             {data.ordinaryIncome !== undefined && data.ordinaryIncome !== null && (
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="経常利益" 
                   tooltip="営業外収支を含めた経常的な利益。XBRLタグ: jpcrp_cor:OrdinaryIncome" 
                 />
@@ -93,7 +79,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             {data.profitLoss !== undefined && data.profitLoss !== null && (
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="当期純利益" 
                   tooltip="税引後の最終利益。XBRLタグ: jpcrp_cor:ProfitLoss" 
                 />
@@ -104,7 +90,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             )}
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="親会社株主に帰属する当期純利益" 
                   tooltip="親会社株主に帰属する最終利益。XBRLタグ: jpcrp_cor:ProfitLossAttributableToOwnersOfParent" 
                 />
@@ -116,7 +102,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             {data.totalAssets !== undefined && data.totalAssets !== null && (
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="総資産" 
                   tooltip="企業が保有する全資産。XBRLタグ: jpcrp_cor:Assets" 
                 />
@@ -128,7 +114,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             {data.netAssets !== undefined && data.netAssets !== null && (
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="純資産" 
                   tooltip="総資産から総負債を差し引いた純粋な資産。XBRLタグ: jpcrp_cor:NetAssets" 
                 />
@@ -139,7 +125,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             )}
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="自己資本" 
                   tooltip="株主に帰属する純資産。XBRLタグ: jpcrp_cor:Equity" 
                 />
@@ -150,7 +136,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             {data.interestBearingDebt !== undefined && data.interestBearingDebt !== null && (
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="有利子負債" 
                   tooltip="利息を支払う義務のある負債。XBRLタグ: jpcrp_cor:InterestBearingDebt" 
                 />
@@ -163,7 +149,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             {data.operatingCashFlow !== undefined && data.operatingCashFlow !== null && (
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="営業活動によるキャッシュフロー" 
                   tooltip="本業で稼いだ現金。XBRLタグ: jpcrp_cor:CashFlowsFromOperatingActivities" 
                 />
@@ -175,7 +161,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             {data.investingCashFlow !== undefined && data.investingCashFlow !== null && (
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="投資活動によるキャッシュフロー" 
                   tooltip="設備投資等による現金の増減。XBRLタグ: jpcrp_cor:CashFlowsFromInvestingActivities" 
                 />
@@ -187,7 +173,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             {data.financingCashFlow !== undefined && data.financingCashFlow !== null && (
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="財務活動によるキャッシュフロー" 
                   tooltip="借入・返済等による現金の増減。XBRLタグ: jpcrp_cor:CashFlowsFromFinancingActivities" 
                 />
@@ -199,7 +185,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             {/* 計算指標 */}
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="EBITDA" 
                   tooltip="金利・税金・減価償却費控除前利益。計算式: 営業利益 + 減価償却費" 
                 />
@@ -210,7 +196,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             {data.roic !== undefined && data.roic !== null && (
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="ROIC" 
                   tooltip="投下資本利益率。計算式: NOPAT ÷ 投下資本 × 100" 
                 />
@@ -222,7 +208,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             {/* EV関連項目 */}
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="時価総額" 
                   tooltip="企業の株式市場における評価額。決算日の株価に発行済株式数を乗じて算出します。" 
                 />
@@ -232,7 +218,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             </tr>
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="純有利子負債" 
                   tooltip="企業が負担する実質的な負債額。有利子負債から現金・預金を差し引いた金額です。" 
                 />
@@ -242,7 +228,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             </tr>
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="企業価値（EV）" 
                   tooltip="企業の総合的な価値評価。株主と債権者双方の価値を合計した金額で、M&Aや企業評価の基準となります。" 
                 />
@@ -252,7 +238,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             </tr>
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="EV/EBITDA倍率" 
                   tooltip="企業価値がEBITDAの何倍かを示す投資指標。低いほど割安とされ、電力業界の平均は6-10倍程度です。" 
                 />
@@ -262,7 +248,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             </tr>
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="PER（株価収益率）" 
                   tooltip="株価が1株当たり純利益の何倍かを示す指標。低いほど割安とされ、成長性や収益安定性で評価が異なります。" 
                 />
@@ -272,7 +258,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             </tr>
             <tr className="hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
-                <MetricName 
+                <MetricTooltip 
                   name="PBR（株価純資産倍率）" 
                   tooltip="株価が1株当たり純資産の何倍かを示す指標。1倍未満は簿価割れを意味し、割安の目安となります。" 
                 />

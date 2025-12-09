@@ -194,6 +194,16 @@ def parse_profit_loss(xbrl_path: str, company_code: str) -> Dict[str, Any]:
     
     # 営業活動によるキャッシュフロー
     operating_cf = extract_value_from_xbrl(root, namespaces, 'NetCashProvidedByUsedInOperatingActivities', 'Duration')
+    
+    # 投資活動によるキャッシュフロー
+    investing_cf = extract_value_from_xbrl(root, namespaces, 'NetCashProvidedByUsedInInvestmentActivities', 'Duration')
+    if investing_cf == 0.0:
+        investing_cf = extract_value_from_xbrl(root, namespaces, 'CashFlowsFromInvestingActivities', 'Duration')
+    
+    # 財務活動によるキャッシュフロー
+    financing_cf = extract_value_from_xbrl(root, namespaces, 'NetCashProvidedByUsedInFinancingActivities', 'Duration')
+    if financing_cf == 0.0:
+        financing_cf = extract_value_from_xbrl(root, namespaces, 'CashFlowsFromFinancingActivities', 'Duration')
 
     # EBITDA = 営業利益 + 減価償却費
     ebitda = operating_income + depreciation
@@ -208,7 +218,9 @@ def parse_profit_loss(xbrl_path: str, company_code: str) -> Dict[str, Any]:
         'netIncome': net_income / 1_000_000,
         'ebitda': ebitda / 1_000_000,
         'depreciation': depreciation / 1_000_000,
-        'operatingCashFlow': operating_cf / 1_000_000
+        'operatingCashFlow': operating_cf / 1_000_000,
+        'investingCashFlow': investing_cf / 1_000_000,
+        'financingCashFlow': financing_cf / 1_000_000
     }
     
     return pl_data

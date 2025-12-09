@@ -57,16 +57,38 @@ def get_stock_price(df: pd.DataFrame, date_str: str) -> Optional[float]:
 def calculate_enterprise_value(bs_data: Dict[str, Any], pl_data: Dict[str, Any], market_cap: Optional[float]) -> Dict[str, Any]:
     """
     企業価値（EV）と関連指標を計算
+    14項目の財務指標を含む
     """
-    # 純有利子負債 = 有利子負債 - 現金及び預金
+    # BS項目
+    total_assets = bs_data.get('totalAssets', 0)
+    net_assets = bs_data.get('equity', 0)  # NetAssetsはEquityとして保存されている
+    equity = bs_data.get('equity', 0)
     interest_bearing_debt = bs_data.get('interestBearingDebt', 0)
     cash = bs_data.get('cashAndDeposits', 0)
+    
+    # PL項目
+    revenue = pl_data.get('revenue', 0)
+    operating_income = pl_data.get('operatingIncome', 0)
+    ordinary_income = pl_data.get('ordinaryIncome', 0)
+    net_income = pl_data.get('netIncome', 0)
+    ebitda = pl_data.get('ebitda', 0)
+    
+    # CF項目
+    operating_cash_flow = pl_data.get('operatingCashFlow', 0)
+    investing_cash_flow = pl_data.get('investingCashFlow', 0)
+    financing_cash_flow = pl_data.get('financingCashFlow', 0)
+    
+    # 純有利子負債 = 有利子負債 - 現金及び預金
     net_debt = interest_bearing_debt - cash
     
-    # EBITDA
-    ebitda = pl_data.get('ebitda', 0)
-    net_income = pl_data.get('netIncome', 0)
-    equity = bs_data.get('equity', 0)
+    # ROIC計算（簡易版）: NOPAT / Invested Capital
+    # NOPAT = Operating Income * (1 - tax rate) ≈ Operating Income * 0.7
+    # Invested Capital ≈ Equity + Interest Bearing Debt
+    roic = None
+    if equity + interest_bearing_debt > 0:
+        nopat = operating_income * 0.7  # 仮定: 実効税率30%
+        invested_capital = equity + interest_bearing_debt
+        roic = (nopat / invested_capital) * 100  # パーセント表示
 
     enterprise_value = None
     ev_ebitda = None
@@ -88,16 +110,30 @@ def calculate_enterprise_value(bs_data: Dict[str, Any], pl_data: Dict[str, Any],
     
     return {
         'date': bs_data.get('date', '2025-09-30'),
+        # PL項目
+        'revenue': revenue if revenue > 0 else None,
+        'operatingIncome': operating_income if operating_income > 0 else None,
+        'ordinaryIncome': ordinary_income if ordinary_income > 0 else None,
+        'netIncome': net_income,
+        # BS項目
+        'totalAssets': total_assets if total_assets > 0 else None,
+        'netAssets': net_assets if net_assets > 0 else None,
+        'equity': equity,
+        'interestBearingDebt': interest_bearing_debt if interest_bearing_debt > 0 else None,
+        # CF項目
+        'operatingCashFlow': operating_cash_flow if operating_cash_flow != 0 else None,
+        'investingCashFlow': investing_cash_flow if investing_cash_flow != 0 else None,
+        'financingCashFlow': financing_cash_flow if financing_cash_flow != 0 else None,
+        # 計算指標
+        'ebitda': ebitda,
+        'roic': roic,
+        # EV関連
         'marketCap': market_cap,
-        'interestBearingDebt': interest_bearing_debt,
         'cashAndDeposits': cash,
         'netDebt': net_debt,
         'enterpriseValue': enterprise_value,
-        'ebitda': ebitda,
         'evEbitdaRatio': ev_ebitda,
-        'netIncome': net_income,
         'per': per,
-        'equity': equity,
         'pbr': pbr,
     }
 

@@ -35,8 +35,31 @@ EDINET XBRL実データのみを使用し、推定値・補完値を一切使用
 
 ## 主要機能
 
-### ✅ 企業価値指標の可視化
+### ✅ 企業価値指標の可視化（14項目）
 
+**損益計算書（PL）項目**:
+- **売上高（営業収益）**: jpcrp_cor:OperatingRevenue
+- **営業利益**: jpcrp_cor:OperatingIncome
+- **経常利益**: jpcrp_cor:OrdinaryIncome
+- **当期純利益**: jpcrp_cor:ProfitLoss
+- **親会社株主に帰属する当期純利益**: jpcrp_cor:ProfitLossAttributableToOwnersOfParent
+
+**貸借対照表（BS）項目**:
+- **総資産**: jpcrp_cor:Assets
+- **純資産**: jpcrp_cor:NetAssets
+- **自己資本**: jpcrp_cor:Equity
+- **有利子負債**: jpcrp_cor:InterestBearingDebt
+
+**キャッシュフロー計算書（CF）項目**:
+- **営業活動によるキャッシュフロー**: jpcrp_cor:CashFlowsFromOperatingActivities
+- **投資活動によるキャッシュフロー**: jpcrp_cor:CashFlowsFromInvestingActivities
+- **財務活動によるキャッシュフロー**: jpcrp_cor:CashFlowsFromFinancingActivities
+
+**計算指標**:
+- **EBITDA**: 営業利益 + 減価償却費
+- **ROIC**: NOPAT ÷ 投下資本 × 100
+
+**企業価値（EV）関連指標**:
 - **時価総額**: 決算日株価 × 発行済株式数
 - **純有利子負債**: 有利子負債合計 - 現金及び現金同等物
 - **企業価値（EV）**: 時価総額 + 純有利子負債
