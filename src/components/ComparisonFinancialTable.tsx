@@ -1016,20 +1016,17 @@ export function ComparisonFinancialTable({ type, title, selectedYear }: Comparis
           </thead>
           <tbody>
             {allKeys.map((key) => {
-              const xbrlTag = xbrlTagMap[key];
+              // XBRLタグマップから取得、存在しない場合はデフォルトで生成
+              const xbrlTag = xbrlTagMap[key] || `jpcrp_cor:${key}`;
               const label = translateFinancialLabel(key);
               
               return (
                 <tr key={key}>
                   <td className="financial-metric">
-                    {xbrlTag ? (
-                      <MetricTooltip 
-                        name={label} 
-                        tooltip={`XBRLタグ: ${xbrlTag}`} 
-                      />
-                    ) : (
-                      label
-                    )}
+                    <MetricTooltip 
+                      name={label} 
+                      tooltip={`XBRLタグ: ${xbrlTag}`} 
+                    />
                   </td>
                   <td className="financial-value">
                     {tepcoData ? formatCellValue(tepcoData[key]) : '-'}
