@@ -1,9 +1,9 @@
 # ValueScope - 企業価値分析ダッシュボード
 
-**バージョン**: 1.0.0  
-**リリース日**: 2025-12-15  
-**公開URL**: https://j1921604.github.io/ValueScope/  
-**GitHubリポジトリ**: https://github.com/J1921604/ValueScope  
+**バージョン**: 1.0.0
+**リリース日**: 2025-12-15
+**公開URL**: https://j1921604.github.io/ValueScope/
+**GitHubリポジトリ**: https://github.com/J1921604/ValueScope
 **ドキュメント**: [constitution.md](https://github.com/J1921604/ValueScope/blob/main/.specify/memory/constitution.md) | [spec.md](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/spec.md) | [plan.md](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/plan.md)
 
 [![Deploy to GitHub Pages](https://github.com/J1921604/ValueScope/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/J1921604/ValueScope/actions/workflows/deploy-pages.yml)
@@ -28,7 +28,7 @@
 
 ## 概要
 
-ValueScopeは、東京電力HD・中部電力・JERAの企業価値指標（EV、EV/EBITDA、PER、PBR）と電力業界特化KPI（ROIC、WACC、EBITDAマージン、FCFマージン）を可視化し、**信号機方式（緑/黄/赤）**で財務健全性を評価する企業価値分析ダッシュボードです。
+ValueScopeは、東京電力HD・中部電力・JERAの企業価値指標（EV、EV/EBITDA、PER、PBR）と電力業界特化KPI（ROIC、WACC、EBITDAマージン、FCFマージン）を可視化し、信号機方式（緑/黄/赤）で財務健全性を評価する企業価値分析ダッシュボードです。
 
 EDINET XBRL実データのみを使用し、推定値・補完値を一切使用しない高品質な財務分析を提供します。
 
@@ -39,6 +39,7 @@ EDINET XBRL実データのみを使用し、推定値・補完値を一切使用
 ### ✅ 企業価値指標の可視化
 
 **損益計算書（PL）項目**:
+
 - **売上高（営業収益）**: jpcrp_cor:OperatingRevenue
 - **営業利益**: jpcrp_cor:OperatingIncome
 - **経常利益**: jpcrp_cor:OrdinaryIncome
@@ -46,21 +47,25 @@ EDINET XBRL実データのみを使用し、推定値・補完値を一切使用
 - **親会社株主に帰属する当期純利益**: jpcrp_cor:ProfitLossAttributableToOwnersOfParent
 
 **貸借対照表（BS）項目**:
+
 - **総資産**: jpcrp_cor:Assets
 - **純資産**: jpcrp_cor:NetAssets
 - **自己資本**: jpcrp_cor:Equity
 - **有利子負債**: jpcrp_cor:InterestBearingDebt
 
 **キャッシュフロー計算書（CF）項目**:
+
 - **営業活動によるキャッシュフロー**: jpcrp_cor:CashFlowsFromOperatingActivities
 - **投資活動によるキャッシュフロー**: jpcrp_cor:CashFlowsFromInvestingActivities
 - **財務活動によるキャッシュフロー**: jpcrp_cor:CashFlowsFromFinancingActivities
 
 **計算指標**:
+
 - **EBITDA**: 営業利益 + 減価償却費
 - **ROIC**: NOPAT ÷ 投下資本 × 100
 
 **企業価値（EV）関連指標**:
+
 - **時価総額**: 決算日株価 × 発行済株式数
 - **純有利子負債**: 有利子負債合計 - 現金及び現金同等物
 - **企業価値（EV）**: 時価総額 + 純有利子負債
@@ -70,12 +75,12 @@ EDINET XBRL実データのみを使用し、推定値・補完値を一切使用
 
 ### ✅ 電力業界特化KPIスコアカード
 
-| KPI | 緑（green） | 黄（yellow） | 赤（red） | max値 |
-|-----|------------|--------------|-----------|-------|
-| **ROIC**<br/>投下資本利益率 | ≥5% | 3%-5% | <3% | 15% |
-| **WACC**<br/>加重平均資本コスト | <4% | 4%-5% | ≥5% | 6% |
-| **EBITDAマージン**<br/>営業キャッシュ創出力 | ≥15% | 10%-15% | <10% | 30% |
-| **FCFマージン**<br/>フリーキャッシュフロー効率 | ≥5% | 0%-5% | <0% | 25% |
+| KPI                                             | 緑（green） | 黄（yellow） | 赤（red） | max値 |
+| ----------------------------------------------- | ----------- | ------------ | --------- | ----- |
+| **ROIC** 投下資本利益率                    | ≥5%        | 3%-5%        | <3%       | 15%   |
+| **WACC** 加重平均資本コスト                | <4%         | 4%-5%        | ≥5%      | 6%    |
+| **EBITDAマージン** 営業キャッシュ創出力    | ≥15%       | 10%-15%      | <10%      | 30%   |
+| **FCFマージン** フリーキャッシュフロー効率 | ≥5%        | 0%-5%        | <0%       | 25%   |
 
 ### ✅ 推移グラフ（過去10年分）
 
@@ -223,6 +228,7 @@ py -3.10 scripts/extract_xbrl_to_csv.py
 ### 株価データ更新（毎回デプロイ時）
 
 **対象銘柄**:
+
 - 9501.T: 東京電力HD
 - 9502.T: 中部電力
 
@@ -233,6 +239,7 @@ py -3.10 scripts/fetch_stock_prices.py
 ```
 
 **Stooq APIの利点**:
+
 - 無料・無制限アクセス
 - 安定した稼働率
 - pandas_datareaderとの統合
@@ -259,6 +266,7 @@ py -3.10 scripts/generate_xbrl_map.py
 ```
 
 生成ファイル:
+
 - `src/components/xbrlTagMap.ts`: 488項目のXBRLマッピング
 - `scripts/xbrl_fields_list.json`: 検証用フィールドリスト
 
@@ -384,15 +392,15 @@ ValueScope/
 
 ### 目標値
 
-| メトリクス | 目標 | 現在値 | ステータス |
-|-----------|------|--------|------------|
-| LCP（Largest Contentful Paint） | < 2.5秒 | 1.8秒 | ✅ 達成 |
-| TTI（Time to Interactive） | < 2.0秒 | 1.5秒 | ✅ 達成 |
-| 初期バンドルサイズ（gzip） | < 200KB | 174KB | ✅ 達成 |
-| チャート再描画 | < 200ms | 150ms | ✅ 達成 |
-| Lighthouseスコア | ≥ 90 | 92 | ✅ 達成 |
-| ユニットテストカバレッジ | ≥ 80% | 82% | ✅ 達成 |
-| E2E主要フロー | 100% | 100% | ✅ 達成 |
+| メトリクス                      | 目標    | 現在値 | ステータス |
+| ------------------------------- | ------- | ------ | ---------- |
+| LCP（Largest Contentful Paint） | < 2.5秒 | 1.8秒  | ✅ 達成    |
+| TTI（Time to Interactive）      | < 2.0秒 | 1.5秒  | ✅ 達成    |
+| 初期バンドルサイズ（gzip）      | < 200KB | 174KB  | ✅ 達成    |
+| チャート再描画                  | < 200ms | 150ms  | ✅ 達成    |
+| Lighthouseスコア                | ≥ 90   | 92     | ✅ 達成    |
+| ユニットテストカバレッジ        | ≥ 80%  | 82%    | ✅ 達成    |
+| E2E主要フロー                   | 100%    | 100%   | ✅ 達成    |
 
 ---
 
@@ -419,6 +427,7 @@ ValueScope/
 **原因**: `public/data/*.json` が存在しないか、形式が不正
 
 **解決**:
+
 ```powershell
 py -3.10 scripts/build_timeseries.py
 py -3.10 scripts/build_valuation.py
@@ -430,6 +439,7 @@ py -3.10 scripts/compute_scores.py
 **原因**: TypeScriptの型エラー
 
 **解決**:
+
 ```powershell
 npx tsc --noEmit
 ```
@@ -439,6 +449,7 @@ npx tsc --noEmit
 **原因**: Playwrightブラウザが未インストール
 
 **解決**:
+
 ```powershell
 npx playwright install
 ```
@@ -453,16 +464,16 @@ npx playwright install
 
 ## 作成者
 
-**J1921604**  
+**J1921604**
 GitHub: https://github.com/J1921604
 
 ---
 
 ## 更新履歴
 
-| バージョン | 日付 | 変更内容 |
-|-----------|------|----------|
-| 1.0.0 | 2025-12-15 | 初版リリース |
+| バージョン | 日付       | 変更内容     |
+| ---------- | ---------- | ------------ |
+| 1.0.0      | 2025-12-15 | 初版リリース |
 
 ---
 
