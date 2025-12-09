@@ -25,7 +25,15 @@ type EVIndicatorKey =
   | 'netIncome'
   | 'per' 
   | 'equity'
-  | 'pbr';
+  | 'pbr'
+  // 14項目追加
+  | 'revenue'
+  | 'operatingIncome'
+  | 'ordinaryIncome'
+  | 'totalAssets'
+  | 'netAssets'
+  | 'investingCashFlow'
+  | 'financingCashFlow';
 
 interface ComparisonTableProps {
   data: Partial<Record<CompanyName, TimeSeriesDataPoint | null>>;
@@ -44,6 +52,108 @@ const indicators: Array<{
   format: (value: number) => string;
   category?: 'PL' | 'BS' | 'CF' | 'EV';
 }> = [
+  // PL項目（14項目対応）
+  {
+    key: 'revenue',
+    label: '売上高（営業収益）',
+    description: '企業の本業による売上。XBRLタグ: jpcrp_cor:OperatingRevenue',
+    format: (value: number) => `${formatNumber(value, 0)}億円`,
+    category: 'PL',
+  },
+  {
+    key: 'operatingIncome',
+    label: '営業利益',
+    description: '本業の稼ぐ力を示す利益。XBRLタグ: jpcrp_cor:OperatingIncome',
+    format: (value: number) => `${formatNumber(value, 0)}億円`,
+    category: 'PL',
+  },
+  {
+    key: 'ordinaryIncome',
+    label: '経常利益',
+    description: '営業外収支を含めた経常的な利益。XBRLタグ: jpcrp_cor:OrdinaryIncome',
+    format: (value: number) => `${formatNumber(value, 0)}億円`,
+    category: 'PL',
+  },
+  {
+    key: 'netIncome',
+    label: '当期純利益',
+    description: '税引後の最終利益。XBRLタグ: jpcrp_cor:ProfitLossAttributableToOwnersOfParent',
+    format: (value: number) => `${formatNumber(value, 0)}億円`,
+    category: 'PL',
+  },
+  {
+    key: 'ebitda',
+    label: 'EBITDA',
+    description: '利払い・税引き・償却前利益。本業の稼ぐ力。計算式: 営業利益 + 減価償却費',
+    format: (value: number) => `${formatNumber(value, 0)}億円`,
+    category: 'PL',
+  },
+  // BS項目（14項目対応）
+  {
+    key: 'totalAssets',
+    label: '総資産',
+    description: '企業が保有する全資産。XBRLタグ: jpcrp_cor:Assets',
+    format: (value: number) => `${formatNumber(value, 0)}億円`,
+    category: 'BS',
+  },
+  {
+    key: 'netAssets',
+    label: '純資産',
+    description: '総資産から総負債を差し引いた純粋な資産。XBRLタグ: jpcrp_cor:NetAssets',
+    format: (value: number) => `${formatNumber(value, 0)}億円`,
+    category: 'BS',
+  },
+  {
+    key: 'equity',
+    label: '自己資本',
+    description: '株主に帰属する純資産。XBRLタグ: jpcrp_cor:Equity',
+    format: (value: number) => `${formatNumber(value, 0)}億円`,
+    category: 'BS',
+  },
+  {
+    key: 'interestBearingDebt',
+    label: '有利子負債',
+    description: '利息を支払う義務のある負債。XBRLタグ: jpcrp_cor:InterestBearingDebt',
+    format: (value: number) => `${formatNumber(value, 0)}億円`,
+    category: 'BS',
+  },
+  {
+    key: 'cashAndDeposits',
+    label: '現金及び預金',
+    description: '手元にある現金と銀行預金。XBRLタグ: jpcrp_cor:CashAndDeposits',
+    format: (value: number) => `${formatNumber(value, 0)}億円`,
+    category: 'BS',
+  },
+  {
+    key: 'netDebt',
+    label: '純有利子負債',
+    description: '有利子負債から現預金を差し引いた実質的な負債。計算式: 有利子負債 - 現金及び預金',
+    format: (value: number) => `${formatNumber(value, 0)}億円`,
+    category: 'BS',
+  },
+  // CF項目（14項目対応）
+  {
+    key: 'operatingCashFlow',
+    label: '営業活動CF',
+    description: '本業で稼いだ現金。XBRLタグ: jpcrp_cor:CashFlowsFromOperatingActivities',
+    format: (value: number) => `${formatNumber(value, 0)}億円`,
+    category: 'CF',
+  },
+  {
+    key: 'investingCashFlow',
+    label: '投資活動CF',
+    description: '設備投資等による現金の増減。XBRLタグ: jpcrp_cor:CashFlowsFromInvestingActivities',
+    format: (value: number) => `${formatNumber(value, 0)}億円`,
+    category: 'CF',
+  },
+  {
+    key: 'financingCashFlow',
+    label: '財務活動CF',
+    description: '借入・返済等による現金の増減。XBRLタグ: jpcrp_cor:CashFlowsFromFinancingActivities',
+    format: (value: number) => `${formatNumber(value, 0)}億円`,
+    category: 'CF',
+  },
+  // EV関連指標
   {
     key: 'enterpriseValue',
     label: '企業価値 (EV)',
@@ -66,34 +176,6 @@ const indicators: Array<{
     category: 'EV',
   },
   {
-    key: 'interestBearingDebt',
-    label: '有利子負債',
-    description: '利子を付けて返済する必要がある負債',
-    format: (value: number) => `${formatNumber(value, 0)}億円`,
-    category: 'BS',
-  },
-  {
-    key: 'cashAndDeposits',
-    label: '現金及び預金',
-    description: '手元にある現金と銀行預金',
-    format: (value: number) => `${formatNumber(value, 0)}億円`,
-    category: 'BS',
-  },
-  {
-    key: 'netDebt',
-    label: '純有利子負債',
-    description: '有利子負債から現預金を差し引いた実質的な負債',
-    format: (value: number) => `${formatNumber(value, 0)}億円`,
-    category: 'BS',
-  },
-  {
-    key: 'ebitda',
-    label: 'EBITDA',
-    description: '利払い・税引き・償却前利益。本業の稼ぐ力',
-    format: (value: number) => `${formatNumber(value, 0)}億円`,
-    category: 'PL',
-  },
-  {
     key: 'evEbitdaRatio',
     label: 'EV/EBITDA倍率',
     description: 'EVをEBITDAで割ったバリュエーション指標（低いほど割安）',
@@ -101,25 +183,11 @@ const indicators: Array<{
     category: 'EV',
   },
   {
-    key: 'netIncome',
-    label: '当期純利益',
-    description: '税引後の最終利益',
-    format: (value: number) => `${formatNumber(value, 0)}億円`,
-    category: 'PL',
-  },
-  {
     key: 'per',
     label: 'PER',
     description: '株価収益率。株価が純利益の何倍かを示す（低いほど割安）',
     format: (value: number) => `${formatNumber(value, 2)}x`,
     category: 'EV',
-  },
-  {
-    key: 'equity',
-    label: '自己資本',
-    description: '返済義務のない資本（純資産）',
-    format: (value: number) => `${formatNumber(value, 0)}億円`,
-    category: 'BS',
   },
   {
     key: 'pbr',

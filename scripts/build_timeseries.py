@@ -162,13 +162,23 @@ def calculate_kpi(record: Dict[str, Any], stock_df: Optional[pd.DataFrame]) -> D
         'wacc': round(wacc, 2),
         'ebitdaMargin': round(ebitda_margin, 2),
         'fcfMargin': round(fcf_margin, 2),
+        # PL項目（14項目対応）
+        'revenue': round(revenue / 100, 0), # 億円単位
+        'operatingIncome': round(ebit / 100, 0), # 億円単位
+        'ordinaryIncome': round(pl.get('ordinaryIncome', 0.0) / 100, 0), # 億円単位
+        'netIncome': round(pl['netIncome'] / 100, 0), # 億円単位
+        'ebitda': round(pl['ebitda'] / 100, 0), # 億円単位
+        # BS項目（14項目対応）
+        'totalAssets': round(bs.get('totalAssets', 0.0) / 100, 0), # 億円単位
+        'netAssets': round(bs.get('equity', 0.0) / 100, 0), # 億円単位（equityと同じ）
+        'equity': round(bs['equity'] / 100, 0), # 億円単位
         'interestBearingDebt': round(bs['interestBearingDebt'] / 100, 0), # 億円単位
         'cashAndDeposits': round(bs['cashAndDeposits'] / 100, 0), # 億円単位
         'netDebt': round(net_debt / 100, 0), # 億円単位
+        # CF項目（14項目対応）
         'operatingCashFlow': round(operating_cash_flow / 100, 0), # 億円単位
-        'ebitda': round(pl['ebitda'] / 100, 0), # 億円単位
-        'netIncome': round(pl['netIncome'] / 100, 0), # 億円単位
-        'equity': round(bs['equity'] / 100, 0), # 億円単位
+        'investingCashFlow': round(pl.get('investingCashFlow', 0.0) / 100, 0), # 億円単位
+        'financingCashFlow': round(pl.get('financingCashFlow', 0.0) / 100, 0), # 億円単位
     }
     
     # Optional項目の追加

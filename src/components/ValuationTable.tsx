@@ -206,6 +206,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             </tr>
             )}
             {/* EV関連項目 */}
+            {/* 時価総額 - 常に表示（上場企業以外はN/A） */}
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
                 <MetricTooltip 
@@ -216,6 +217,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
               <td className="py-4 px-4 text-right font-mono">{formatCurrency(data.marketCap)}</td>
               <td className="py-4 px-4 text-gray-400 text-sm">株価 × 発行済株式数</td>
             </tr>
+            {/* 純有利子負債 - 常に表示 */}
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
                 <MetricTooltip 
@@ -226,6 +228,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
               <td className="py-4 px-4 text-right font-mono">{formatCurrency(data.netDebt)}</td>
               <td className="py-4 px-4 text-gray-400 text-sm">有利子負債 - 現金及び預金</td>
             </tr>
+            {/* 企業価値（EV） - 常に表示 */}
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
                 <MetricTooltip 
@@ -236,6 +239,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
               <td className="py-4 px-4 text-right font-mono text-neon-green font-bold">{formatCurrency(data.enterpriseValue)}</td>
               <td className="py-4 px-4 text-gray-400 text-sm">時価総額 + 純有利子負債</td>
             </tr>
+            {/* EV/EBITDA倍率 - 常に表示 */}
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
                 <MetricTooltip 
@@ -246,6 +250,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
               <td className="py-4 px-4 text-right font-mono text-cyan font-bold">{formatRatio(data.evEbitdaRatio)}</td>
               <td className="py-4 px-4 text-gray-400 text-sm">企業価値 ÷ EBITDA</td>
             </tr>
+            {/* PER - 常に表示 */}
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
                 <MetricTooltip 
@@ -256,6 +261,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
               <td className="py-4 px-4 text-right font-mono">{formatRatio(data.per)}</td>
               <td className="py-4 px-4 text-gray-400 text-sm">時価総額 ÷ 親会社株主帰属当期純利益</td>
             </tr>
+            {/* PBR - 常に表示 */}
             <tr className="hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
                 <MetricTooltip 

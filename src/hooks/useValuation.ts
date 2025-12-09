@@ -27,13 +27,13 @@ export interface ValuationDataItem {
   // 計算指標
   ebitda: number; // EBITDA（営業利益+減価償却費）
   roic?: number; // ROIC（NOPAT÷投下資本）
-  // EV関連
-  marketCap: number;
-  netDebt: number;
-  enterpriseValue: number;
-  evEbitdaRatio: number;
-  per: number;
-  pbr: number;
+  // EV関連（オプショナル - 非上場企業の場合は未提供）
+  marketCap?: number | null;
+  netDebt?: number | null;
+  enterpriseValue?: number | null;
+  evEbitdaRatio?: number | null;
+  per?: number | null;
+  pbr?: number | null;
 }
 
 export function useValuation(companyName: CompanyName) {

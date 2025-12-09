@@ -12,10 +12,12 @@ import type { CompanyName } from '../types';
 export interface TimeSeriesDataPoint {
   date: string;
   year: number;
+  // KPI指標
   roic?: number;
   wacc?: number;
   ebitdaMargin?: number;
   fcfMargin?: number;
+  // EV関連指標
   enterpriseValue?: number;
   marketCap?: number;
   interestBearingDebt?: number;
@@ -29,6 +31,16 @@ export interface TimeSeriesDataPoint {
   per?: number;
   pbr?: number;
   stockPrice?: number;
+  // PL項目（14項目対応）
+  revenue?: number; // 売上高（営業収益）
+  operatingIncome?: number; // 営業利益
+  ordinaryIncome?: number; // 経常利益
+  // BS項目
+  totalAssets?: number; // 総資産
+  netAssets?: number; // 純資産
+  // CF項目
+  investingCashFlow?: number; // 投資活動CF
+  financingCashFlow?: number; // 財務活動CF
 }
 
 export type CompanyTimeseries = Partial<Record<CompanyName, TimeSeriesDataPoint[]>>;
