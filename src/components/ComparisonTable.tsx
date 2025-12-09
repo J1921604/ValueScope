@@ -10,19 +10,6 @@
 
 import { formatNumber } from '../utils/formatNumber';
 import type { CompanyName } from '../types';
-import type { TimeSeriesDataPoint } from '../hooks/useTimeseries';
-import { useTimeseries } from '../hooks/useTimeseries';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  TooltipProps,
-} from 'recharts';
 
 type EVIndicatorKey = 
   | 'enterpriseValue' 
@@ -48,7 +35,7 @@ type EVIndicatorKey =
   | 'financingCashFlow';
 
 interface ComparisonTableProps {
-  data: Partial<Record<CompanyName, TimeSeriesDataPoint | null>>;
+  data: Partial<Record<CompanyName, Record<string, any> | null>>;
 }
 
 const companyMeta: Record<CompanyName, { label: string; color: string }> = {
@@ -220,9 +207,6 @@ export function ComparisonTable({ data }: ComparisonTableProps) {
     point: data?.[company] ?? null,
   }));
 
-  // 全時系列データ取得（グラフ用）
-  const { data: allTimeseriesData, loading: timeseriesLoading } = useTimeseries();
-
   const formatCell = (value: number | undefined, formatter: (val: number) => string) => {
     if (value === undefined || value === null) {
       return '-';
@@ -230,61 +214,8 @@ export function ComparisonTable({ data }: ComparisonTableProps) {
     return formatter(value);
   };
 
-  // グラフ用データ準備
-  const prepareChartData = (metric: 'netIncome' | 'ebitda') => {
-    if (!allTimeseriesData) return [];
-
-    const allYears = new Set<number>();
-    Object.values(allTimeseriesData).forEach(companyData => {
-      if (companyData) {
-        companyData.forEach((point: TimeSeriesDataPoint) => allYears.add(point.year));
-      }
-    });
-
-    const sortedYears = Array.from(allYears).sort((a, b) => a - b);
-
-    return sortedYears.map(year => {
-      const point: { year: string; TEPCO?: number; CHUBU?: number; JERA?: number } = { year: `FY${year}` };
-      
-      if (allTimeseriesData.TEPCO) {
-        const tepcoPoint = allTimeseriesData.TEPCO.find((d: TimeSeriesDataPoint) => d.year === year);
-        if (tepcoPoint && tepcoPoint[metric] !== undefined) point.TEPCO = tepcoPoint[metric];
-      }
-      
-      if (allTimeseriesData.CHUBU) {
-        const chubuPoint = allTimeseriesData.CHUBU.find((d: TimeSeriesDataPoint) => d.year === year);
-        if (chubuPoint && chubuPoint[metric] !== undefined) point.CHUBU = chubuPoint[metric];
-      }
-      
-      if (allTimeseriesData.JERA) {
-        const jeraPoint = allTimeseriesData.JERA.find((d: TimeSeriesDataPoint) => d.year === year);
-        if (jeraPoint && jeraPoint[metric] !== undefined) point.JERA = jeraPoint[metric];
-      }
-      
-      return point;
-    });
-  };
-
-  const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
-    if (!active || !payload || payload.length === 0) {
-      return null;
-    }
-
-    return (
-      <div className="bg-gray-900 border border-cyan-500 rounded-lg p-3 shadow-xl">
-        <p className="text-white font-semibold mb-2">{label}</p>
-        {payload.map((entry: any, index: number) => (
-          <p key={index} style={{ color: entry.color }} className="text-sm">
-            {entry.name}: {formatNumber(entry.value)} 億円
-          </p>
-        ))}
-      </div>
-    );
-  };
-
   return (
-    <>
-      <div className="neumorphic-card p-6 bold-border">
+    <div className="neumorphic-card p-6 bold-border">
         <div className="text-center mb-6 space-y-1">
           <h3 className="section-heading">主要指標比較</h3>
         </div>
@@ -333,114 +264,5 @@ export function ComparisonTable({ data }: ComparisonTableProps) {
           </table>
         </div>
       </div>
-
-      {/* 当期純利益推移グラフ */}
-      {!timeseriesLoading && allTimeseriesData && (
-        <div className="neumorphic-card p-6 bold-border mt-6">
-          <h3 className="section-heading text-center mb-6">当期純利益推移（過去10年）</h3>
-          <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={prepareChartData('netIncome')} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
-              <XAxis 
-                dataKey="year" 
-                stroke="#ffffff" 
-                style={{ fontSize: '0.875rem' }}
-              />
-              <YAxis 
-                stroke="#ffffff"
-                style={{ fontSize: '0.875rem' }}
-                label={{ value: '億円', angle: -90, position: 'insideLeft', style: { fill: '#ffffff' } }}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend 
-                wrapperStyle={{ color: '#ffffff' }}
-                iconType="line"
-              />
-              <Line 
-                type="monotone" 
-                dataKey="TEPCO" 
-                stroke="#00FF84" 
-                strokeWidth={2}
-                dot={{ fill: '#00FF84', r: 4 }}
-                name="東京電力HD"
-                connectNulls
-              />
-              <Line 
-                type="monotone" 
-                dataKey="CHUBU" 
-                stroke="#FF00FF" 
-                strokeWidth={2}
-                dot={{ fill: '#FF00FF', r: 4 }}
-                name="中部電力"
-                connectNulls
-              />
-              <Line 
-                type="monotone" 
-                dataKey="JERA" 
-                stroke="#00D4FF" 
-                strokeWidth={2}
-                dot={{ fill: '#00D4FF', r: 4 }}
-                name="JERA"
-                connectNulls
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      )}
-
-      {/* EBITDA推移グラフ */}
-      {!timeseriesLoading && allTimeseriesData && (
-        <div className="neumorphic-card p-6 bold-border mt-6">
-          <h3 className="section-heading text-center mb-6">EBITDA推移（過去10年）</h3>
-          <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={prepareChartData('ebitda')} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
-              <XAxis 
-                dataKey="year" 
-                stroke="#ffffff" 
-                style={{ fontSize: '0.875rem' }}
-              />
-              <YAxis 
-                stroke="#ffffff"
-                style={{ fontSize: '0.875rem' }}
-                label={{ value: '億円', angle: -90, position: 'insideLeft', style: { fill: '#ffffff' } }}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend 
-                wrapperStyle={{ color: '#ffffff' }}
-                iconType="line"
-              />
-              <Line 
-                type="monotone" 
-                dataKey="TEPCO" 
-                stroke="#00FF84" 
-                strokeWidth={2}
-                dot={{ fill: '#00FF84', r: 4 }}
-                name="東京電力HD"
-                connectNulls
-              />
-              <Line 
-                type="monotone" 
-                dataKey="CHUBU" 
-                stroke="#FF00FF" 
-                strokeWidth={2}
-                dot={{ fill: '#FF00FF', r: 4 }}
-                name="中部電力"
-                connectNulls
-              />
-              <Line 
-                type="monotone" 
-                dataKey="JERA" 
-                stroke="#00D4FF" 
-                strokeWidth={2}
-                dot={{ fill: '#00D4FF', r: 4 }}
-                name="JERA"
-                connectNulls
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      )}
-    </>
   );
 }

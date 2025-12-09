@@ -42,6 +42,11 @@ const fieldLabelMap: Record<string, string> = {
   NetCashProvidedByUsedInInvestingActivities: '投資活動によるキャッシュフロー',
   NetCashProvidedByUsedInFinancingActivities: '財務活動によるキャッシュフロー',
   
+  // 重要項目の明示的な修正
+  GrossProfit: '売上総利益',
+  IncomeTaxExpense: '法人税等費用',
+  CONSIGNMENTCHARGECALCULATION: '委託料計算',
+  
   // 既存のラベル
   return: 'リターン',
   revaluation: '評価替え',
@@ -476,7 +481,7 @@ const fieldLabelMap: Record<string, string> = {
   LongTermPrepaidExpenses: 'LongTermPrepaidExpenses',
   MerchandiseAndFinishedGoods: 'MerchandiseAndFinishedGoods',
   NetAssetsPerShareSummaryOfBusinessResults: '純資産',
-  NetCashProvidedByUsedInInvestingActivitiesSummaryOfBusinessResults: 'NetCashProvidedByUsedInInvestingActivitiesSummaryOfBusinessResults',
+  NetCashProvidedByUsedInInvestingActivitiesSummaryOfBusinessResults: '投資活動によるキャッシュフロー',
   NetCashProvidedByUsedInOperatingActivitiesSummaryOfBusinessResults: '営業活動',
   NetDefinedBenefitAsset: 'NetDefinedBenefitAsset',
   NetDefinedBenefitLiability: 'NetDefinedBenefitLiability',
