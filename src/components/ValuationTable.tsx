@@ -49,10 +49,177 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             <tr className="border-b border-gray-700">
               <th className="py-3 px-4 text-cyan font-semibold">指標</th>
               <th className="py-3 px-4 text-cyan font-semibold text-right">値</th>
-              <th className="py-3 px-4 text-cyan font-semibold">計算式</th>
+              <th className="py-3 px-4 text-cyan font-semibold">計算式/XBRLタグ</th>
             </tr>
           </thead>
           <tbody>
+            {/* PL項目 - データがある場合のみ表示 */}
+            {data.revenue !== undefined && data.revenue !== null && (
+            <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
+              <td className="py-4 px-4">
+                <MetricName 
+                  name="売上高（営業収益）" 
+                  tooltip="企業の本業による売上。XBRLタグ: jpcrp_cor:OperatingRevenue" 
+                />
+              </td>
+              <td className="py-4 px-4 text-right font-mono">{formatCurrency(data.revenue)}</td>
+              <td className="py-4 px-4 text-gray-400 text-sm">jpcrp_cor:OperatingRevenue</td>
+            </tr>
+            )}
+            {data.operatingIncome !== undefined && data.operatingIncome !== null && (
+            <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
+              <td className="py-4 px-4">
+                <MetricName 
+                  name="営業利益" 
+                  tooltip="本業の稼ぐ力を示す利益。XBRLタグ: jpcrp_cor:OperatingIncome" 
+                />
+              </td>
+              <td className="py-4 px-4 text-right font-mono">{formatCurrency(data.operatingIncome)}</td>
+              <td className="py-4 px-4 text-gray-400 text-sm">jpcrp_cor:OperatingIncome</td>
+            </tr>
+            )}
+            {data.ordinaryIncome !== undefined && data.ordinaryIncome !== null && (
+            <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
+              <td className="py-4 px-4">
+                <MetricName 
+                  name="経常利益" 
+                  tooltip="営業外収支を含めた経常的な利益。XBRLタグ: jpcrp_cor:OrdinaryIncome" 
+                />
+              </td>
+              <td className="py-4 px-4 text-right font-mono">{formatCurrency(data.ordinaryIncome)}</td>
+              <td className="py-4 px-4 text-gray-400 text-sm">jpcrp_cor:OrdinaryIncome</td>
+            </tr>
+            )}
+            {data.profitLoss !== undefined && data.profitLoss !== null && (
+            <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
+              <td className="py-4 px-4">
+                <MetricName 
+                  name="当期純利益" 
+                  tooltip="税引後の最終利益。XBRLタグ: jpcrp_cor:ProfitLoss" 
+                />
+              </td>
+              <td className="py-4 px-4 text-right font-mono">{formatCurrency(data.profitLoss)}</td>
+              <td className="py-4 px-4 text-gray-400 text-sm">jpcrp_cor:ProfitLoss</td>
+            </tr>
+            )}
+            <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
+              <td className="py-4 px-4">
+                <MetricName 
+                  name="親会社株主に帰属する当期純利益" 
+                  tooltip="親会社株主に帰属する最終利益。XBRLタグ: jpcrp_cor:ProfitLossAttributableToOwnersOfParent" 
+                />
+              </td>
+              <td className="py-4 px-4 text-right font-mono">{formatCurrency(data.netIncome)}</td>
+              <td className="py-4 px-4 text-gray-400 text-sm">jpcrp_cor:ProfitLossAttributableToOwnersOfParent</td>
+            </tr>
+            {/* BS項目 - データがある場合のみ表示 */}
+            {data.totalAssets !== undefined && data.totalAssets !== null && (
+            <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
+              <td className="py-4 px-4">
+                <MetricName 
+                  name="総資産" 
+                  tooltip="企業が保有する全資産。XBRLタグ: jpcrp_cor:Assets" 
+                />
+              </td>
+              <td className="py-4 px-4 text-right font-mono">{formatCurrency(data.totalAssets)}</td>
+              <td className="py-4 px-4 text-gray-400 text-sm">jpcrp_cor:Assets</td>
+            </tr>
+            )}
+            {data.netAssets !== undefined && data.netAssets !== null && (
+            <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
+              <td className="py-4 px-4">
+                <MetricName 
+                  name="純資産" 
+                  tooltip="総資産から総負債を差し引いた純粋な資産。XBRLタグ: jpcrp_cor:NetAssets" 
+                />
+              </td>
+              <td className="py-4 px-4 text-right font-mono">{formatCurrency(data.netAssets)}</td>
+              <td className="py-4 px-4 text-gray-400 text-sm">jpcrp_cor:NetAssets</td>
+            </tr>
+            )}
+            <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
+              <td className="py-4 px-4">
+                <MetricName 
+                  name="自己資本" 
+                  tooltip="株主に帰属する純資産。XBRLタグ: jpcrp_cor:Equity" 
+                />
+              </td>
+              <td className="py-4 px-4 text-right font-mono">{formatCurrency(data.equity)}</td>
+              <td className="py-4 px-4 text-gray-400 text-sm">jpcrp_cor:Equity</td>
+            </tr>
+            {data.interestBearingDebt !== undefined && data.interestBearingDebt !== null && (
+            <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
+              <td className="py-4 px-4">
+                <MetricName 
+                  name="有利子負債" 
+                  tooltip="利息を支払う義務のある負債。XBRLタグ: jpcrp_cor:InterestBearingDebt" 
+                />
+              </td>
+              <td className="py-4 px-4 text-right font-mono">{formatCurrency(data.interestBearingDebt)}</td>
+              <td className="py-4 px-4 text-gray-400 text-sm">jpcrp_cor:InterestBearingDebt</td>
+            </tr>
+            )}
+            {/* CF項目 - データがある場合のみ表示 */}
+            {data.operatingCashFlow !== undefined && data.operatingCashFlow !== null && (
+            <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
+              <td className="py-4 px-4">
+                <MetricName 
+                  name="営業活動によるキャッシュフロー" 
+                  tooltip="本業で稼いだ現金。XBRLタグ: jpcrp_cor:CashFlowsFromOperatingActivities" 
+                />
+              </td>
+              <td className="py-4 px-4 text-right font-mono">{formatCurrency(data.operatingCashFlow)}</td>
+              <td className="py-4 px-4 text-gray-400 text-sm">jpcrp_cor:CashFlowsFromOperatingActivities</td>
+            </tr>
+            )}
+            {data.investingCashFlow !== undefined && data.investingCashFlow !== null && (
+            <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
+              <td className="py-4 px-4">
+                <MetricName 
+                  name="投資活動によるキャッシュフロー" 
+                  tooltip="設備投資等による現金の増減。XBRLタグ: jpcrp_cor:CashFlowsFromInvestingActivities" 
+                />
+              </td>
+              <td className="py-4 px-4 text-right font-mono">{formatCurrency(data.investingCashFlow)}</td>
+              <td className="py-4 px-4 text-gray-400 text-sm">jpcrp_cor:CashFlowsFromInvestingActivities</td>
+            </tr>
+            )}
+            {data.financingCashFlow !== undefined && data.financingCashFlow !== null && (
+            <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
+              <td className="py-4 px-4">
+                <MetricName 
+                  name="財務活動によるキャッシュフロー" 
+                  tooltip="借入・返済等による現金の増減。XBRLタグ: jpcrp_cor:CashFlowsFromFinancingActivities" 
+                />
+              </td>
+              <td className="py-4 px-4 text-right font-mono">{formatCurrency(data.financingCashFlow)}</td>
+              <td className="py-4 px-4 text-gray-400 text-sm">jpcrp_cor:CashFlowsFromFinancingActivities</td>
+            </tr>
+            )}
+            {/* 計算指標 */}
+            <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
+              <td className="py-4 px-4">
+                <MetricName 
+                  name="EBITDA" 
+                  tooltip="金利・税金・減価償却費控除前利益。計算式: 営業利益 + 減価償却費" 
+                />
+              </td>
+              <td className="py-4 px-4 text-right font-mono">{formatCurrency(data.ebitda)}</td>
+              <td className="py-4 px-4 text-gray-400 text-sm">OperatingIncome + Depreciation</td>
+            </tr>
+            {data.roic !== undefined && data.roic !== null && (
+            <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
+              <td className="py-4 px-4">
+                <MetricName 
+                  name="ROIC" 
+                  tooltip="投下資本利益率。計算式: NOPAT ÷ 投下資本 × 100" 
+                />
+              </td>
+              <td className="py-4 px-4 text-right font-mono">{data.roic.toFixed(2)}%</td>
+              <td className="py-4 px-4 text-gray-400 text-sm">NOPAT ÷ InvestedCapital × 100</td>
+            </tr>
+            )}
+            {/* EV関連項目 */}
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
                 <MetricName 
@@ -86,26 +253,6 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
             <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">
                 <MetricName 
-                  name="EBITDA" 
-                  tooltip="金利・税金・減価償却費控除前利益。企業の本業の稼ぐ力を示す指標で、設備投資型産業の評価に適しています。" 
-                />
-              </td>
-              <td className="py-4 px-4 text-right font-mono">{formatCurrency(data.ebitda)}</td>
-              <td className="py-4 px-4 text-gray-400 text-sm">営業利益 + 減価償却費</td>
-            </tr>
-            <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
-              <td className="py-4 px-4">
-                <MetricName 
-                  name="連結当期利益" 
-                  tooltip="親会社株主に帰属する当期純利益。XBRLタグ: jpcrp_cor:ProfitLossAttributableToOwnersOfParent" 
-                />
-              </td>
-              <td className="py-4 px-4 text-right font-mono">{formatCurrency(data.netIncome)}</td>
-              <td className="py-4 px-4 text-gray-400 text-sm">親会社株主帰属当期純利益</td>
-            </tr>
-            <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
-              <td className="py-4 px-4">
-                <MetricName 
                   name="EV/EBITDA倍率" 
                   tooltip="企業価値がEBITDAの何倍かを示す投資指標。低いほど割安とされ、電力業界の平均は6-10倍程度です。" 
                 />
@@ -121,7 +268,7 @@ export function ValuationTable({ data, companyName }: ValuationTableProps) {
                 />
               </td>
               <td className="py-4 px-4 text-right font-mono">{formatRatio(data.per)}</td>
-              <td className="py-4 px-4 text-gray-400 text-sm">時価総額 ÷ 連結当期利益</td>
+              <td className="py-4 px-4 text-gray-400 text-sm">時価総額 ÷ 親会社株主帰属当期純利益</td>
             </tr>
             <tr className="hover:bg-gray-800/50 transition-colors">
               <td className="py-4 px-4">

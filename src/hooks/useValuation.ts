@@ -9,15 +9,31 @@ import type { CompanyName } from '../types';
 
 export interface ValuationDataItem {
   date: string;
+  // PL項目（オプショナル - データソースによっては未提供）
+  revenue?: number; // 売上高（営業収益）jpcrp_cor:OperatingRevenue
+  operatingIncome?: number; // 営業利益 jpcrp_cor:OperatingIncome
+  ordinaryIncome?: number; // 経常利益 jpcrp_cor:OrdinaryIncome
+  profitLoss?: number; // 当期純利益 jpcrp_cor:ProfitLoss
+  netIncome: number; // 親会社株主帰属当期純利益 jpcrp_cor:ProfitLossAttributableToOwnersOfParent
+  // BS項目（オプショナル）
+  totalAssets?: number; // 総資産 jpcrp_cor:Assets
+  netAssets?: number; // 純資産 jpcrp_cor:NetAssets
+  equity: number; // 自己資本 jpcrp_cor:Equity
+  interestBearingDebt?: number; // 有利子負債 jpcrp_cor:InterestBearingDebt
+  // CF項目（オプショナル）
+  operatingCashFlow?: number; // 営業活動CF jpcrp_cor:CashFlowsFromOperatingActivities
+  investingCashFlow?: number; // 投資活動CF jpcrp_cor:CashFlowsFromInvestingActivities
+  financingCashFlow?: number; // 財務活動CF jpcrp_cor:CashFlowsFromFinancingActivities
+  // 計算指標
+  ebitda: number; // EBITDA（営業利益+減価償却費）
+  roic?: number; // ROIC（NOPAT÷投下資本）
+  // EV関連
   marketCap: number;
+  netDebt: number;
   enterpriseValue: number;
   evEbitdaRatio: number;
   per: number;
   pbr: number;
-  netDebt: number;
-  ebitda: number;
-  netIncome: number; // 連結当期利益（親会社株主帰属当期純利益）
-  equity: number; // 純資産（自己資本）
 }
 
 export function useValuation(companyName: CompanyName) {
