@@ -150,4 +150,89 @@ test.describe('財務諸表3社比較表示', () => {
     expect(itemText).toBeTruthy();
     expect(itemText!.length).toBeGreaterThan(0);
   });
+
+  test('【US5-4】PLタブ: 200項目以上にXBRLツールチップが表示される', async ({ page }) => {
+    // PLタブに移動
+    await page.click('button:has-text("損益計算書")');
+    
+    // データ読み込み完了を待つ
+    await page.waitForSelector('table tbody tr', { timeout: 10000 });
+    
+    // 「?」マークを持つ要素をカウント
+    const tooltipMarks = page.locator('.metric-info');
+    const tooltipCount = await tooltipMarks.count();
+    
+    // PL 256項目のうち、少なくとも200項目にツールチップが存在
+    expect(tooltipCount).toBeGreaterThanOrEqual(200);
+    
+    // 最初のツールチップにマウスオーバーして内容を確認
+    await tooltipMarks.first().hover();
+    
+    // ツールチップコンテンツが表示される
+    await expect(page.locator('.metric-tooltip')).toBeVisible({ timeout: 2000 });
+    
+    // XBRLタグが表示されていることを確認（jpcrp_cor: で始まる）
+    const tooltipText = await page.locator('.metric-tooltip').textContent();
+    expect(tooltipText).toMatch(/jpcrp_cor:|計算値:/);
+  });
+
+  test('【US5-5】BSタブ: 200項目以上にXBRLツールチップが表示される', async ({ page }) => {
+    // BSタブに移動
+    await page.click('button:has-text("貸借対照表")');
+    
+    // データ読み込み完了を待つ
+    await page.waitForSelector('table tbody tr', { timeout: 10000 });
+    
+    // 「?」マークを持つ要素をカウント
+    const tooltipMarks = page.locator('.metric-info');
+    const tooltipCount = await tooltipMarks.count();
+    
+    // BS 233項目のうち、少なくとも200項目にツールチップが存在
+    expect(tooltipCount).toBeGreaterThanOrEqual(200);
+  });
+
+  test('【US5-6】CFタブ: 60項目以上にXBRLツールチップが表示される', async ({ page }) => {
+    // CFタブに移動
+    await page.click('button:has-text("CF計算書")');
+    
+    // データ読み込み完了を待つ
+    await page.waitForSelector('table tbody tr', { timeout: 10000 });
+    
+    // 「?」マークを持つ要素をカウント
+    const tooltipMarks = page.locator('.metric-info');
+    const tooltipCount = await tooltipMarks.count();
+    
+    // CF 70項目のうち、少なくとも60項目にツールチップが存在
+    expect(tooltipCount).toBeGreaterThanOrEqual(60);
+  });
+
+  test('【US5-7】任意の項目のXBRLツールチップがjpcrp_cor形式で表示される', async ({ page }) => {
+    // PLタブに移動
+    await page.click('button:has-text("損益計算書")');
+    
+    // データ読み込み完了を待つ
+    await page.waitForSelector('table tbody tr', { timeout: 10000 });
+    
+    // ランダムに複数のツールチップをテスト（最大10個）
+    const tooltipMarks = page.locator('.metric-info');
+    const tooltipCount = Math.min(await tooltipMarks.count(), 10);
+    
+    for (let i = 0; i < tooltipCount; i++) {
+      const mark = tooltipMarks.nth(i);
+      
+      // マウスオーバー
+      await mark.hover();
+      
+      // ツールチップが表示される
+      await expect(page.locator('.metric-tooltip')).toBeVisible({ timeout: 2000 });
+      
+      // XBRLタグまたは計算式が表示される
+      const tooltipText = await page.locator('.metric-tooltip').textContent();
+      expect(tooltipText).toMatch(/jpcrp_cor:|計算値:/);
+      
+      // マウスアウト（次のテストのため）
+      await page.locator('h3').first().hover();
+      await page.waitForTimeout(100);
+    }
+  });
 });
