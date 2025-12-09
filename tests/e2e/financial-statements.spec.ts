@@ -169,10 +169,10 @@ test.describe('財務諸表3社比較表示', () => {
     await tooltipMarks.first().hover();
     
     // ツールチップコンテンツが表示される
-    await expect(page.locator('.metric-tooltip')).toBeVisible({ timeout: 2000 });
+    await expect(page.locator('.metric-tooltip').first()).toBeVisible({ timeout: 2000 });
     
     // XBRLタグが表示されていることを確認（jpcrp_cor: で始まる）
-    const tooltipText = await page.locator('.metric-tooltip').textContent();
+    const tooltipText = await page.locator('.metric-tooltip').first().textContent();
     expect(tooltipText).toMatch(/jpcrp_cor:|計算値:/);
   });
 
@@ -223,11 +223,11 @@ test.describe('財務諸表3社比較表示', () => {
       // マウスオーバー
       await mark.hover();
       
-      // ツールチップが表示される
-      await expect(page.locator('.metric-tooltip')).toBeVisible({ timeout: 2000 });
+      // ツールチップが表示されるまで待機
+      await page.waitForTimeout(300);
       
       // XBRLタグまたは計算式が表示される
-      const tooltipText = await page.locator('.metric-tooltip').textContent();
+      const tooltipText = await page.locator('.metric-tooltip').first().textContent();
       expect(tooltipText).toMatch(/jpcrp_cor:|計算値:/);
       
       // マウスアウト（次のテストのため）

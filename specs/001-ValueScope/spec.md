@@ -3,7 +3,7 @@
 **Feature Branch**: `main`
 **Created**: 2025-12-15
 **Status**: Production
-**バージョン**: v1.0.0
+**バージョン**: 1.0.0
 **リポジトリ**: https://github.com/J1921604/ValueScope
 
 ---
