@@ -2,7 +2,6 @@
 
 **Feature Branch**: `main`  
 **Created**: 2025-12-15  
-**Updated**: 2025-12-15  
 **Status**: Production  
 **バージョン**: 1.0.0
 

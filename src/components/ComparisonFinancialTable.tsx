@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useFinancialCSV, type FinancialData } from '../hooks/useFinancialCSV';
 import { formatNumber } from '../utils/formatNumber';
+import { MetricTooltip } from './MetricTooltip';
 
 interface ComparisonFinancialTableProps {
   type: 'PL' | 'BS' | 'CF';
@@ -370,6 +371,40 @@ const fieldLabelMap: Record<string, string> = {
   TotalSalesAmountForDecreasedSharesEquitySecuritiesNotListedInvestmentEquitySecuritiesHeldForPurposesOtherThanPureInvestmentLargestHoldingCompany: '売却額合計（最大保有会社）',
   NumberOfIssuesWhoseNumberOfSharesIncreasedSharesNotListedInvestmentSharesHeldForPurposesOtherThanPureInvestmentSecondLargestHoldingCompany: '取得銘柄数（第2位保有会社）',
   TotalAcquisitionCostForIncreasedSharesSharesNotListedInvestmentSharesHeldForPurposesOtherThanPureInvestmentSecondLargestHoldingCompany: '取得額合計（第2位保有会社）',
+};
+
+// XBRLタグマッピング（主要項目のみ）
+const xbrlTagMap: Record<string, string> = {
+  // PL主要項目
+  'ElectricUtilityOperatingRevenueELE': 'jppfs_cor:ElectricUtilityOperatingRevenueELE',
+  'OperatingRevenue': 'jpcrp_cor:OperatingRevenue',
+  'OperatingIncome': 'jpcrp_cor:OperatingIncome',
+  'OrdinaryIncome': 'jpcrp_cor:OrdinaryIncome',
+  'ProfitLoss': 'jpcrp_cor:ProfitLoss',
+  'ProfitLossAttributableToOwnersOfParent': 'jpcrp_cor:ProfitLossAttributableToOwnersOfParent',
+  'NetIncome': 'jpcrp_cor:ProfitLossAttributableToOwnersOfParent',
+  
+  // BS主要項目
+  'Assets': 'jpcrp_cor:Assets',
+  'TotalAssets': 'jpcrp_cor:Assets',
+  'NetAssets': 'jpcrp_cor:NetAssets',
+  'Equity': 'jpcrp_cor:Equity',
+  'InterestBearingDebt': 'jpcrp_cor:InterestBearingDebt',
+  'CashAndDeposits': 'jpcrp_cor:CashAndDeposits',
+  'CurrentAssets': 'jpcrp_cor:CurrentAssets',
+  'NoncurrentAssets': 'jpcrp_cor:NoncurrentAssets',
+  'CurrentLiabilities': 'jpcrp_cor:CurrentLiabilities',
+  'NoncurrentLiabilities': 'jpcrp_cor:NoncurrentLiabilities',
+  'Liabilities': 'jpcrp_cor:Liabilities',
+  
+  // CF主要項目
+  'NetCashProvidedByUsedInOperatingActivities': 'jpcrp_cor:NetCashProvidedByUsedInOperatingActivities',
+  'NetCashProvidedByUsedInInvestingActivities': 'jpcrp_cor:NetCashProvidedByUsedInInvestingActivities',
+  'NetCashProvidedByUsedInFinancingActivities': 'jpcrp_cor:NetCashProvidedByUsedInFinancingActivities',
+  'CashFlowsFromOperatingActivities': 'jpcrp_cor:CashFlowsFromOperatingActivities',
+  'CashFlowsFromInvestingActivities': 'jpcrp_cor:CashFlowsFromInvestingActivities',
+  'CashFlowsFromFinancingActivities': 'jpcrp_cor:CashFlowsFromFinancingActivities',
+  'DepreciationAndAmortizationOpeCF': 'jpcrp_cor:DepreciationAndAmortizationOpeCF',
 };
 
 const fallbackLabelCache = new Map<string, string>();
@@ -985,22 +1020,34 @@ export function ComparisonFinancialTable({ type, title, selectedYear }: Comparis
             </tr>
           </thead>
           <tbody>
-            {allKeys.map((key) => (
-              <tr key={key}>
-                <td className="financial-metric">
-                  {translateFinancialLabel(key)}
-                </td>
-                <td className="financial-value">
-                  {tepcoData ? formatCellValue(tepcoData[key]) : '-'}
-                </td>
-                <td className="financial-value">
-                  {chubuData ? formatCellValue(chubuData[key]) : '-'}
-                </td>
-                <td className="financial-value">
-                  {jeraData ? formatCellValue(jeraData[key]) : '-'}
-                </td>
-              </tr>
-            ))}
+            {allKeys.map((key) => {
+              const xbrlTag = xbrlTagMap[key];
+              const label = translateFinancialLabel(key);
+              
+              return (
+                <tr key={key}>
+                  <td className="financial-metric">
+                    {xbrlTag ? (
+                      <MetricTooltip 
+                        name={label} 
+                        tooltip={`XBRLタグ: ${xbrlTag}`} 
+                      />
+                    ) : (
+                      label
+                    )}
+                  </td>
+                  <td className="financial-value">
+                    {tepcoData ? formatCellValue(tepcoData[key]) : '-'}
+                  </td>
+                  <td className="financial-value">
+                    {chubuData ? formatCellValue(chubuData[key]) : '-'}
+                  </td>
+                  <td className="financial-value">
+                    {jeraData ? formatCellValue(jeraData[key]) : '-'}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
 

@@ -3,7 +3,9 @@ import type { CompanyName, ScoreColor } from './types'
 import type { TimeSeriesDataPoint } from './hooks/useTimeseries'
 import { useTimeseries } from './hooks/useTimeseries'
 import { useEmployeeData } from './hooks/useEmployeeData'
+import { useValuation } from './hooks/useValuation'
 import { ComparisonTable } from './components/ComparisonTable'
+import { ValuationTable } from './components/ValuationTable'
 import { KPIGauge } from './components/KPIGauge'
 import { MultiCompanyTrendChart } from './components/MultiCompanyTrendChart'
 import { MultiCompanyEVChart } from './components/MultiCompanyEVChart'
@@ -68,6 +70,11 @@ function App() {
 
   const { data: timeseriesData, loading: timeseriesLoading, error: timeseriesError } = useTimeseries()
   const { data: employeeData, loading: employeeLoading, error: employeeError } = useEmployeeData()
+  
+  // 企業価値データ（14項目対応）
+  const { data: tepcoValuation, loading: tepcoValLoading } = useValuation('TEPCO')
+  const { data: chubuValuation, loading: chubuValLoading } = useValuation('CHUBU')
+  const { data: jeraValuation, loading: jeraValLoading } = useValuation('JERA')
 
   const availableYears = useMemo(() => {
     if (!timeseriesData) {
@@ -254,6 +261,25 @@ function App() {
             {activeTab === 'ev' && (
               <section className="space-y-10">
                 <ComparisonTable data={perCompanyYearData} />
+
+                {/* 14項目対応の企業価値詳細テーブル */}
+                <div className="space-y-8">
+                  <h2 className="text-3xl font-bold text-center mb-8 text-neon-green neon-glow">
+                    企業価値詳細分析（14項目）
+                  </h2>
+                  
+                  {tepcoValuation && !tepcoValLoading && (
+                    <ValuationTable data={tepcoValuation} companyName="TEPCO" />
+                  )}
+                  
+                  {chubuValuation && !chubuValLoading && (
+                    <ValuationTable data={chubuValuation} companyName="CHUBU" />
+                  )}
+                  
+                  {jeraValuation && !jeraValLoading && (
+                    <ValuationTable data={jeraValuation} companyName="JERA" />
+                  )}
+                </div>
 
                 <div className="space-y-8">
                   <MultiCompanyEVChart
