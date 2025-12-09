@@ -1,9 +1,10 @@
 # ValueScope - 企業価値分析ダッシュボード
 
-**バージョン**: 1.0.0  
+**バージョン**: v1.0.0  
 **リリース日**: 2025-12-15  
 **公開URL**: https://j1921604.github.io/ValueScope/  
-**GitHubリポジトリ**: https://github.com/J1921604/ValueScope
+**GitHubリポジトリ**: https://github.com/J1921604/ValueScope  
+**ドキュメント**: [constitution.md](https://github.com/J1921604/ValueScope/blob/main/docs/constitution.md) | [spec.md](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/spec.md) | [plan.md](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/plan.md)
 
 [![Deploy to GitHub Pages](https://github.com/J1921604/ValueScope/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/J1921604/ValueScope/actions/workflows/deploy-pages.yml)
 
@@ -31,11 +32,17 @@ ValueScopeは、東京電力HD・中部電力・JERAの企業価値指標（EV�
 
 EDINET XBRL実データのみを使用し、推定値・補完値を一切使用しない高品質な財務分析を提供します。
 
+### 🎯 v1.0.0 新機能
+
+- **全488項目XBRL tooltips対応**: 損益計算書256項目、貸借対照表233項目、キャッシュフロー計算書70項目の全項目に「?」マーク付きXBRLツールチップを実装
+- **Stooq API統合**: Yahoo Financeから移行し、安定した株価データ取得を実現
+- **自動データ更新**: GitHub Actionsで株価を毎デプロイ時、EDINET財務データを年1回（6/20-7/1）自動取得
+
 ---
 
 ## 主要機能
 
-### ✅ 企業価値指標の可視化
+### ✅ 企業価値指標の可視化（14項目 + XBRL tooltips 488項目）
 
 **損益計算書（PL）項目**:
 - **売上高（営業収益）**: jpcrp_cor:OperatingRevenue
@@ -207,9 +214,9 @@ npm run dev
 
 ## データ更新
 
-### EDINET XBRL更新（年1回）
+### EDINET XBRL更新（年1回: 6/20-7/1）
 
-GitHub Actionsで毎年6月20日から7月1日の期間のみ自動実行されます。
+GitHub Actionsで毎年6月20日から7月1日の期間のみ自動実行されます。EDINET APIキーはGitHub Secretsで管理。
 
 **手動更新**:
 
@@ -219,9 +226,14 @@ py -3.10 scripts/parse_edinet_xbrl.py
 py -3.10 scripts/extract_xbrl_to_csv.py
 ```
 
-### 株価データ更新（毎回デプロイ時）
+### 株価データ更新（毎デプロイ時: Stooq API）
 
-GitHub Actionsで毎回デプロイ時にStooq APIから自動取得されます。
+**v1.0.0変更**: Yahoo Finance API → Stooq API（pandas_datareader経由）に移行  
+GitHub Actionsで毎回デプロイ時に自動取得されます。
+
+**対象銘柄**:
+- 9501.T: 東京電力HD
+- 9502.T: 中部電力
 
 **手動更新**:
 
@@ -229,13 +241,35 @@ GitHub Actionsで毎回デプロイ時にStooq APIから自動取得されます
 py -3.10 scripts/fetch_stock_prices.py
 ```
 
+**Stooq APIの利点**:
+- 無料・無制限アクセス
+- 安定した稼働率
+- pandas_datareaderとの統合
+
 ### データ再計算
 
 ```powershell
+# 時系列データ生成（14項目追加対応）
 py -3.10 scripts/build_timeseries.py
+
+# 企業価値計算
 py -3.10 scripts/build_valuation.py
+
+# KPIスコア計算
 py -3.10 scripts/compute_scores.py
 ```
+
+### XBRLタグマップ自動生成
+
+財務3表CSV全項目から488項目のXBRLタグマップを自動生成:
+
+```powershell
+py -3.10 scripts/generate_xbrl_map.py
+```
+
+生成ファイル:
+- `src/components/xbrlTagMap.ts`: 488項目のXBRLマッピング
+- `scripts/xbrl_fields_list.json`: 検証用フィールドリスト
 
 ---
 

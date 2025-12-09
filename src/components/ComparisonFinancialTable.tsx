@@ -2,6 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { useFinancialCSV, type FinancialData } from '../hooks/useFinancialCSV';
 import { formatNumber } from '../utils/formatNumber';
 import { MetricTooltip } from './MetricTooltip';
+import { xbrlTagMap } from './xbrlTagMap';
 
 interface ComparisonFinancialTableProps {
   type: 'PL' | 'BS' | 'CF';
@@ -399,45 +400,7 @@ const fieldLabelMap: Record<string, string> = {
   TotalAcquisitionCostForIncreasedSharesSharesNotListedInvestmentSharesHeldForPurposesOtherThanPureInvestmentSecondLargestHoldingCompany: '取得額合計（第2位保有会社）',
 };
 
-// XBRLタグマッピング（主要項目のみ）
-const xbrlTagMap: Record<string, string> = {
-  // PL主要項目（14項目対応）
-  'ElectricUtilityOperatingRevenueELE': 'jppfs_cor:ElectricUtilityOperatingRevenueELE',
-  'OperatingRevenue': 'jpcrp_cor:OperatingRevenue',
-  'Revenue': 'jpcrp_cor:OperatingRevenue', // 売上高（営業収益）
-  'OperatingIncome': 'jpcrp_cor:OperatingIncome',
-  'OrdinaryIncome': 'jpcrp_cor:OrdinaryIncome',
-  'ProfitLoss': 'jpcrp_cor:ProfitLoss',
-  'ProfitLossAttributableToOwnersOfParent': 'jpcrp_cor:ProfitLossAttributableToOwnersOfParent',
-  'NetIncome': 'jpcrp_cor:ProfitLossAttributableToOwnersOfParent',
-  'EBITDA': '計算値: 営業利益 + 減価償却費', // 計算項目
-  
-  // BS主要項目（14項目対応）
-  'Assets': 'jpcrp_cor:Assets',
-  'TotalAssets': 'jpcrp_cor:Assets',
-  'NetAssets': 'jpcrp_cor:NetAssets',
-  'Equity': 'jpcrp_cor:Equity',
-  'InterestBearingDebt': 'jpcrp_cor:InterestBearingDebt',
-  'CashAndDeposits': 'jpcrp_cor:CashAndDeposits',
-  'NetDebt': '計算値: 有利子負債 - 現金及び預金', // 計算項目
-  'CurrentAssets': 'jpcrp_cor:CurrentAssets',
-  'NoncurrentAssets': 'jpcrp_cor:NoncurrentAssets',
-  'CurrentLiabilities': 'jpcrp_cor:CurrentLiabilities',
-  'NoncurrentLiabilities': 'jpcrp_cor:NoncurrentLiabilities',
-  'Liabilities': 'jpcrp_cor:Liabilities',
-  
-  // CF主要項目（14項目対応）
-  'NetCashProvidedByUsedInOperatingActivities': 'jpcrp_cor:NetCashProvidedByUsedInOperatingActivities',
-  'NetCashProvidedByUsedInInvestingActivities': 'jpcrp_cor:NetCashProvidedByUsedInInvestingActivities',
-  'NetCashProvidedByUsedInFinancingActivities': 'jpcrp_cor:NetCashProvidedByUsedInFinancingActivities',
-  'CashFlowsFromOperatingActivities': 'jpcrp_cor:CashFlowsFromOperatingActivities',
-  'OperatingCashFlow': 'jpcrp_cor:CashFlowsFromOperatingActivities', // 営業活動CF
-  'CashFlowsFromInvestingActivities': 'jpcrp_cor:CashFlowsFromInvestingActivities',
-  'InvestingCashFlow': 'jpcrp_cor:CashFlowsFromInvestingActivities', // 投資活動CF
-  'CashFlowsFromFinancingActivities': 'jpcrp_cor:CashFlowsFromFinancingActivities',
-  'FinancingCashFlow': 'jpcrp_cor:CashFlowsFromFinancingActivities', // 財務活動CF
-  'DepreciationAndAmortizationOpeCF': 'jpcrp_cor:DepreciationAndAmortizationOpeCF',
-};
+// 全488項目のXBRLタグマップは xbrlTagMap.ts から自動インポート
 
 const fallbackLabelCache = new Map<string, string>();
 

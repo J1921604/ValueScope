@@ -3,7 +3,111 @@
 **Feature Branch**: `main`  
 **Created**: 2025-12-15  
 **Status**: Production  
-**バージョン**: 1.0.0
+**バージョン**: v1.0.0  
+**リポジトリ**: https://github.com/J1921604/ValueScope
+
+---
+
+## システムアーキテクチャ
+
+```mermaid
+flowchart TB
+    subgraph "Data Sources"
+        A1[EDINET API v2]
+        A2[Stooq Stock Prices]
+    end
+    
+    subgraph "Data Processing Python Scripts"
+        B1[fetch_edinet.py]
+        B2[parse_edinet_xbrl.py]
+        B3[fetch_stock_prices.py]
+        B4[build_timeseries.py]
+        B5[compute_scores.py]
+    end
+    
+    subgraph "Data Storage"
+        C1[XBRL_output/**/*.csv<br/>PL 256項目, BS 233項目, CF 70項目]
+        C2[data/prices/*.csv]
+        C3[public/data/*.json]
+    end
+    
+    subgraph "Frontend React + TypeScript"
+        D1[ComparisonTable.tsx<br/>24指標 + 14項目]
+        D2[ComparisonFinancialTable.tsx<br/>全488項目 XBRL tooltips]
+        D3[MetricTooltip.tsx<br/>? マーク hover]
+        D4[xbrlTagMap.ts<br/>488 XBRL tags]
+    end
+    
+    subgraph "Deployment"
+        E1[GitHub Actions]
+        E2[GitHub Pages]
+    end
+    
+    A1 -->|年1回 6/20-7/1| B1
+    A2 -->|毎デプロイ| B3
+    B1 --> B2
+    B2 --> C1
+    B3 --> C2
+    C1 --> B4
+    C2 --> B4
+    B4 --> C3
+    C3 --> B5
+    B5 --> C3
+    C3 --> D1
+    C3 --> D2
+    D2 --> D3
+    D2 --> D4
+    D1 --> E1
+    D2 --> E1
+    E1 --> E2
+```
+
+---
+
+## データフロー詳細
+
+```mermaid
+sequenceDiagram
+    participant GH as GitHub Actions
+    participant ED as EDINET API
+    participant ST as Stooq API
+    participant PY as Python Scripts
+    participant CSV as CSV Files
+    participant JSON as JSON Files
+    participant React as React App
+    
+    alt 毎デプロイ時
+        GH->>ST: 株価取得リクエスト
+        ST-->>GH: 株価データ
+        GH->>PY: fetch_stock_prices.py
+        PY->>CSV: prices/*.csv
+    end
+    
+    alt 年1回 6/20-7/1
+        GH->>ED: XBRL取得リクエスト
+        ED-->>GH: XBRL Documents
+        GH->>PY: parse_edinet_xbrl.py
+        PY->>CSV: XBRL_output/**/*.csv (PL 256, BS 233, CF 70)
+    end
+    
+    GH->>PY: build_timeseries.py
+    PY->>CSV: 読込 (488項目)
+    CSV-->>PY: 財務データ
+    PY->>JSON: public/data/timeseries.json
+    
+    GH->>PY: compute_scores.py
+    PY->>JSON: 読込 timeseries.json
+    JSON-->>PY: KPIデータ
+    PY->>JSON: public/data/scorecards.json
+    
+    GH->>React: npm run build
+    React->>JSON: 読込 (データバインディング)
+    JSON-->>React: 表示データ
+    React-->>GH: dist/
+    GH->>GH: GitHub Pages デプロイ
+```
+
+---
 
 ## ユーザーシナリオとテスト
 
@@ -128,22 +232,49 @@ KPIスコアカードを表示し、ROIC、WACC、EBITDAマージン、FCFマー
 
 ---
 
-### ユーザーストーリー 5 - 財務諸表（PL/BS/CF）の3社比較テーブル (優先度: P2)
+### ユーザーストーリー 5 - 財務諸表（PL/BS/CF）の3社比較テーブル【全488項目XBRL対応】 (優先度: P1)
 
 **概要**: 
-損益計算書（PL）、貸借対照表（BS）、キャッシュフロー計算書（CF）を3社横並びで比較できるテーブルを提供し、電力業界特化KPI（ROIC、WACC、EBITDAマージン、FCFマージン）計算の根拠となる財務データを確認できるようにする。
+損益計算書（PL 256項目）、貸借対照表（BS 233項目）、キャッシュフロー計算書（CF 70項目）の全項目を3社横並びで比較できるテーブルを提供し、**全488項目に「?」マーク付きXBRLツールチップ**を実装する。電力業界特化KPI（ROIC、WACC、EBITDAマージン、FCFマージン）計算の根拠となる財務データを確認できるようにする。
 
 **優先度の理由**: 
-KPI分析の根拠となる財務データの透明性を確保し、詳細な財務分析を可能にする。EBIT、EBITDA、営業CF等、電力業界特化KPI計算に必要な項目を網羅。
+KPI分析の根拠となる財務データの透明性を確保し、詳細な財務分析を可能にする。EBIT、EBITDA、営業CF等、電力業界特化KPI計算に必要な項目を網羅。**全項目にXBRLタグを記載したツールチップを実装することで、データの出所を完全に追跡可能にする。**
+
+**XBRL tooltips実装詳細**:
+
+| 財務諸表 | 項目数 | XBRL tag形式 | tooltip表示内容 |
+|---------|-------|------------|----------------|
+| PL（損益計算書） | 256項目 | `jpcrp_cor:FieldName` | 項目名の英語 → XBRL tag<br/>例: `OperatingIncome` → `jpcrp_cor:OperatingIncome` |
+| BS（貸借対照表） | 233項目 | `jpcrp_cor:FieldName` | 項目名の英語 → XBRL tag<br/>例: `Assets` → `jpcrp_cor:Assets` |
+| CF（キャッシュフロー） | 70項目 | `jpcrp_cor:FieldName` | 項目名の英語 → XBRL tag<br/>例: `NetCashProvidedByUsedInOperatingActivities` → `jpcrp_cor:NetCashProvidedByUsedInOperatingActivities` |
+| **合計** | **559項目** | **重複排除後488項目** | 全項目に「?」マーク hover でXBRLタグ表示 |
+
+**計算指標の特殊処理**:
+- `EBITDA`: `計算値: 営業利益 + 減価償却費`
+- `NetDebt`: `計算値: 有利子負債 - 現金及び預金`
+- `Equity`: `計算値: 資本金 + 資本剰余金 + 利益剰余金 - 自己株式`
+- `InterestBearingDebt`: `計算値: BondsPayable + LongTermLoansPayable + ShortTermLoansPayable`
+
+**実装方法**:
+1. `scripts/generate_xbrl_map.py` でCSV全項目から自動生成
+2. `src/components/xbrlTagMap.ts` に488項目のマッピング格納
+3. `src/components/ComparisonFinancialTable.tsx` でインポート
+4. `src/components/MetricTooltip.tsx` で「?」マーク hover 表示
 
 **独立したテスト**: 
-財務諸表タブを選択し、PL/BS/CFの3社比較テーブルが正しく表示され、年度フィルタが動作することを確認できる。
+財務諸表タブを選択し、PL/BS/CFの3社比較テーブルが正しく表示され、**全項目に「?」マークが表示され、hover時にXBRLタグが表示される**ことを確認できる。
 
 **受入基準**:
 
 1. **Given** 財務諸表タブを選択した時、**When** テーブルを表示する、**Then** PL/BS/CFの3社比較テーブルが表示される
 2. **Given** 年度フィルタを選択した時、**When** データをフィルタリングする、**Then** 選択した年度（FY2015～FY2024）のデータが表示される
 3. **Given** XBRL_output/からCSVデータを読み込む時、**When** データを解析する、**Then** 全項目が日本語ラベルで表示される
+4. **Given** PLタブを表示した時、**When** 項目をカウントする、**Then** 256項目すべてに「?」マークが表示される
+5. **Given** BSタブを表示した時、**When** 項目をカウントする、**Then** 233項目すべてに「?」マークが表示される
+6. **Given** CFタブを表示した時、**When** 項目をカウントする、**Then** 70項目すべてに「?」マークが表示される
+7. **Given** 任意の項目の「?」マークにマウスオーバーした時、**When** ツールチップを表示する、**Then** `jpcrp_cor:FieldName` 形式のXBRLタグまたは計算式が表示される
+8. **Given** `xbrlTagMap.ts` をインポートした時、**When** マップサイズを確認する、**Then** 488項目のマッピングが存在する
+9. **Given** E2Eテストを実行した時、**When** 財務諸表ページをテストする、**Then** PL 200項目以上、BS 200項目以上、CF 60項目以上にXBRLツールチップが存在する
 
 ---
 

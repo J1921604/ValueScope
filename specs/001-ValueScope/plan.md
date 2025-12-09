@@ -1,6 +1,64 @@
 # 実装計画書: ValueScope
 
-**Branch**: `main` | **Date**: 2025-12-15 | **Spec**: [spec.md](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/spec.md)
+**Branch**: `main` | **Date**: 2025-12-15 | **Spec**: [spec.md](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/spec.md) | **バージョン**: v1.0.0
+
+---
+
+## 開発フェーズ概要
+
+```mermaid
+gantt
+    title ValueScope 開発スケジュール（v1.0.0）
+    dateFormat YYYY-MM-DD
+    
+    section Phase 1: データ基盤
+    EDINET API統合          :done, 2025-11-01, 7d
+    XBRL解析スクリプト       :done, 2025-11-08, 10d
+    CSV出力最適化           :done, 2025-11-18, 5d
+    
+    section Phase 2: フロントエンド基本
+    React環境構築           :done, 2025-11-23, 3d
+    ComparisonTable実装     :done, 2025-11-26, 7d
+    MetricTooltip実装       :done, 2025-12-03, 4d
+    
+    section Phase 3: 機能拡張
+    14項目EV分析追加        :done, 2025-12-07, 5d
+    ComparisonFinancialTable :done, 2025-12-12, 3d
+    全488項目XBRL tooltips   :done, 2025-12-15, 1d
+    
+    section Phase 4: テスト・デプロイ
+    E2Eテスト実装           :active, 2025-12-16, 3d
+    ドキュメント更新         :2025-12-19, 2d
+    GitHub Pages デプロイ    :milestone, 2025-12-21, 0d
+```
+
+---
+
+## データパイプライン
+
+```mermaid
+flowchart LR
+    A[EDINET API] -->|年1回 6/20-7/1| B[fetch_edinet.py]
+    B --> C[XBRL Documents]
+    C --> D[parse_edinet_xbrl.py]
+    D --> E[XBRL_output/**/*.csv<br/>PL 256, BS 233, CF 70]
+    
+    F[Stooq API] -->|毎デプロイ| G[fetch_stock_prices.py]
+    G --> H[data/prices/*.csv]
+    
+    E --> I[build_timeseries.py]
+    H --> I
+    I --> J[public/data/timeseries.json]
+    
+    J --> K[compute_scores.py]
+    K --> L[public/data/scorecards.json]
+    
+    J --> M[React Frontend]
+    L --> M
+    M --> N[GitHub Pages]
+```
+
+---
 
 ## 概要
 
