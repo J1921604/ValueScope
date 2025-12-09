@@ -16,6 +16,32 @@ const companyNames: Record<'TEPCO' | 'CHUBU' | 'JERA', string> = {
 };
 
 const fieldLabelMap: Record<string, string> = {
+  // 14項目追加（EV分析テーブルと統一）
+  Revenue: '売上高（営業収益）',
+  OperatingRevenue: '営業収益',
+  OperatingIncome: '営業利益',
+  OrdinaryIncome: '経常利益',
+  NetIncome: '当期純利益',
+  ProfitLossAttributableToOwnersOfParent: '親会社株主に帰属する当期純利益',
+  EBITDA: 'EBITDA',
+  TotalAssets: '総資産',
+  Assets: '資産',
+  NetAssets: '純資産',
+  Equity: '自己資本',
+  InterestBearingDebt: '有利子負債',
+  CashAndDeposits: '現金及び預金',
+  NetDebt: '純有利子負債',
+  OperatingCashFlow: '営業活動によるキャッシュフロー',
+  InvestingCashFlow: '投資活動によるキャッシュフロー',
+  FinancingCashFlow: '財務活動によるキャッシュフロー',
+  CashFlowsFromOperatingActivities: '営業活動によるキャッシュフロー',
+  CashFlowsFromInvestingActivities: '投資活動によるキャッシュフロー',
+  CashFlowsFromFinancingActivities: '財務活動によるキャッシュフロー',
+  NetCashProvidedByUsedInOperatingActivities: '営業活動によるキャッシュフロー',
+  NetCashProvidedByUsedInInvestingActivities: '投資活動によるキャッシュフロー',
+  NetCashProvidedByUsedInFinancingActivities: '財務活動によるキャッシュフロー',
+  
+  // 既存のラベル
   return: 'リターン',
   revaluation: '評価替え',
   revenue: '収益',
@@ -80,7 +106,7 @@ const fieldLabelMap: Record<string, string> = {
   // 経常損益
   OrdinaryRevenueELE: '経常収益',
   OrdinaryExpensesELE: '経常費用',
-  OrdinaryIncome: '経常利益',
+  // OrdinaryIncome: '経常利益', // 14項目で定義済み
   
   // 特別損益
   ExtraordinaryIncome: '特別利益',
@@ -111,7 +137,7 @@ const fieldLabelMap: Record<string, string> = {
   // 当期純利益
   ProfitLoss: '当期純利益',
   ProfitLossAttributableToNonControllingInterests: '非支配株主帰属当期純利益',
-  ProfitLossAttributableToOwnersOfParent: '親会社株主帰属当期純利益',
+  // ProfitLossAttributableToOwnersOfParent: '親会社株主帰属当期純利益', // 14項目で定義済み
   NetIncomeLossSummaryOfBusinessResults: '当期純利益',
   
   // その他包括利益
@@ -126,14 +152,14 @@ const fieldLabelMap: Record<string, string> = {
   ComprehensiveIncomeAttributableToNonControllingInterests: '非支配株主帰属包括利益',
   
   // 貸借対照表（BS）主要項目
-  TotalAssets: '総資産',
+  // TotalAssets: '総資産', // 14項目で定義済み
   TotalAssetsSummaryOfBusinessResults: '総資産',
-  Equity: '自己資本',
+  // Equity: '自己資本', // 14項目で定義済み
   NetAssetsSummaryOfBusinessResults: '純資産',
-  NetAssets: '純資産合計',
+  // NetAssets: '純資産合計', // 14項目で定義済み
   EquityToAssetRatioSummaryOfBusinessResults: '自己資本比率',
-  InterestBearingDebt: '有利子負債',
-  CashAndDeposits: '現金及び預金',
+  // InterestBearingDebt: '有利子負債', // 14項目で定義済み
+  // CashAndDeposits: '現金及び預金', // 14項目で定義済み
   CashAndCashEquivalentsSummaryOfBusinessResults: '現金及び現金同等物',
   BondsPayable: '社債',
   LongTermLoansPayable: '長期借入金',
@@ -150,12 +176,12 @@ const fieldLabelMap: Record<string, string> = {
   InvestmentsInEntitiesAccountedForUsingEquityMethod: '持分法適用会社投資',
   
   // キャッシュフロー計算書（CF）主要項目
-  NetCashProvidedByUsedInOperatingActivitiesSummaryOfBusinessResults: '営業活動CF',
-  NetCashProvidedByUsedInInvestingActivitiesSummaryOfBusinessResults: '投資活動CF',
+  // NetCashProvidedByUsedInOperatingActivitiesSummaryOfBusinessResults: '営業活動CF', // 14項目で定義済み
+  // NetCashProvidedByUsedInInvestingActivitiesSummaryOfBusinessResults: '投資活動CF', // 14項目で定義済み
   NetCashProvidedByUsedInFinancingActivitiesSummaryOfBusinessResults: '財務活動CF',
-  NetCashProvidedByUsedInOperatingActivities: '営業活動によるCF',
-  NetCashProvidedByUsedInInvestingActivities: '投資活動によるCF',
-  NetCashProvidedByUsedInFinancingActivities: '財務活動によるCF',
+  // NetCashProvidedByUsedInOperatingActivities: '営業活動によるCF', // 14項目で定義済み
+  // NetCashProvidedByUsedInInvestingActivities: '投資活動によるCF', // 14項目で定義済み
+  // NetCashProvidedByUsedInFinancingActivities: '財務活動によるCF', // 14項目で定義済み
   NetIncreaseDecreaseInCashAndCashEquivalents: '現金及び現金同等物純増減額',
   EffectOfExchangeRateChangeOnCashAndCashEquivalents: '現金及び現金同等物に係る換算差額',
   
@@ -375,35 +401,41 @@ const fieldLabelMap: Record<string, string> = {
 
 // XBRLタグマッピング（主要項目のみ）
 const xbrlTagMap: Record<string, string> = {
-  // PL主要項目
+  // PL主要項目（14項目対応）
   'ElectricUtilityOperatingRevenueELE': 'jppfs_cor:ElectricUtilityOperatingRevenueELE',
   'OperatingRevenue': 'jpcrp_cor:OperatingRevenue',
+  'Revenue': 'jpcrp_cor:OperatingRevenue', // 売上高（営業収益）
   'OperatingIncome': 'jpcrp_cor:OperatingIncome',
   'OrdinaryIncome': 'jpcrp_cor:OrdinaryIncome',
   'ProfitLoss': 'jpcrp_cor:ProfitLoss',
   'ProfitLossAttributableToOwnersOfParent': 'jpcrp_cor:ProfitLossAttributableToOwnersOfParent',
   'NetIncome': 'jpcrp_cor:ProfitLossAttributableToOwnersOfParent',
+  'EBITDA': '計算値: 営業利益 + 減価償却費', // 計算項目
   
-  // BS主要項目
+  // BS主要項目（14項目対応）
   'Assets': 'jpcrp_cor:Assets',
   'TotalAssets': 'jpcrp_cor:Assets',
   'NetAssets': 'jpcrp_cor:NetAssets',
   'Equity': 'jpcrp_cor:Equity',
   'InterestBearingDebt': 'jpcrp_cor:InterestBearingDebt',
   'CashAndDeposits': 'jpcrp_cor:CashAndDeposits',
+  'NetDebt': '計算値: 有利子負債 - 現金及び預金', // 計算項目
   'CurrentAssets': 'jpcrp_cor:CurrentAssets',
   'NoncurrentAssets': 'jpcrp_cor:NoncurrentAssets',
   'CurrentLiabilities': 'jpcrp_cor:CurrentLiabilities',
   'NoncurrentLiabilities': 'jpcrp_cor:NoncurrentLiabilities',
   'Liabilities': 'jpcrp_cor:Liabilities',
   
-  // CF主要項目
+  // CF主要項目（14項目対応）
   'NetCashProvidedByUsedInOperatingActivities': 'jpcrp_cor:NetCashProvidedByUsedInOperatingActivities',
   'NetCashProvidedByUsedInInvestingActivities': 'jpcrp_cor:NetCashProvidedByUsedInInvestingActivities',
   'NetCashProvidedByUsedInFinancingActivities': 'jpcrp_cor:NetCashProvidedByUsedInFinancingActivities',
   'CashFlowsFromOperatingActivities': 'jpcrp_cor:CashFlowsFromOperatingActivities',
+  'OperatingCashFlow': 'jpcrp_cor:CashFlowsFromOperatingActivities', // 営業活動CF
   'CashFlowsFromInvestingActivities': 'jpcrp_cor:CashFlowsFromInvestingActivities',
+  'InvestingCashFlow': 'jpcrp_cor:CashFlowsFromInvestingActivities', // 投資活動CF
   'CashFlowsFromFinancingActivities': 'jpcrp_cor:CashFlowsFromFinancingActivities',
+  'FinancingCashFlow': 'jpcrp_cor:CashFlowsFromFinancingActivities', // 財務活動CF
   'DepreciationAndAmortizationOpeCF': 'jpcrp_cor:DepreciationAndAmortizationOpeCF',
 };
 
