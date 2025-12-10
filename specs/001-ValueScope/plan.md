@@ -501,12 +501,15 @@ interface TimeSeriesDataPoint {
 interface EmployeeData {
   company: string;                    // 企業名（TEPCO/CHUBU/JERA）
   fiscalYear: string;                 // 会計年度（例: FY2024）
-  averageAnnualSalary: number | null; // 平均年間給与（千円）
-  averageTenure: number | null;       // 平均勤続年数（年）
-  averageAge: number | null;          // 平均年齢（歳）
-  numberOfEmployees: number | null;   // 従業員数（人）
+  averageAnnualSalary: number | null; // 平均年間給与（千円）- XBRLタグ: jpcrp_cor:AverageAnnualSalaryInformationAboutReportingCompanyInformationAboutEmployees
+  averageTenure: number | null;       // 平均勤続年数（年）- XBRLタグ: jpcrp_cor:AverageLengthOfServiceYearsInformationAboutReportingCompanyInformationAboutEmployees
+  averageAge: number | null;          // 平均年齢（歳）- XBRLタグ: jpcrp_cor:AverageAgeYearsInformationAboutReportingCompanyInformationAboutEmployees
+  numberOfEmployees: number | null;   // 従業員数（人）- XBRLタグ: jpcrp_cor:NumberOfEmployeesInformationAboutReportingCompanyInformationAboutEmployees
 }
 ```
+
+**MetricTooltip実装**:
+`EmployeeTable.tsx`では、各項目名に`MetricTooltip`コンポーネントを適用し、○囲み？マークとXBRLタグ説明を表示する。
 
 #### FinancialStatement（財務諸表データ）
 
