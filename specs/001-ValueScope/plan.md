@@ -157,9 +157,9 @@ ValueScope/
 │   │   ├── BalanceSheet.tsx           # 貸借対照表
 │   │   ├── CashFlowStatement.tsx      # キャッシュフロー計算書
 │   │   ├── EmployeeTable.tsx          # 従業員情報比較テーブル
-│   │   ├── EmployeeTrendChart.tsx     # 従業員情報推移グラフ
-│   │   ├── MultiCompanyTrendChart.tsx # 3社重ね合わせ推移グラフ
-│   │   ├── MultiCompanyEVChart.tsx    # 3社重ね合わせEVチャート
+│   │   ├── EmployeeTrendChart.tsx     # 従業員情報推移グラフ（様式統一：シアン中央、FY年度、数値、補助線）
+│   │   ├── MultiCompanyTrendChart.tsx # 3社重ね合わせKPI推移グラフ（様式統一準拠）
+│   │   ├── MultiCompanyEVChart.tsx    # 3社重ね合わせEVチャート（様式統一準拠）
 │   │   ├── MetricTooltip.tsx          # XBRLツールチップ
 │   │   └── xbrlTagMap.ts              # 全488項目XBRLマップ
 │   ├── hooks/
