@@ -1,5 +1,6 @@
 import type { EmployeeData, CompanyName } from '../types'
 import { formatNumber } from '../utils/formatNumber'
+import { MetricTooltip } from './MetricTooltip'
 
 interface EmployeeTableProps {
   data: Partial<Record<CompanyName, EmployeeData | null>>
@@ -24,6 +25,8 @@ interface EmployeeMetric {
   key: keyof EmployeeData
   unit: string
   formatter: (value: number) => string
+  xbrlTag: string
+  description: string
 }
 
 const METRICS: EmployeeMetric[] = [
@@ -32,24 +35,32 @@ const METRICS: EmployeeMetric[] = [
     key: 'averageAnnualSalary',
     unit: '円',
     formatter: (v) => formatNumber(v, 0),
+    xbrlTag: 'jpcrp_cor:AverageAnnualSalaryInformationAboutReportingCompanyInformationAboutEmployees',
+    description: '提出会社の従業員情報における平均年間給与（円）。XBRLタグ: jpcrp_cor:AverageAnnualSalaryInformationAboutReportingCompanyInformationAboutEmployees',
   },
   {
     label: '平均勤続年数',
     key: 'averageLengthOfServiceYears',
     unit: '年',
     formatter: (v) => v.toFixed(1),
+    xbrlTag: 'jpcrp_cor:AverageLengthOfServiceYearsInformationAboutReportingCompanyInformationAboutEmployees',
+    description: '提出会社の従業員情報における平均勤続年数（年）。XBRLタグ: jpcrp_cor:AverageLengthOfServiceYearsInformationAboutReportingCompanyInformationAboutEmployees',
   },
   {
     label: '平均年齢',
     key: 'averageAgeYears',
     unit: '歳',
     formatter: (v) => v.toFixed(1),
+    xbrlTag: 'jpcrp_cor:AverageAgeYearsInformationAboutReportingCompanyInformationAboutEmployees',
+    description: '提出会社の従業員情報における平均年齢（歳）。XBRLタグ: jpcrp_cor:AverageAgeYearsInformationAboutReportingCompanyInformationAboutEmployees',
   },
   {
     label: '従業員数',
     key: 'numberOfEmployees',
     unit: '人',
     formatter: (v) => formatNumber(v, 0),
+    xbrlTag: 'jpcrp_cor:NumberOfEmployeesInformationAboutReportingCompanyInformationAboutEmployees',
+    description: '提出会社の従業員情報における従業員数（人）。XBRLタグ: jpcrp_cor:NumberOfEmployeesInformationAboutReportingCompanyInformationAboutEmployees',
   },
 ]
 
@@ -90,7 +101,7 @@ export function EmployeeTable({ data }: EmployeeTableProps) {
                 }`}
               >
                 <td className="px-4 py-3 font-medium text-white">
-                  {metric.label}
+                  <MetricTooltip name={metric.label} tooltip={metric.description} />
                 </td>
                 {COMPANY_ORDER.map((company) => {
                   const companyData = data[company]

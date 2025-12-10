@@ -91,6 +91,8 @@ EDINET XBRL実データのみを使用し、推定値・補完値を一切使用
 ### ✅ 従業員情報
 
 - 平均年間給与、平均勤続年数、平均年齢、従業員数の比較テーブル
+  - 各項目に○で囲んだ？マークのツールチップ追加
+  - ツールチップにXBRLタグと説明を表示（例: `jpcrp_cor:AverageAnnualSalaryInformationAboutReportingCompanyInformationAboutEmployees`）
 - 過去10年分の推移グラフ
 
 ### ✅ 財務諸表詳細
