@@ -36,7 +36,7 @@ const METRICS: EmployeeMetric[] = [
     unit: '円',
     formatter: (v) => formatNumber(v, 0),
     xbrlTag: 'jpcrp_cor:AverageAnnualSalaryInformationAboutReportingCompanyInformationAboutEmployees',
-    description: '提出会社の従業員情報における平均年間給与（円）。XBRLタグ: jpcrp_cor:AverageAnnualSalaryInformationAboutReportingCompanyInformationAboutEmployees',
+    description: 'jpcrp_cor:AverageAnnualSalaryInformationAboutReportingCompanyInformationAboutEmployees',
   },
   {
     label: '平均勤続年数',
@@ -44,7 +44,7 @@ const METRICS: EmployeeMetric[] = [
     unit: '年',
     formatter: (v) => v.toFixed(1),
     xbrlTag: 'jpcrp_cor:AverageLengthOfServiceYearsInformationAboutReportingCompanyInformationAboutEmployees',
-    description: '提出会社の従業員情報における平均勤続年数（年）。XBRLタグ: jpcrp_cor:AverageLengthOfServiceYearsInformationAboutReportingCompanyInformationAboutEmployees',
+    description: 'jpcrp_cor:AverageLengthOfServiceYearsInformationAboutReportingCompanyInformationAboutEmployees',
   },
   {
     label: '平均年齢',
@@ -52,7 +52,7 @@ const METRICS: EmployeeMetric[] = [
     unit: '歳',
     formatter: (v) => v.toFixed(1),
     xbrlTag: 'jpcrp_cor:AverageAgeYearsInformationAboutReportingCompanyInformationAboutEmployees',
-    description: '提出会社の従業員情報における平均年齢（歳）。XBRLタグ: jpcrp_cor:AverageAgeYearsInformationAboutReportingCompanyInformationAboutEmployees',
+    description: 'jpcrp_cor:AverageAgeYearsInformationAboutReportingCompanyInformationAboutEmployees',
   },
   {
     label: '従業員数',
@@ -60,7 +60,7 @@ const METRICS: EmployeeMetric[] = [
     unit: '人',
     formatter: (v) => formatNumber(v, 0),
     xbrlTag: 'jpcrp_cor:NumberOfEmployeesInformationAboutReportingCompanyInformationAboutEmployees',
-    description: '提出会社の従業員情報における従業員数（人）。XBRLタグ: jpcrp_cor:NumberOfEmployeesInformationAboutReportingCompanyInformationAboutEmployees',
+    description: 'jpcrp_cor:NumberOfEmployeesInformationAboutReportingCompanyInformationAboutEmployees',
   },
 ]
 

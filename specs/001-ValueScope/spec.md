@@ -231,7 +231,7 @@ KPIスコアカードを表示し、ROIC、WACC、EBITDAマージン、FCFマー
 2. **Given** 従業員情報ページを開いた時、**When** 推移グラフを表示する、**Then** 全年度（2021年～最新年度）の4指標それぞれの推移が折れ線グラフで表示される
 3. **Given** XBRL `従業員の状況` セクションからデータを取得した時、**When** データを表示する、**Then** 実データのみを使用し、推定値・補完値は一切含まれない
 4. **Given** データが欠損している年度がある場合、**When** グラフを描画する、**Then** 欠損期間は線が途切れた状態で表示される（補完しない）
-5. **Given** 従業員情報の各項目名にカーソルをホバーした時、**When** MetricTooltipを表示する、**Then** XBRLタグ名と説明が表示される（例: `jpcrp_cor:AverageAnnualSalaryInformationAboutReportingCompanyInformationAboutEmployees` - 提出会社の従業員情報における平均年間給与）
+5. **Given** 従業員情報の各項目名にカーソルをホバーした時、**When** MetricTooltipを表示する、**Then** XBRLタグ名が表示される（例: `jpcrp_cor:AverageAnnualSalaryInformationAboutReportingCompanyInformationAboutEmployees`）
 
 ---
 

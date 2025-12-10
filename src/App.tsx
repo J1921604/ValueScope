@@ -288,7 +288,7 @@ function App() {
               <section className="space-y-10">
                 <div className="neumorphic-card p-6 bold-border">
                   <div className="text-center mb-6 space-y-1">
-                    <h3 className="section-heading">KPI信号チャート</h3>
+                    <h3 className="section-heading">KPI分析</h3>
                   </div>
                 </div>
 

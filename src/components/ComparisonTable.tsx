@@ -217,7 +217,7 @@ export function ComparisonTable({ data }: ComparisonTableProps) {
   return (
     <div className="neumorphic-card p-6 bold-border">
         <div className="text-center mb-6 space-y-1">
-          <h3 className="section-heading">主要指標比較</h3>
+          <h3 className="section-heading">EV分析</h3>
         </div>
         
         <div className="overflow-x-auto">

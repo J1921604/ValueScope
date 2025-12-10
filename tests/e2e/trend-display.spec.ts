@@ -14,8 +14,8 @@ test.describe('KPI分析タブ表示', () => {
   });
 
   test('東京電力HDのKPI分析と推移グラフが表示される', async ({ page }) => {
-    // KPI信号チャートタイトル
-    await expect(page.locator('h3:has-text("KPI信号チャート")')).toBeVisible();
+    // KPI分析タイトル
+    await expect(page.locator('h3:has-text("KPI分析")')).toBeVisible();
     
     // 4つのグラフタイトルが表示される
     await expect(page.locator('h3:has-text("ROIC推移")')).toBeVisible();
@@ -59,8 +59,8 @@ test.describe('KPI分析タブ表示', () => {
     // KPI分析タブではグラフが常に3社重ね合わせで表示される
     await expect(page.locator('h3:has-text("ROIC推移")')).toBeVisible();
     
-    // KPI信号チャートセクションが存在
-    await expect(page.locator('h3:has-text("KPI信号チャート")')).toBeVisible();
+    // KPI分析セクションが存在
+    await expect(page.locator('h3:has-text("KPI分析")')).toBeVisible();
     
     // 企業名が表示されていることを確認（最初の出現のみ）
     await expect(page.getByText('東京電力HD').first()).toBeVisible();
@@ -105,7 +105,7 @@ test.describe('EV分析タブ表示（3社比較）', () => {
 
   test('企業価値指標3社比較テーブルが表示される', async ({ page }) => {
     // 企業価値テーブルタイトル
-    await expect(page.locator('h3:has-text("主要指標比較")')).toBeVisible();
+    await expect(page.locator('h3:has-text("EV分析")')).toBeVisible();
     
     // 3社の名前が表示される（テーブルのヘッダー）
     await expect(page.locator('th:has-text("東京電力HD")')).toBeVisible();
