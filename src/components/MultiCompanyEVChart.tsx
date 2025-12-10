@@ -62,7 +62,7 @@ export function MultiCompanyEVChart({ data, evName, title, unit, visibleCompanie
 
   // 年ごとにデータをマージ
   const mergedData = sortedYears.map(year => {
-    const point: any = { year };
+    const point: any = { year: `FY${year - 1}` };
     
     if (data.TEPCO) {
       const tepcoPoint = data.TEPCO.find(d => d.year === year);
@@ -92,7 +92,7 @@ export function MultiCompanyEVChart({ data, evName, title, unit, visibleCompanie
   if (mergedData.length === 0) {
     return (
       <div className="neumorphic-card p-6 text-center">
-        <h3 className="text-xl font-semibold text-neon-green mb-2">{title}</h3>
+        <h3 className="text-2xl font-semibold text-cyber-blue mb-2">{title}</h3>
         <p className="text-fg-dim">推移データがありません</p>
       </div>
     );
@@ -124,27 +124,24 @@ export function MultiCompanyEVChart({ data, evName, title, unit, visibleCompanie
 
   return (
     <div className="neumorphic-card p-6 bold-border">
-      <h3 className="text-xl font-semibold text-neon-green mb-4">{title}</h3>
+      <div className="text-center mb-4">
+        <h3 className="text-2xl font-semibold text-cyber-blue">{title}</h3>
+      </div>
       <ResponsiveContainer width="100%" height={400}>
         <LineChart
           data={mergedData}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" opacity={0.3} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
           <XAxis
             dataKey="year"
-            stroke="#00D4FF"
-            tick={{ fill: '#00D4FF', fontSize: 14, fontWeight: 600 }}
+            stroke="#9CA3AF"
+            tick={{ fill: '#9CA3AF', fontSize: 12 }}
           />
           <YAxis
-            stroke="var(--fg-dim)"
-            tick={{ fill: 'var(--fg-dim)' }}
-            label={{
-              value: unit,
-              angle: -90,
-              position: 'insideLeft',
-              style: { fill: 'var(--fg-dim)' },
-            }}
+            stroke="#9CA3AF"
+            tick={{ fill: '#9CA3AF', fontSize: 12 }}
+            tickFormatter={(value) => typeof value === 'number' ? value.toLocaleString() : value}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend

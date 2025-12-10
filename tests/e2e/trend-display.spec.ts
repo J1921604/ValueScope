@@ -45,14 +45,14 @@ test.describe('KPI分析タブ表示', () => {
     const svgElements = page.locator('svg.recharts-surface');
     await expect(svgElements.first()).toBeVisible();
 
-    // X軸の年度ラベル（例: 2016, 2017...）が存在することを確認
+    // X軸の年度ラベル（例: FY2015, FY2016...）が存在することを確認
     const xAxisLabels = page.locator('text.recharts-text.recharts-cartesian-axis-tick-value');
     const labelCount = await xAxisLabels.count();
     expect(labelCount).toBeGreaterThan(0);
 
-    // 最初のラベルが4桁の数字（年）であることを確認
+    // 最初のラベルがFY+4桁の数字（年度）であることを確認
     const firstLabel = await xAxisLabels.first().textContent();
-    expect(firstLabel).toMatch(/^\d{4}$/);
+    expect(firstLabel).toMatch(/^FY\d{4}$/);
   });
 
   test('企業切り替え時にグラフが更新される', async ({ page }) => {
@@ -136,8 +136,8 @@ test.describe('EV分析タブ表示（3社比較）', () => {
     const labelCount = await xAxisLabels.count();
     expect(labelCount).toBeGreaterThan(0);
 
-    // 最初のラベルが4桁の数字（年）であることを確認
+    // 最初のラベルがFY+4桁の数字（年度）であることを確認
     const firstLabel = await xAxisLabels.first().textContent();
-    expect(firstLabel).toMatch(/^\d{4}$/);
+    expect(firstLabel).toMatch(/^FY\d{4}$/);
   });
 });
