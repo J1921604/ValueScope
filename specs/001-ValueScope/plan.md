@@ -1,7 +1,7 @@
 # 実装計画書: ValueScope - 企業価値分析ダッシュボード
 
-**ブランチ**: `main` | **作成日**: 2025-12-15 | **仕様書**: [spec.md](./spec.md)
-**入力**: 機能仕様書 `/specs/main/spec.md`
+**ブランチ**: `main` | **作成日**: 2025-12-15 | **仕様書**: [spec.md](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/spec.md)
+**入力**: 機能仕様書 [spec.md](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/spec.md)
 
 ## 概要
 
@@ -157,7 +157,7 @@ ValueScope/
 │   │   ├── BalanceSheet.tsx           # 貸借対照表
 │   │   ├── CashFlowStatement.tsx      # キャッシュフロー計算書
 │   │   ├── EmployeeTable.tsx          # 従業員情報比較テーブル
-│   │   ├── EmployeeTrendChart.tsx     # 従業員情報推移グラフ（様式統一：シアン中央、FY年度、数値、補助線）
+│   │   ├── EmployeeTrendChart.tsx     # 従業員情報推移グラフ（様式統一：中央、FY年度、数値、グリッド補助線）
 │   │   ├── MultiCompanyTrendChart.tsx # 3社重ね合わせKPI推移グラフ（様式統一準拠）
 │   │   ├── MultiCompanyEVChart.tsx    # 3社重ね合わせEVチャート（様式統一準拠）
 │   │   ├── MetricTooltip.tsx          # XBRLツールチップ
@@ -781,7 +781,7 @@ flowchart TD
 | リスク           | 影響度 | 発生確率 | 対策                                       |
 | ---------------- | ------ | -------- | ------------------------------------------ |
 | EDINET API変更   | 高     | 低       | APIバージョン固定、変更検知スクリプト      |
-| Stooq API停止    | 中     | 中       | 代替API調査（Yahoo Finance等）             |
+| Stooq API停止    | 中     | 中       | 代替API検討、バックアップデータ保持             |
 | XBRLタグ変更     | 中     | 低       | タグマッピング自動生成、柔軟な解析ロジック |
 | GitHub Pages障害 | 低     | 低       | 代替ホスティング準備不要（公式サービス）   |
 

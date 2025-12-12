@@ -496,7 +496,7 @@ function App() {
       </main>
 
       <footer className="mt-16 py-8 text-center text-gray-500 border-t border-gray-800">
-        <p>ValueScope v1.0.0 | 2025-12-15</p>
+        <p>ValueScope 1.0.0 | 2025-12-15</p>
         <p className="mt-2">
           <a
             href="https://github.com/J1921604/ValueScope"
