@@ -4,6 +4,12 @@
 **作成日**: 2025-12-15  
 **ステータス**: ✅ Production（実装完了）
 
+**関連ドキュメント**:
+- [憲法](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/constitution.md)
+- [データモデル](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/data-model.md)
+- [クイックスタート](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/quickstart.md)
+- [技術調査](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/research.md)
+
 ## フォーマット: `[ID] [P?] [Story] Description`
 
 - **[P]**: 並列実行可能（異なるファイル、依存関係なし）
@@ -13,11 +19,12 @@
 ## 実装スケジュール（相対日付方式）
 
 **開始日**: 2025-12-25（任意に変更可能）  
-**休日**: 土日、年末年始（12/27-1/4）を除外
+**休日**: 土日、年末年始（12/27-1/4）を除外  
+**進捗**: 54/54タスク完了（100%）
 
 ```mermaid
 gantt
-    title 実装スケジュール
+    title 実装スケジュール（土日・年末年始除外）
     dateFormat YYYY-MM-DD
     axisFormat %m/%d
     excludes weekends 2025-12-27 2025-12-28 2025-12-29 2025-12-30 2025-12-31 2026-01-01 2026-01-02 2026-01-03 2026-01-04

@@ -3,6 +3,13 @@
 **ブランチ**: `main` | **作成日**: 2025-12-15 | **仕様書**: [spec.md](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/spec.md)
 **入力**: 機能仕様書 [spec.md](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/spec.md)
 
+**関連ドキュメント**:
+- [憲法](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/constitution.md)
+- [タスクリスト](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/tasks.md)
+- [データモデル](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/data-model.md)
+- [クイックスタート](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/quickstart.md)
+- [技術調査](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/research.md)
+
 ## 概要
 
 東京電力HD・中部電力・JERAの企業価値指標（EV、EV/EBITDA、PER、PBR）と電力業界特化KPI（ROIC、WACC、EBITDAマージン、FCFマージン）を可視化し、信号機方式（緑/黄/赤）で財務健全性を評価する企業価値分析ダッシュボード。

@@ -7,6 +7,12 @@ ValueScopeアプリケーションを GitHub Pages で本番運用するため�
 **ステータス**: ✅ 自動デプロイ設定済み
 **公開URL**: https://j1921604.github.io/ValueScope/
 
+**関連ドキュメント**:
+- [憲法](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/constitution.md)
+- [機能仕様書](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/spec.md)
+- [完全実装仕様書](https://github.com/J1921604/ValueScope/blob/main/docs/完全仕様書.md)
+- [クイックスタート](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/quickstart.md)
+
 ---
 
 ## 📋 目次
