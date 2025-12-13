@@ -7,7 +7,7 @@
 **リポジトリ**: https://github.com/J1921604/ValueScope
 
 **関連ドキュメント**:
-- [憲法](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/constitution.md)
+- [憲法](https://github.com/J1921604/ValueScope/blob/main/.specify/memory/constitution.md)
 - [実装計画書](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/plan.md)
 - [タスクリスト](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/tasks.md)
 - [データモデル](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/data-model.md)

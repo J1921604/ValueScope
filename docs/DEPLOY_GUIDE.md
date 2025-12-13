@@ -8,7 +8,8 @@ ValueScopeアプリケーションを GitHub Pages で本番運用するため�
 **公開URL**: https://j1921604.github.io/ValueScope/
 
 **関連ドキュメント**:
-- [憲法](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/constitution.md)
+
+- [憲法](https://github.com/J1921604/ValueScope/blob/main/.specify/memory/constitution.md)
 - [機能仕様書](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/spec.md)
 - [完全実装仕様書](https://github.com/J1921604/ValueScope/blob/main/docs/完全仕様書.md)
 - [クイックスタート](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/quickstart.md)
@@ -130,8 +131,8 @@ npm run preview
 # → http://localhost:4173/ValueScope/ をブラウザで開く
 ```
 
-> ⚠️ **EDINETデータはGitHub Actionsで毎年7月1日に自動取得されます**。手動で再生成する場合は、`public/data/*.json` を生成・検証し、コミットした状態で `git push` してください。
-> 
+> ⚠️ **EDINETデータはGitHub Actionsで毎年6月20日から7月1日に自動取得されます**。手動で再生成する場合は、`public/data/*.json` を生成・検証し、コミットした状態で `git push` してください。
+>
 > ⚠️ **株価データはGitHub Actionsで毎回デプロイ時に自動取得されます**。ローカルで `fetch_stock_prices.py` を実行する必要はありません。
 
 #### ステップ3: 動作確認
@@ -207,31 +208,31 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+    
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-      
+    
       - name: Install Node dependencies
         run: npm ci
-      
+    
       - name: Setup Python for data processing
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
-      
+    
       - name: Install Python dependencies
         run: |
           pip install -r scripts/requirements.txt
-      
+    
       - name: Fetch stock prices (every deployment)
         run: |
           echo "=== Fetching stock prices (Stooq API via pandas_datareader) ==="
           python scripts/fetch_stock_prices.py --years 10 || echo "Stock price fetch failed, continuing"
-      
+    
       - name: Check if EDINET update is needed
         id: check_date
         env:
@@ -247,7 +248,7 @@ jobs:
           else
             echo "edinet_update=false" >> $GITHUB_OUTPUT
           fi
-      
+    
       - name: Fetch EDINET data (only June 20 - July 1)
         if: steps.check_date.outputs.edinet_update == 'true'
         env:
@@ -256,13 +257,13 @@ jobs:
           python scripts/fetch_edinet.py --years 10
           python scripts/parse_edinet_xbrl.py
           python scripts/extract_xbrl_to_csv.py
-      
+    
       - name: Rebuild all data and scores
         run: |
           python scripts/build_timeseries.py
           python scripts/build_valuation.py
           python scripts/compute_scores.py
-      
+    
       - name: Commit updated data (if EDINET updated)
         if: steps.check_date.outputs.edinet_update == 'true'
         run: |
@@ -271,53 +272,53 @@ jobs:
           git add public/data/*.json XBRL_output/**/*.csv data/prices/*.csv || true
           git commit -m "chore: update EDINET data and stock prices" || echo "No changes"
           git push || echo "Nothing to push"
-      
+    
       - name: Verify committed data assets
         run: |
           test -f public/data/timeseries.json
           test -f public/data/valuation.json
           test -f public/data/scorecards.json
           test -f public/data/kpi_targets.json
-      
+    
       - name: Build project
         run: npm run build
-      
+    
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
-```
-      - name: Checkout
+
+    - name: Checkout
         uses: actions/checkout@v4
-      
-      - name: Setup Node.js
+
+    - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-      
-      - name: Install dependencies
+
+    - name: Install dependencies
         run: npm ci
-      
-      - name: Verify committed data assets
+
+    - name: Verify committed data assets
         run: |
           ls -lh public/data/
           test -f public/data/timeseries.json
           test -f public/data/valuation.json
           test -f public/data/scorecards.json
           test -f public/data/kpi_targets.json
-      
-      - name: Build project
+
+    - name: Build project
         run: npm run build
-      
-      - name: Verify build output
+
+    - name: Verify build output
         run: ls -la dist/
-      
-      - name: Upload artifact
+
+    - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
-        
+
   deploy:
     environment:
       name: github-pages
@@ -328,6 +329,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
 ```
 
 ### 重要ポイント
@@ -633,16 +635,16 @@ flowchart TB
 
 ### ビルドステップ詳細
 
-| ステップ               | 処理内容                               | 成果物        | 失敗時の対応                       |
-| ---------------------- | -------------------------------------- | ------------- | ---------------------------------- |
-| 1. Checkout            | ソースコードを取得                     | -             | リポジトリアクセス権確認           |
-| 2. Setup Node          | Node.js 20.x インストール              | node, npm     | バージョン確認                     |
-| 3. npm ci              | 依存関係インストール                   | node_modules/ | package-lock.json 再生成           |
-| 4. Verify data assets  | `public/data/*.json` の存在チェック    | -             | Pythonスクリプトで再生成・再コミット |
-| 5. npm run build       | Viteビルド実行                         | dist/         | ローカルでビルド確認               |
-| 6. Verify build output | dist/構成を一覧表示                    | -             | 再ビルドして成果物を確認           |
-| 7. Upload              | アーティファクトアップロード           | -             | サイズ確認（最大10GB）             |
-| 8. Deploy              | GitHub Pagesへデプロイ                 | -             | 権限確認                           |
+| ステップ               | 処理内容                              | 成果物        | 失敗時の対応                         |
+| ---------------------- | ------------------------------------- | ------------- | ------------------------------------ |
+| 1. Checkout            | ソースコードを取得                    | -             | リポジトリアクセス権確認             |
+| 2. Setup Node          | Node.js 20.x インストール             | node, npm     | バージョン確認                       |
+| 3. npm ci              | 依存関係インストール                  | node_modules/ | package-lock.json 再生成             |
+| 4. Verify data assets  | `public/data/*.json` の存在チェック | -             | Pythonスクリプトで再生成・再コミット |
+| 5. npm run build       | Viteビルド実行                        | dist/         | ローカルでビルド確認                 |
+| 6. Verify build output | dist/構成を一覧表示                   | -             | 再ビルドして成果物を確認             |
+| 7. Upload              | アーティファクトアップロード          | -             | サイズ確認（最大10GB）               |
+| 8. Deploy              | GitHub Pagesへデプロイ                | -             | 権限確認                             |
 
 ### パフォーマンス指標
 

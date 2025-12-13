@@ -508,7 +508,7 @@ function App() {
           </a>
         </p>
         <div className="update-info">
-          最終更新: <span id="last-update">{new Date().toLocaleString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</span> | 次回更新予定: 毎日 07:00 (日本時間)
+          最終更新: <span id="last-update">{new Date().toLocaleString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</span> | EDINETデータ: 毎年6月20日〜7月1日のみ更新
         </div>
       </footer>
     </div>

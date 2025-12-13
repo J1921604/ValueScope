@@ -5,7 +5,7 @@
 **ステータス**: ✅ Production（実装完了）
 
 **関連ドキュメント**:
-- [憲法](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/constitution.md)
+- [憲法](https://github.com/J1921604/ValueScope/blob/main/.specify/memory/constitution.md)
 - [データモデル](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/data-model.md)
 - [クイックスタート](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/quickstart.md)
 - [技術調査](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/research.md)

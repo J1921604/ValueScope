@@ -4,7 +4,8 @@
 **リリース日**: 2025-12-15
 **公開URL**: https://j1921604.github.io/ValueScope/
 **GitHubリポジトリ**: https://github.com/J1921604/ValueScope
-**ドキュメント**: [憲法](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/constitution.md) | [仕様書](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/spec.md) | [実装計画](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/plan.md) | [タスク](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/tasks.md)
+
+**ドキュメント**: [憲法](https://github.com/J1921604/ValueScope/blob/main/.specify/memory/constitution.md) | [仕様書](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/spec.md) | [実装計画](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/plan.md) | [タスク](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/tasks.md) | [データモデル](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/data-model.md) | [クイックスタート](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/quickstart.md) | [技術調査](https://github.com/J1921604/ValueScope/blob/main/specs/001-ValueScope/research.md)
 
 [![Deploy to GitHub Pages](https://github.com/J1921604/ValueScope/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/J1921604/ValueScope/actions/workflows/deploy-pages.yml)
 
